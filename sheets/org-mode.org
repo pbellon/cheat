@@ -2,7 +2,6 @@
 #+TITLE: Org-Mode Reference Card
 #+AUTHOR: Vikas Rawal
 #+EMAIL: vikaslists AT agrarianresearch DOT org
-#+STARTUP: hidestars
 #+OPTIONS: toc:t
 
 * Getting Started

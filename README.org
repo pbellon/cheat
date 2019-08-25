@@ -1,9 +1,12 @@
+#+STARTUP: showeverything
+
 * Cheat
 A small utility to register and create cheatsheets based on org-mode.
 
 ** Provided cheatsheets
-- Asciidoc
-- Org-mode
+- AsciiDoc
+- Org mode
+- Org mode syntax
 
 ** Installation
 ~package-install RET cheat~
@@ -15,13 +18,12 @@ A small utility to register and create cheatsheets based on org-mode.
 #+END_SRC
 
 ** Usage
-
-
 *** Open a cheatsheet 
 All cheatsheets are accessible through interactive functions their first list element preceded by the ~cheat/~ prefix. 
 
 - ~M-x RET cheat/adoc~ opens asciidoc cheatsheet
 - ~M-x RET cheat/org~ open org-mode cheatsheet
+- ~M-x RET cheat/org-syntax~ open org-mode syntax cheatsheet
 
 *** Register a new cheatsheet
 

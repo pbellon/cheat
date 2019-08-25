@@ -9,7 +9,8 @@
 ;; and call (cheat/init) to register a new cheatsheet
 (defvar cheat/sheets
   '((adoc "Asciidoc" (cheat/sheet-path "asciidoc.org"))
-    (org "OrgMode" (cheat/sheet-path "org-mode.org"))))
+    (org "OrgMode" (cheat/sheet-path "org-mode.org"))
+    (org-syntax "OrgMode Syntax" (cheat/sheet-path "org-mode-syntax.org"))))
 
 (defun buffer-exists (bname)
   (not (eq nil (get-buffer bname))))
