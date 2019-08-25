@@ -5,7 +5,7 @@ A small utility to register and create cheatsheets based on org-mode.
 `package-install RET cheat`
 
 ``` emacs-lisp
-(use-package cheat)
+(use-package cheat
     :config
     (cheat/init))
 ```
@@ -20,7 +20,7 @@ A small utility to register and create cheatsheets based on org-mode.
 All cheatsheets are accessible through interactive functions their first list element preceded by the `cheat/` prefix. 
 
 - `M-x RET cheat/adoc` opens asciidoc cheatsheet
-- `M-x RET cheat/org` open org-mode cheM-x RET atsheet
+- `M-x RET cheat/org` open org-mode cheatsheet
 
 ### Register a new cheatsheet
 
