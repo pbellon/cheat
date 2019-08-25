@@ -306,7 +306,6 @@ after
    * Bill Bryson
   #+END_SRC
 
-
 ** Unordered, basic (alt)
 #+BEGIN_SRC adoc
 - Edgar Allen Poe
@@ -318,7 +317,6 @@ NOTE: A blank line is required before and after a list to separated it from othe
 
 TIP: You can force two adjacent lists apart by inserting a blank line followed by a line comment after the first list.
 The convention is to use `//-` as the line comment to provide a hint to other authors that it's a list divider.
-
 
 ** Unordered, max nesting
    # Indented to avoid breaking structure
@@ -333,7 +331,6 @@ The convention is to use `//-` as the line comment to provide a hint to other au
 
 TIP: The unordered list marker can be changed using [[uri-marker][block styles]].
 
-
 ** Ordered, basic
 #+BEGIN_SRC adoc
 . Step 1
@@ -343,7 +340,6 @@ TIP: The unordered list marker can be changed using [[uri-marker][block styles]]
 
 NOTE: You can choose to include an ordinal in front of each list marker, but they have to be in sequence.
 
-
 ** Ordered, nested
 #+BEGIN_SRC adoc
 . Step 1
@@ -352,7 +348,6 @@ NOTE: You can choose to include an ordinal in front of each list marker, but the
 .. Step 2b
 . Step 3
 #+END_SRC
-
 
 ** Ordered, max nesting
 #+BEGIN_SRC adoc
@@ -366,7 +361,6 @@ NOTE: You can choose to include an ordinal in front of each list marker, but the
 
 TIP: For ordered lists, Asciidoctor supports [[uri-list-num][numeration styles]] such as ~lowergreek~ and ~decimal-leading-zero~.
 
-
 ** Checklist
     # Indented to avoid breaking structure
     #+BEGIN_SRC adoc
@@ -378,13 +372,11 @@ TIP: For ordered lists, Asciidoctor supports [[uri-list-num][numeration styles]]
 
 TIP: Checklists can use {uri-checklist}[font-based icons and be interactive].
 
-
 ** Description, single-line
 #+BEGIN_SRC adoc
 first term:: definition of first term
 second term:: definition of second term
 #+END_SRC
-
 
 ** Description, multi-line
 #+BEGIN_SRC adoc
@@ -394,7 +386,6 @@ second term::
 definition of second term
 #+END_SRC
 
-
 ** Q&A
 #+BEGIN_SRC adoc
 [qanda]
@@ -402,7 +393,6 @@ What is Asciidoctor?::
   An implementation of the AsciiDoc processor in Ruby.
 What is the answer to the Ultimate Question?:: 42
 #+END_SRC
-
 
 ** Mixed
 #+BEGIN_SRC adoc
@@ -428,7 +418,6 @@ Cloud Providers::
 
 TIP: Lists can be indented.
 Leading whitespace is not significant.
-
 
 ** Complex content in outline lists
 #+BEGIN_COMMENT Commented because it were breaking  adoc syntax highlighting, however it's valid asciidoctor syntax.
@@ -1119,14 +1108,12 @@ IMPORTANT: You *must* set the ~experimental~ attribute in the document header to
 |===
 #+END_SRC
 
-
 ** Menu selections (inline menu macro)
 #+BEGIN_SRC adoc
 To save the file, select menu:File[Save].
 
 Select menu:View[Zoom > Reset] to reset the zoom level to the default setting.
 #+END_SRC
-
 
 ** Buttons (inline btn macro)
 #+BEGIN_SRC adoc
@@ -1398,6 +1385,7 @@ Another bold statement.footnote:disclaimer[]
 #+END_SRC
 
 * Markdown Compatibility
+
 Markdown compatible syntax is only available when using Asciidoctor.
 
 ** Markdown-style headings

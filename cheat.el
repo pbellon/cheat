@@ -1,10 +1,13 @@
+;; base path, useful to get the path of a cheatsheet relative to this file
 (defconst cheat/root (file-name-directory load-file-name))
 
 (defun cheat/sheet-path (name)
-  "Get the absolute file path for a given sheet org file"
+  "Get the absolute file path for a given sheet org file relative to this file"
   (expand-file-name (concat "./sheets/" name) cheat/root))
 
-(defconst cheat/sheets 
+;; The global cheatsheets list, append '(<name> "Frame name" "path/to/cheatsheet.org"))
+;; and call (cheat/init) to register a new cheatsheet
+(defvar cheat/sheets
   '((adoc "Asciidoc" (cheat/sheet-path "asciidoc.org"))
     (org "OrgMode" (cheat/sheet-path "org-mode.org"))))
 
@@ -12,7 +15,8 @@
   (not (eq nil (get-buffer bname))))
 
 (defun cheat/open (wname fname)
-  (let ((bname (concat "* " wname " Cheatsheet *")))
+  "Opens a buffer with the given `wname` as frame name and insert content from `fname` filename"
+  (let ((bname (concat "*" wname " Cheatsheet*")))
     (if (buffer-exists bname)
       (switch-to-buffer bname)
       (let (($b (generate-new-buffer bname)))
@@ -23,18 +27,20 @@
         (read-only-mode t)))))
 
 (defun cheat/register (cheat-name cheat-wname cheat-fname)
-  "Register a new cheatsheet, will create cheat/<name> interactive function"
+  "Register a new cheat/<name> interactive function"
   (let ((cheat-fn-name (intern (format "cheat/%s" cheat-name))))
     `(defun ,cheat-fn-name ()
        (interactive)
        (cheat/open ,cheat-wname ,cheat-fname))))
 
+;; Custom special symbols for org-mode
 (defvar cheat/org-entities
    '(
      ("lsbr" "\\[" nil "&#91;" "[" "[" "[")
      ("rsbr" "\\]" nil "&#93;" "]" "]" "]")
      ("zwsp" "\\hspace{0pt}" "&#8203;" "" "​" "​")))
 
+;; Main entry point to register all defined cheatsheets in 'cheat/sheets
 (defmacro cheat/init ()
   `(progn ,@(mapcar
              (lambda (x)
