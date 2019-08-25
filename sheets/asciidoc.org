@@ -1204,7 +1204,9 @@ Instead, use numeric character references (e.g., \&#8364;).
 
 ** Environment attributes
 
+|---------------------+--------------------------------------------------------------------------+-------------------------------------|
 | Attribute           | Description                                                              | Example Value                       |
+|---------------------+--------------------------------------------------------------------------+-------------------------------------|
 | asciidoctor         | Set if the current processor is Asciidoctor.                             |                                     |
 | asciidoctor-version | Asciidoctor version.                                                     | 1.5.7.1                             |
 | backend             | Backend used to create the output file.                                  | html5                               |
@@ -1231,7 +1233,6 @@ Instead, use numeric character references (e.g., \&#8364;).
 | outfile             | Full path of the output file.                                            | /home/user/docs/dist/userguide.html |
 | outfilesuffix       | file extension of the output file (starting with a                       | .html                               |
 |                     | period) as determinedby the backend.^{[[[note-outfilesuffix][3]]]} *Safe to modify.*                |                                     |
-
 | safe-mode-level     | Numeric value of the safe mode setting.                                  | 20                                  |
 |                     | (UNSAFE=0, SAFE=10, SERVER=10, SECURE=20).                               |                                     |
 | safe-mode-name      | Textual value of the safe mode setting.                                  | SERVER                              |
@@ -1240,7 +1241,8 @@ Instead, use numeric character references (e.g., \&#8364;).
 | safe-mode-server    | Set if the safe mode is SERVER.                                          |                                     |
 | safe-mode-secure    | Set if the safe mode is SECURE.                                          |                                     |
 | user-home           | Home directory of the current user. Resolves to `.`                      | /home/user                          |
-|                     | if the safe mode is SERVER or greater.                                                                         |                                     |
+|                     | if the safe mode is SERVER or greater.                                   |                                     |
+|---------------------+--------------------------------------------------------------------------+-------------------------------------|
 
 
 <<note-docdatetime>>^{[1]} Only reflects the last modified time of the source document file.
