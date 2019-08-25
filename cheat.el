@@ -35,10 +35,8 @@
 
 ;; Custom special symbols for org-mode
 (defvar cheat/org-entities
-   '(
-     ("lsbr" "\\[" nil "&#91;" "[" "[" "[")
-     ("rsbr" "\\]" nil "&#93;" "]" "]" "]")
-     ("zwsp" "\\hspace{0pt}" "&#8203;" "" "​" "​")))
+   '(("lsbr" "\\[" nil "&#91;" "[" "[" "[")
+     ("rsbr" "\\]" nil "&#93;" "]" "]" "]")))
 
 ;; Main entry point to register all defined cheatsheets in 'cheat/sheets
 (defmacro cheat/init ()
