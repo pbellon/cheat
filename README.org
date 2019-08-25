@@ -1,6 +1,10 @@
 * Cheat
 A small utility to register and create cheatsheets based on org-mode.
 
+** Provided cheatsheets
+- Asciidoc
+- Org-mode
+
 ** Installation
 ~package-install RET cheat~
 
@@ -12,9 +16,6 @@ A small utility to register and create cheatsheets based on org-mode.
 
 ** Usage
 
-*** Provided cheatsheets
-- Asciidoc
-- Org-mode
 
 *** Open a cheatsheet 
 All cheatsheets are accessible through interactive functions their first list element preceded by the ~cheat/~ prefix. 
