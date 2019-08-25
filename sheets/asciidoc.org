@@ -1,4 +1,4 @@
-#+INCLUDE "./base.org"
+#+INCLUDE: "./base.org"
 #+TITLE: AsciiDoc Syntax Quick Reference
 # Converted from asciidoctor quick syntax reference: https://github.com/asciidoctor/asciidoctor.org
 
