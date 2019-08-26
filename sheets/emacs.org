@@ -1,0 +1,295 @@
+#+TITLE: Emacs cheatsheet
+#+AUTHOR: Thibault Polge
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="emacs-cheatsheet.css" />
+#+OPTIONS: html-postamble:nil num:nil toc:nil
+
+* Self descriptive functions
+
+Emacs include a set of self descriptive function that quite useful to understand how emacs works, they all start with =describe-<name>=
+
+| =C-h f= =<function name>=         | Open the documentation page for a given function               |
+| =C-h v= =<variable name>=         | Open the documentation page for a given variable               |
+| =C-h k= =<some keys combination>= | Shows the function bound to the pressed keys (if there is one) |
+
+* Command multipliers
+
+
+| =C--= =M--=             | Negative argument  |
+| =C-u=                 | Universal argument |
+
+#+begin_hint
+  *Digit argument* is =M= or =C= followed by any number.
+#+end_hint
+
+* Moving around
+
+| <c>          | <c> | <100>                                                                                                |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+|              |     |                                                                                                      |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =C-b=  =C-f=     | ←→  | Char                                                                                                 |
+| =M-b=  =M-f=     | ←→  | Word                                                                                                 |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =C-p=  =C-n=     | ↑↓  | Line                                                                                                 |
+| =C-a=  =C-e=     | ⇤⇥  | Line                                                                                                 |
+| =M-m=          | ⇤   | Line (except whitespace)                                                                             |
+| =M-a=  =M-e=     | ←→  | Sentence                                                                                             |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =C-M-a=  =C-M-e= | ←→  | Defun                                                                                                |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =C-M-b=  =C-M-f= | ←→  | Sexp                                                                                                 |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =C-M-u=  =C-M-d= | ↑↓  | List                                                                                                 |
+| =C-M-p=  =C-M-n= | ←→  | List                                                                                                 |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =M-{=  =M-}=     | ←→  | Paragraph                                                                                            |
+|--------------+-----+------------------------------------------------------------------------------------------------------|
+| =M-<=  =M->=     | ⇱⇲  | Buffer                                                                                               |
+
+** Go to
+
+| =M-g c= | nth character  |
+| =M-g g= | Line           |
+| =M-g n= | Next error     |
+| =M-g p= | Previous error |
+
+* Scrolling
+
+** Up and down
+
+| =C-v=     | Down page               |
+| =M-v=     | Up page                 |
+| =C-M-v=   | Down page, other window |
+| =C-M-S-v= | Up page, other window   |
+
+** Left and right
+
+| =C-x <=, =C-<left>=  |   |
+| =C-x >=, =C-<prior>= |   |
+
+** Recentering
+
+| =C-l= | Recenter |
+
+* Marks and regions
+
+| =C-space= =C-@= | Set mark                |
+| =C-x C-x=     | Exchange point and mark |
+| =M-h=         | Mark paragraph          |
+| =C-x C-p=     | Mark page               |
+| =C-x h=       | Mark all buffer
+
+* Killing and yanking
+
+** Killing
+
+|         |   |           |
+|---------+---+-----------|
+| =C-d=     |   | Char      |
+| =Del=     | ← | Char      |
+|---------+---+-----------|
+| =M-d=     |   | Word      |
+| =M-del=   | ← | Word      |
+|---------+---+-----------|
+| =C-k=     |   | Line      |
+|---------+---+-----------|
+| =M-k=     |   | Sentence  |
+| =C-x Del= | ← | Sentence  |
+|---------+---+-----------|
+| =C-w=     |   | Region    |
+|---------+---+-----------|
+| =C-x r k= |   | Rectangle |
+
+
+** Killing semantic units
+
+| =C-M-k= | Sexp |
+
+** Saving to kill-ring
+
+| =M-w=     | ~kill-ring-save~          |
+
+** Yanking
+
+| =C-y=     | ~yank~                    |
+| =M-y=     | ~yank-pop~                |
+
+* Bookmarks and registers
+
+** Bookmarks
+
+| =C-x r m= | Set a bookmark   |
+| =C-x r l= | List bookmarks   |
+| =C-x r b= | Jump to bookmark |
+
+** Registers
+
+| =C-x r n=   | Store number                 |
+| =C-x r s=   | Store region                 |
+| =C-x r SPC= | Store point                  |
+| =C-x r +=   | Increment number in register |
+| =C-x r j=   | Jump to register             |
+| =C-x r i=   | Insert contents of register  |
+| =C-x r f=   | Store frameset               |
+| =C-x r w=   | Store window configuration   |
+
+* Editing goodies
+
+** Narrowing
+
+|         |                         |
+|---------+-------------------------|
+| =C-x n n= | Narrow to region        |
+| =C-x n d= | Narrow to defun         |
+|---------+-------------------------|
+| =C-x n b= | Narrow to block (org)   |
+| =C-x n e= | Narrow to element (org) |
+| =C-x n s= | Narrow to subtree (org) |
+|---------+-------------------------|
+| =C-x n w= | Widen                   |
+
+** Transposition
+
+| =C-t=     | Chars           |
+| =M-t=     | Words           |
+| =C-M-t=   | Sexps           |
+| =C-x C-t= | Lines           |
+
+** Case
+
+| =M-c= | Capitalize word           |
+| =M-u= | Convert word to uppercase |
+| =M-l= | Convert word to lowercase |
+
+* Searching
+
+|         |                         |
+|---------+-------------------------|
+| =C-s=     | Forward                 |
+| =C-r=     | Backward                |
+|---------+-------------------------|
+| =M-s w=   | Forward word            |
+|---------+-------------------------|
+| =C-M-s=   | Forward regexp          |
+| =C-M-r=   | Backward regexp         |
+
+** At isearch prompt
+
+|         |                           |
+|---------+---------------------------|
+| =C-s=     | Repeat forward            |
+| =C-r=     | Repeat backward           |
+|---------+---------------------------|
+| =C-w=     | Insert word at point      |
+| =C-y=     | Insert line at point      |
+| =M-y=     | Insert kill ring contents |
+|---------+---------------------------|
+| =Enter=   | Exit                      |
+
+#+begin_hint
+  Bindings for ~query-replace~ and ~query-replace-regexp~ are active at search prompt and use the current search terms.
+#+end_hint
+
+* Replacing
+
+| =M-%=   | Replace |
+| =C-M-%= | Replace regexp |
+
+** At replace prompt
+
+| =C-r= | Enter recursive edit            |
+| =C-w= | Delete match and recursive edit |
+| =^=   | Go back to previous match       |
+| =E=   | Edit replacement string         |
+
+** From Swiper
+
+| =M-q= | Switch to replace |
+
+* Macros
+
+| =C-x (= =<f3>= | Start macro             |
+| =C-x )= =<f4>= | End macro               |
+| =C-x e=      | End macro and call      |
+| =C-x C-k r=  | Apply to region or line |
+
+#+begin_hint
+To loop a macro until error or end of buffer, call it with 0 as a numeric argument.
+#+end_hint
+
+* Ivy
+
+|              |                                                                          |
+|--------------+--------------------------------------------------------------------------|
+| =C-m=, =RET=     | Execute default action with selection                                    |
+| =C-M-m=        | Non-exiting version of the above                                         |
+| =C-M-j=        | Execute default action with current *input* (instead of current candidate) |
+| =C-M-n=, =C-M-p= | Combines =C-n= or =C-p= with =C-M-m=                                           |
+|--------------+--------------------------------------------------------------------------|
+| =M-o=          | Show available actions                                                   |
+| =C-M-o=        | Non-exiting version of =M-o=                                               |
+|--------------+--------------------------------------------------------------------------|
+| =C-o=          | Run Ivy hydra                                                            |
+
+* Org
+
+** Visibility
+
+|                 |                             |
+|-----------------+-----------------------------|
+| =TAB=             | Cycle visibility            |
+| =S-TAB=, =C-u TAB=  | Cycle /global/ visibility     |
+| =C-u C-u TAB=     | Restore startup visibility  |
+| =C-u C-u C-u TAB= | Show all, including drawers |
+|                 |                             |
+
+** Narrowing
+
+|         |            |
+|---------+------------|
+| =C-x n b= | To block   |
+| =C-x n e= | To element |
+| =C-x n s= | To subtree |
+
+* PDF Tools
+
+|           |                      |
+|-----------+----------------------|
+| =o=         | Outline              |
+| =s b=       | Crop to bounding box |
+| =s r=       | Reset margins        |
+| =C-c C-a l= | List annotations     |
+
+* Troubleshooting
+
+|       |                                          |
+|-------+------------------------------------------|
+| =C-h l= | List recent keystrokes and their effects |
+
+** CPU/RAM Usage
+
+  | ~M-x profiler-start~ |
+  | ~M-x profiler-report~  |
+
+** Weird errors
+
+| ~M-x toggle-debug-on-error~  |
+| ~M-x toggle-debug-on-quit~ |
+
+#+begin_hint
+  To rescue a unresponsive Emacs, =kill -s USR2 [pid]= or =killall -s USR2 emacs=.
+#+end_hint
+
+* Misc
+
+#+begin_hint
+Paragraph
+ * ~subword-mode~ and ~superword-mode~ treat =snake_case= and =CamelCase=, respectively, as distinct words.  ~glasses-mode~ /visually/ separates CamelCased words: =Camel_Cased=.
+ * See ~paragraph-indent-minor-mode~
+#+end_hint
+
+* About
+
+#+begin_small
+This document is copyright © 2016 [[https://thb.lt][Thibault Polge]] <[[mailto:thibault@thb.lt][thibault@thb.lt]]>.  All rights reserved.  Like Emacs' own documentation, it is released under the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/GNU-Free-Documentation-License.html][GNU Free Documentation License]].  You can download the [[./index.org][Org-mode document source]] (replace =.html= with =.org= in the URL until I find a way to fix this) and the [[./emacs-cheatsheet.css][CSS theme]].
+#+end_small

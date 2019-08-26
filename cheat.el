@@ -8,9 +8,13 @@
 ;; The global cheatsheets list, append '(<name> "Frame name" "path/to/cheatsheet.org"))
 ;; and call (cheat/init) to register a new cheatsheet
 (defvar cheat/sheets
-  '((adoc "Asciidoc" (cheat/sheet-path "asciidoc.org"))
+  '(
+    (adoc "Asciidoc" (cheat/sheet-path "asciidoc.org"))
     (org "OrgMode" (cheat/sheet-path "org-mode.org"))
-    (org-syntax "OrgMode Syntax" (cheat/sheet-path "org-mode-syntax.org"))))
+    (org-syntax "OrgMode Syntax" (cheat/sheet-path "org-mode-syntax.org"))
+    (emacs "Emacs" (cheat/sheet-path "emacs.org"))
+   )
+)
 
 (defun buffer-exists (bname)
   (not (eq nil (get-buffer bname))))
