@@ -4,8 +4,12 @@
 ;; Homepage: https://github.com/pbellon/cheat
 ;; Keywords: cheat cheatsheet org
 
-;;; Code: 
+;;; Commentary:
+;; cheat is an utility to register some cheatsheets inside emacs and easily open
+;; them afterward thanks to =cheat/<cheatsheet id>= prefixed functions like 
+;; included cheat/emacs or cheat/org.
 
+;;; Code: 
 ;; base path, useful to get the path of a cheatsheet relative to this file
 (defconst cheat/root (file-name-directory load-file-name))
 
