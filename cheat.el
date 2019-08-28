@@ -1,4 +1,4 @@
-;; cheat.el --- Regiter & Open cheatsheets inside emacs -*- lexical-binding: t; coding: utf-8 -*-
+;;; cheat.el --- Regiter & Open cheatsheets inside emacs -*- lexical-binding: t; coding: utf-8 -*-
 
 ;; Author: Pierre BELLON <bellon.pierre@gmail.com>
 ;; URL: https://github.com/pbellon/cheat
