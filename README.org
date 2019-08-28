@@ -4,15 +4,21 @@
 A small utility to register and create cheatsheets based on org-mode.
 
 ** Provided cheatsheets
+- Emacs
 - AsciiDoc
 - Org mode
 - Org mode syntax
 
 ** Installation
-~package-install RET cheat~
-
+The package has not yet been published to MELPA yet so you'll have to install it manually or use [[https://framagit.org/steckerhalter/quelpa][quelpa]].
 #+BEGIN_SRC elisp
-(use-package cheat
+(quelpa '(cheat :fetcher git :url "https://github.com/pbellon/cheat.git"))
+(require 'cheat)
+(cheat/init)
+
+;; Or, if you have use-package & quelpa-use-package
+(use-package
+    :quelpa (cheat :fetcher git :url "https://github.com/pbellon/cheat.git")
     :config
     (cheat/init))
 #+END_SRC
