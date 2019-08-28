@@ -1,8 +1,9 @@
 ;; cheat.el --- Regiter & Open cheatsheets inside emacs -*- lexical-binding: t; coding: utf-8 -*-
 
 ;; Author: Pierre BELLON <bellon.pierre@gmail.com>
-;; Homepage: https://github.com/pbellon/cheat
-;; Keywords: cheat cheatsheet org
+;; URL: https://github.com/pbellon/cheat
+;; Version: 0.1.0
+;; Keywords: cheat, cheatsheet, org
 
 ;;; Commentary:
 ;; cheat is an utility to register some cheatsheets inside emacs and easily open
@@ -10,6 +11,7 @@
 ;; included cheat/emacs or cheat/org.
 
 ;;; Code: 
+
 ;; base path, useful to get the path of a cheatsheet relative to this file
 (defconst cheat/root (file-name-directory load-file-name))
 
