@@ -67,3 +67,4 @@
            (add-to-list 'org-entities-user symbol)))
 
 (provide 'cheat)
+;;; cheat.el ends here
