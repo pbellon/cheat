@@ -11,13 +11,14 @@
 ;; included cheat/emacs or cheat/org.
 
 ;;; Code: 
+(require 'org)
 
 ;; base path, useful to get the path of a cheatsheet relative to this file
 (defconst cheat/root (file-name-directory load-file-name))
 
 (defun cheat/sheet-path (name)
   "Get the absolute file path for a given sheet org file relative to this file"
-  (expand-file-name (concat "./sheets/" name) cheat/root))
+  (expand-file-name name cheat/root))
 
 ;; The global cheatsheets list, append '(<name> "Frame name" "path/to/cheatsheet.org"))
 ;; and call (cheat/init) to register a new cheatsheet
