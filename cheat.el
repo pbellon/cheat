@@ -1,5 +1,4 @@
 ;;; cheat.el --- Regiter & Open cheatsheets inside emacs -*- lexical-binding: t; coding: utf-8 -*-
-
 ;; Author: Pierre BELLON <bellon.pierre@gmail.com>
 ;; URL: https://github.com/pbellon/cheat
 ;; Version: 0.1.0
@@ -14,21 +13,15 @@
 (require 'org)
 
 ;; base path, useful to get the path of a cheatsheet relative to this file
-(defconst cheat/root (file-name-directory load-file-name))
+(setq cheat/root (file-name-directory load-file-name))
+(setq cheat/root-sheets (format "%ssheets" cheat/root))
 
 (defun cheat/sheet-path (name)
   "Get the absolute file path for a given sheet org file relative to this file"
   (expand-file-name name cheat/root))
 
-;; The global cheatsheets list, append '(<name> "Frame name" "path/to/cheatsheet.org"))
-;; and call (cheat/init) to register a new cheatsheet
-(defvar cheat/sheets
-  '(
-    (adoc "Asciidoc" (cheat/sheet-path "asciidoc.org"))
-    (org "OrgMode" (cheat/sheet-path "org-mode.org"))
-    (org-syntax "OrgMode Syntax" (cheat/sheet-path "org-mode-syntax.org"))
-    (emacs "Emacs" (cheat/sheet-path "emacs.org"))
-   )
+(defvar cheat/sheets nil
+  "The global cheatsheets list"
 )
 
 (defun buffer-exists (bname)
@@ -46,12 +39,108 @@
         (org-mode)
         (read-only-mode t)))))
 
-(defun cheat/register (cheat-name cheat-wname cheat-fname)
-  "Register a new cheat/<name> interactive function"
-  (let ((cheat-fn-name (intern (format "cheat/%s" cheat-name))))
-    `(defun ,cheat-fn-name ()
-       (interactive)
-       (cheat/open ,cheat-wname ,cheat-fname))))
+(defcustom cheat/sheets-folders `(,cheat/root ,cheat/root-sheets)
+  "The list of folders cheat/ should analyses"
+  :type '(list string)
+  :group 'cheat)
+
+(defun prop (key props) (cdr (assoc key props)))
+
+(defun get-org-keywords ()
+  "Parse the buffer and return a cons list of (property . value)"
+  (org-element-map (org-element-parse-buffer 'element) 'keyword
+    (lambda (keyword) (cons
+                        (org-element-property :key keyword)
+                        (org-element-property :value keyword)))))
+  
+(defun get-org-keyword (key &optional kwds)
+  "return the value associated to key"
+  (unless kwds (setq kwds (get-org-keywords)))
+  (prop key kwds))
+
+(defun parse-sheet (path)
+  "Returns properties of a cheat sheet file"
+  (let ((props))
+    (with-temp-buffer
+      (insert-file-contents path)
+      (let ((keywords (get-org-keywords)))
+        (let (
+          (command (get-org-keyword "COMMAND" keywords))
+          (title   (get-org-keyword "TITLE"   keywords))
+        )
+        (setq props `(
+            ("command" . ,command)
+            ("title"   . ,title)
+            ("path"    . ,path)))
+        )))))
+
+(defun cheat/get-sheets-in (folder-path)
+  "Returns all sheets located under folder-path"
+  (let ((sheets))
+    (dolist (f (directory-files folder-path t ".org$") sheets)
+      (let ((sheet (parse-sheet f)))
+        (let ((cmd (prop "command" sheet))
+              (title (prop "title" sheet)))
+          (message "get-sheets-in sheet: %s" sheet)
+          (if (and (not (eq cmd nil)) (not (eq title nil)))
+            (add-to-list 'sheets sheet)
+          )
+        )
+      )
+    )
+  )
+)
+
+;; (message "get sheets in ~/.emacs.d/quelpa/build/cheat/sheets: %s" (cheat/get-sheets-in  "~/.emacs.d/quelpa/build/cheat/sheets"))
+
+(defun reload-sheets ()
+  (setq cheat/sheets nil)
+  "Add to cheat/sheets cheat org file located under cheat/sheets-folders"
+  (dolist (dir cheat/sheets-folders)
+    (let ((folder-sheets (cheat/get-sheets-in dir)))
+      (unless (eq folder-sheets nil)
+        (dolist (sheet folder-sheets)
+          (unless (eq sheet nil)
+            (add-to-list 'cheat/sheets sheet)
+          )
+        )
+      )
+    )))
+
+;; (message "Folders: %s" cheat/sheets-folders)
+;; (reload-sheets)
+;; (message "Sheets: %s" cheat/sheets)
+
+(defun cheat/reload-sheets ()
+  "Init cheat/sheats"
+  (interactive)
+  (reload-sheets)
+  (cheat/init)
+)
+
+(defun cheat/list-sheets ()
+  "Find all cheatsheets under sheets directories"
+  (interactive)
+  (unless cheat/sheets (reload-sheets))
+  (dolist (el cheat/sheets)
+    (message
+      "%s is registered with cheat/%s function"
+      (prop "title" el)
+      (prop "command" el))))
+
+(defun cheat/register (sheet)
+  "Register a new cheat/<command> interactive function"
+  (let
+    (
+      (cheat-command (prop "command" sheet))
+      (cheat-path (prop "path" sheet))
+      (cheat-title (prop "title" sheet))
+    )
+    (let ((cheat-fn-name (intern (format "cheat/%s" cheat-command))))
+      `(defun ,cheat-fn-name ()
+         "Opens ,cheat-title cheatsheet"
+         (interactive)
+         (cheat/open ,cheat-title ,cheat-path)))))
 
 ;; Custom special symbols for org-mode
 (defvar cheat/org-entities
@@ -61,9 +150,8 @@
 ;; Main entry point to register all defined cheatsheets in 'cheat/sheets
 (defmacro cheat/init ()
   `(progn ,@(mapcar
-             (lambda (x)
-               (cheat/register (nth 0 x) (nth 1 x) (nth 2 x)))
-             cheat/sheets)))
+              'cheat/register
+              cheat/sheets)))
 
 (with-eval-after-load 'org
   (dolist (symbol cheat/org-entities)

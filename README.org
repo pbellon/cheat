@@ -12,15 +12,15 @@ A small utility to register and create cheatsheets based on org-mode.
 ** Installation
 The package has not yet been published to MELPA yet so you'll have to install it manually or use [[https://framagit.org/steckerhalter/quelpa][quelpa]].
 #+BEGIN_SRC elisp
-(quelpa '(cheat :fetcher git :url "https://github.com/pbellon/cheat.git"))
+(quelpa '(cheat :fetcher github :repo "pbellon/cheat"))
 (require 'cheat)
-(cheat/init)
+(cheat/reload-sheets)
 
 ;; Or, if you have use-package & quelpa-use-package
 (use-package
-    :quelpa (cheat :fetcher git :url "https://github.com/pbellon/cheat.git")
+    :quelpa (cheat :fetcher github :repo "pbellon/cheat")
     :config
-    (cheat/init))
+    (cheat/reload-sheets))
 #+END_SRC
 
 ** Usage
@@ -31,12 +31,19 @@ All cheatsheets are accessible through interactive functions their first list el
 - ~M-x RET cheat/org~ open org-mode cheatsheet
 - ~M-x RET cheat/org-syntax~ open org-mode syntax cheatsheet
 
-*** Register a new cheatsheet
+*** Register a new cheatsheets folder
 
 #+BEGIN_SRC elisp
 ;; Register your cheatsheets in the cheat/sheets list
-(add-to-list 'cheat/sheets
-    '(custom "My custom title" "path/to/my/cheatsheet.org"))
+(add-to-list 'cheat/sheets-folders "path/to/my/cheatsheets/")
 ;; Launch initialization of the utility, it will create the ~cheat/custom~ interactive function.
-(cheat/init)
+(cheat/reload-sheets)
+#+END_SRC
+
+*** Adds a new cheatsheet file
+
+All sheets files must be located under a folder included in =cheat/sheets-folder=. They must have an header like bellow:
+#+BEGIN_SRC org
+#+TITLE: My title
+#+COMMAND: mycommand
 #+END_SRC
