@@ -1,4 +1,6 @@
 #+TITLE: Org Mode Syntax Cheat Sheet
+#+NAME: Org-Mode Syntax
+#+COMMAND: org-syntax
 #+OPTIONS: toc:nil 
 #+STARTUP: showeverything
 # Adapted from http://karl-voit.at/2017/09/23/orgmode-as-markup-only/

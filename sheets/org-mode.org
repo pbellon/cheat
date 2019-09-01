@@ -1,5 +1,7 @@
 # Source: https://orgmode.org/worg/orgcard.org.html
 #+TITLE: Org-Mode Reference Card
+#+NAME: Org-Mode
+#+COMMAND: org
 #+AUTHOR: Vikas Rawal
 #+EMAIL: vikaslists AT agrarianresearch DOT org
 #+OPTIONS: toc:t

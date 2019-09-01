@@ -1,4 +1,6 @@
 #+TITLE: Emacs cheatsheet
+#+NAME: Emacs
+#+COMMAND: emacs
 #+AUTHOR: Thibault Polge
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="emacs-cheatsheet.css" />
 #+OPTIONS: html-postamble:nil num:nil toc:nil
