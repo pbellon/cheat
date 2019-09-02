@@ -77,7 +77,7 @@
 
 (defun cheat-fn-name (sheet)
   "Returns the cheat/<command> function declaration name"
- (intern (format "cheat/%s" (cheat-command sheet))))
+ (format "cheat/%s" (cheat-command sheet)))
 
 (defun reload-sheets ()
   "Add to cheat/sheets cheat org file located under cheat/sheets-folders"

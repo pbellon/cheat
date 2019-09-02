@@ -1,7 +1,6 @@
-(load-file "../cheat-lib.el");
-(require 'cheat)
+(require 'cheat-lib)
 
-(setq root default-directory)
+(setq root "~/Dev/cheat/tests/")
 (setq test-sheets-dir (concat root "test-sheets"))
 
 (setq cheat/sheets-folders `(,test-sheets-dir))
@@ -55,4 +54,3 @@
 
 (ert-deftest test-cheat-fn-name ()
   (should (equal (cheat-fn-name (fake-sheet)) "cheat/fake")))
-

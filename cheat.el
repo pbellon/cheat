@@ -43,11 +43,11 @@
     (message "command: %s" command)
     (message "typeof command: %s" (type-of command))
     (message "points: %s" (point))
-    (list (symbol-name command)
+    (list command
           :supertype 'help-function
           'action (lambda (cmd)
                     (message "EXEC %S" command)
-                    (funcall command))
+                    (funcall (intern command)))
           ))
   (defun sheet-as-list-entry (sheet)
     `((title    . ,(cheat-title   sheet))
@@ -76,7 +76,7 @@
   "Register a new cheat/<command> interactive function"
   (let
     (
-      (fn-name (cheat-fn-name sheet))
+      (fn-name (intern (cheat-fn-name sheet)))
       (title (cheat-title sheet))
       (path (cheat-path sheet))
     )

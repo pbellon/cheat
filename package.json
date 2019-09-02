@@ -1,0 +1,28 @@
+{
+  "name": "cheat",
+  "version": "1.0.0",
+  "description": "Small emacs utility to register & open cheatsheets",
+  "main": "cheat.el",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "emacs -batch -l org -l cheat-lib.el -l tests/cheat-test.el -f ert-run-tests-batch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pbellon/cheat.git"
+  },
+  "keywords": [
+    "emacs",
+    "cheatsheet",
+    "org",
+    "asciidoc"
+  ],
+  "author": "Pierre BELLON",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pbellon/cheat/issues"
+  },
+  "homepage": "https://github.com/pbellon/cheat#readme"
+}
