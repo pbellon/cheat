@@ -1,6 +1,7 @@
 #+TITLE: Emacs cheatsheet
 #+NAME: Emacs
 #+COMMAND: emacs
+#+DESCRIPTION: Small guide to emacs functions & shortcuts
 #+AUTHOR: Thibault Polge
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="emacs-cheatsheet.css" />
 #+OPTIONS: html-postamble:nil num:nil toc:nil
@@ -232,26 +233,6 @@ To loop a macro until error or end of buffer, call it with 0 as a numeric argume
 | =C-M-o=        | Non-exiting version of =M-o=                                               |
 |--------------+--------------------------------------------------------------------------|
 | =C-o=          | Run Ivy hydra                                                            |
-
-* Org
-
-** Visibility
-
-|                 |                             |
-|-----------------+-----------------------------|
-| =TAB=             | Cycle visibility            |
-| =S-TAB=, =C-u TAB=  | Cycle /global/ visibility     |
-| =C-u C-u TAB=     | Restore startup visibility  |
-| =C-u C-u C-u TAB= | Show all, including drawers |
-|                 |                             |
-
-** Narrowing
-
-|         |            |
-|---------+------------|
-| =C-x n b= | To block   |
-| =C-x n e= | To element |
-| =C-x n s= | To subtree |
 
 * PDF Tools
 

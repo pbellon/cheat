@@ -10,45 +10,33 @@
 ;; included cheat/emacs or cheat/org.
 
 ;;; Code: 
-(require 'org)
+(require 'cheat-lib)
 (require 'bui)
 
-(require 'cheat-lib)
-
-(defvar cheat/sheets nil
-  "The global cheatsheets list"
-)
-
-;; base path, useful to get the path of a cheatsheet relative to this file
-(setq cheat/root (if load-file-name (file-name-directory load-file-name)))
-(setq cheat/root-sheets (format "%ssheets" cheat/root))
-
-(defcustom cheat/sheets-folders `(,cheat/root ,cheat/root-sheets)
-  "The list of folders cheat/ should analyses"
-  :type '(list string)
-  :group 'cheat)
+;; Main entry point to register all defined cheatsheets in cheat/sheets
+(defmacro cheat/init (reload)
+  (unless (eq reload nil) (reload-sheets))
+  `(progn ,@(mapcar
+              'cheat/register
+              cheat/sheets)))
 
 (defun cheat/reload-sheets ()
   "Init cheat/sheats"
   (interactive)
-  (reload-sheets)
-  (cheat/init)
+  (cheat/init t)
 )
 
 (with-eval-after-load 'bui
-  (setq cmd "cheat/adoc")
-  
   (defun command-as-button (command &rest properties)
     "Return a command button"
-    (message "command: %s" command)
-    (message "typeof command: %s" (type-of command))
-    (message "points: %s" (point))
+    ;; (message "command: %s" command)
+    ;; (message "typeof command: %s" (type-of command))
+    ;; (message "points: %s" (point))
     (list command
           :supertype 'help-function
-          'action (lambda (cmd)
-                    (message "EXEC %S" command)
-                    (funcall (intern command)))
-          ))
+          'action (lambda (_) (funcall (intern command)))
+    ))
+          
   (defun sheet-as-list-entry (sheet)
     `((title    . ,(cheat-title   sheet))
       (command  . ,(cheat-fn-name sheet))
@@ -90,17 +78,11 @@
    '(("lsbr" "\\[" nil "&#91;" "[" "[" "[")
      ("rsbr" "\\]" nil "&#93;" "]" "]" "]")))
 
-;; Main entry point to register all defined cheatsheets in cheat/sheets
-(defmacro cheat/init ()
-  `(progn ,@(mapcar
-              'cheat/register
-              cheat/sheets)))
-
 (with-eval-after-load 'org
   (dolist (symbol cheat/org-entities)
            (add-to-list 'org-entities-user symbol)))
 
-
+(provide 'cheat-lib)
 (provide 'cheat)
 
 ;;; cheat.el ends here
