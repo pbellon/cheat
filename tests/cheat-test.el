@@ -4,17 +4,15 @@
 (setq test-sheets-dir (concat root "test-sheets"))
 
 (setq cheat/sheets-folders `(,test-sheets-dir))
-(message "cheat/version: %s" cheat/version)
-(message "sheets dir %s" test-sheets-dir)
-(message "sheets folder %s" cheat/sheets-folders)
+;; (message "cheat/version: %s" cheat/version)
+;; (message "sheets dir %s" test-sheets-dir)
+;; (message "sheets folder %s" cheat/sheets-folders)
 
 (defun fake-sheet ()
   '(("name"    . "Fake")
     ("path"    . "my/fake/path.org")
     ("title"   . "Fake Title")
     ("command" . "fake")))
-
-(message "Sheets:%s " (get-sheets-in "~/Dev/cheat/tests/test-sheets"))
 
 (ert-deftest test-get-sheets-in ()
   (should (= (length (get-sheets-in test-sheets-dir)) 3)))
