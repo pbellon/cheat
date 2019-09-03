@@ -33,15 +33,11 @@
               'cheat/register
               cheat/sheets)))
 
-(defun cheat/setup (&optional reload)
-  "Recreates all functions bound to cheatsheets, will reload the sheets if reload is not nil"
-  (unless (eq reload nil) (reload-sheets))
-  (cheat--macro))
-
 (defun cheat/reload-sheets ()
   "Init cheat/sheats"
   (interactive)
-  (cheat/setup t)
+  (reload-sheets)
+  (cheat--macro)
 )
 
 (with-eval-after-load 'bui
