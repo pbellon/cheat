@@ -13,17 +13,35 @@
 (require 'cheat-lib)
 (require 'bui)
 
+(defun cheat/register (sheet)
+  "Register a new cheat/<command> interactive function"
+  (let
+    (
+      (fn-name (intern (cheat-fn-name sheet)))
+      (title (cheat-title sheet))
+      (path (cheat-path sheet))
+    )
+    `(defun ,fn-name ()
+        "Opens ,title cheatsheet"
+        (interactive)
+        (open-sheet ,title ,path))))
+
+
 ;; Main entry point to register all defined cheatsheets in cheat/sheets
-(defmacro cheat/init (reload)
-  (unless (eq reload nil) (reload-sheets))
+(defmacro cheat--macro ()
   `(progn ,@(mapcar
               'cheat/register
               cheat/sheets)))
 
+(defun cheat/setup (&optional reload)
+  "Recreates all functions bound to cheatsheets, will reload the sheets if reload is not nil"
+  (unless (eq reload nil) (reload-sheets))
+  (cheat--macro))
+
 (defun cheat/reload-sheets ()
   "Init cheat/sheats"
   (interactive)
-  (cheat/init t)
+  (cheat/setup t)
 )
 
 (with-eval-after-load 'bui
@@ -34,8 +52,9 @@
     ;; (message "points: %s" (point))
     (list command
           :supertype 'help-function
-          'action (lambda (_) (funcall (intern command)))
-    ))
+          'action (lambda (cmd) (funcall (intern command)))
+    )
+  )
           
   (defun sheet-as-list-entry (sheet)
     `((title    . ,(cheat-title   sheet))
@@ -51,27 +70,15 @@
    :format '((title   nil 50 t)
              (command command-as-button 20 t)
              (path    bui-list-get-file-name 20 :right-aligned t)))
+
+  (defun cheat/list-sheets ()
+    "Find all cheatsheets under sheets directories"
+    (interactive)
+    (unless cheat/sheets (reload-sheets))
+    (bui-get-display-entries 'sheets-buffer 'list))
 )
 
-(defun cheat/list-sheets ()
-  "Find all cheatsheets under sheets directories"
-  (interactive)
-  (unless cheat/sheets (reload-sheets))
-  (bui-get-display-entries 'sheets-buffer 'list))
 
-
-(defun cheat/register (sheet)
-  "Register a new cheat/<command> interactive function"
-  (let
-    (
-      (fn-name (intern (cheat-fn-name sheet)))
-      (title (cheat-title sheet))
-      (path (cheat-path sheet))
-    )
-    `(defun ,fn-name ()
-        "Opens ,title cheatsheet"
-        (interactive)
-        (open-sheet ,title ,path))))
 
 ;; Custom special symbols for org-mode
 (defvar cheat/org-entities
