@@ -1,6 +1,7 @@
 # Source: https://orgmode.org/worg/orgcard.org.html
 #+TITLE: Org-Mode Reference Card
 #+NAME: Org-Mode
+#+CATEGORY: emacs
 #+COMMAND: org
 #+AUTHOR: Vikas Rawal
 #+EMAIL: vikaslists AT agrarianresearch DOT org

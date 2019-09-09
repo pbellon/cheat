@@ -1,5 +1,6 @@
 #+TITLE: Org Mode Syntax Cheat Sheet
-#+NAME: Org-Mode Syntax
+#+CATEGORY: markup
+#+CATEGORY: emacs
 #+COMMAND: org-syntax
 #+OPTIONS: toc:nil 
 #+STARTUP: showeverything

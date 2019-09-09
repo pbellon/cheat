@@ -13,7 +13,7 @@
 (require 'cheat-lib)
 (require 'bui)
 
-(defun cheat/register (sheet)
+(defun sheet-function--macro (sheet)
   "Register a new cheat/<command> interactive function"
   (let
     (
@@ -26,17 +26,20 @@
         (interactive)
         (open-sheet ,title ,path))))
 
+(defun cheat/init ()
+  (update-sheets-list)
+  (cheat--macro))
 
 ;; Main entry point to register all defined cheatsheets in cheat/sheets
 (defmacro cheat--macro ()
   `(progn ,@(mapcar
-              'cheat/register
-              cheat/sheets)))
+              'sheet-function--macro
+              (filtered-sheets))))
 
 (defun cheat/reload-sheets ()
   "Init cheat/sheats"
   (interactive)
-  (reload-sheets)
+  (update-sheets-list)
   (cheat--macro)
 )
 
@@ -63,14 +66,15 @@
   (bui-define-interface sheets-buffer list
    :buffer-name "* Cheatsheets *"
    :get-entries-function 'sheets-buffer-entries
-   :format '((title   nil 50 t)
-             (command command-as-button 20 t)
-             (path    bui-list-get-file-name 20 :right-aligned t)))
+   :format '((title    nil 20 t)
+             (category nil 50 t)
+             (command  command-as-button 20 t)
+             (path     bui-list-get-file-name 20 :right-aligned t)))
 
   (defun cheat/list-sheets ()
     "Find all cheatsheets under sheets directories"
     (interactive)
-    (unless cheat/sheets (reload-sheets))
+    (unless all-sheets (update-sheets-list))
     (bui-get-display-entries 'sheets-buffer 'list))
 )
 

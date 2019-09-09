@@ -2,6 +2,7 @@
 #+TITLE: AsciiDoc Syntax Quick Reference
 #+NAME: AsciiDoc
 #+COMMAND: adoc
+#+CATEGORY: markup
 # Converted from asciidoctor quick syntax reference: https://github.com/asciidoctor/asciidoctor.org
 
 * About

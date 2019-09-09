@@ -1,23 +1,22 @@
 #+TITLE:       Jsdoc
 #+COMMAND:     jsdoc
-#+CATEGORY:    JavaScript
+#+CATEGORY:    js
 #+DESCRIPTION: Comment based documentation generation syntax
 #+SOURCE:      https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md
 * Functions
 #+BEGIN_SRC js
-/**
-
-* This is a function.
-*
-* @param {string} n - A string param
-* @return {string} A good string
-*
-* @example
+ /**
+  * This is a function.
   *
- *     foo('hello')
- */
+  * @param {string} n - A string param
+  * @return {string} A good string
+  *
+  * @example
+  *
+  *     foo('hello')
+  */
 
-function foo(n) { return n }
+  function foo(n) { return n }
 #+END_SRC
 
 See: <http://usejsdoc.org/index.html>
