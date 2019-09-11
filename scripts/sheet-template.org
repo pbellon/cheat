@@ -1,0 +1,31 @@
+#+TITLE: $title$
+#+COMMAND: $command$
+#+CATEGORY: $category$
+$if(description)$
+#+DESCRIPTION: $description$
+
+$endif$
+$if(intro)$
+#+DESCRIPTION: $intro$
+
+$endif$
+$if(author)$
+#+AUTHOR: $for(author)$$author$$sep$; $endfor$
+$endif$
+$if(date)$
+#+DATE: $date$
+
+$endif$
+$for(header-includes)$
+$header-includes$
+
+$endfor$
+$for(include-before)$
+$include-before$
+
+$endfor$
+$body$
+$for(include-after)$
+
+$include-after$
+$endfor$
