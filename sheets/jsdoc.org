@@ -1,6 +1,6 @@
 #+TITLE:       Jsdoc
 #+COMMAND:     jsdoc
-#+CATEGORY:    js
+#+CATEGORY:    JavaScript
 #+DESCRIPTION: Comment based documentation generation syntax
 #+SOURCE:      https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md
 * Functions

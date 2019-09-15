@@ -1,6 +1,6 @@
 #+TITLE: Emacs cheatsheet
 #+COMMAND: emacs
-#+CATEGORY: emacs
+#+CATEGORY: Emacs
 #+DESCRIPTION: Small guide to emacs functions & shortcuts
 #+AUTHOR: Thibault Polge
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="emacs-cheatsheet.css" />

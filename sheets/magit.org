@@ -1,6 +1,7 @@
 #+TITLE: Magit
 #+DESCRIPTION: 
 #+COMMAND: magit
+#+CATEGORY: Emacs
 #+SOURCE: https://github.com/magit/magit/wiki/Cheatsheet
 
 You might also be interested in the [[https://magit.vc/manual/magit-refcard.pdf][Magit Reference Card]] (pdf).
