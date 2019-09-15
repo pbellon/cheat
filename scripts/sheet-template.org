@@ -12,6 +12,10 @@ $endif$
 $if(author)$
 #+AUTHOR: $for(author)$$author$$sep$; $endfor$
 $endif$
+$if(source)$
+#+SOURCE: $source$
+
+$endif$
 $if(date)$
 #+DATE: $date$
 

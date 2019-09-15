@@ -1,0 +1,664 @@
+#+TITLE: Go
+#+COMMAND: go
+#+CATEGORY: C-like
+#+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/go.md
+
+{: .-three-column}
+
+* Hello world
+  :PROPERTIES:
+  :CUSTOM_ID: hello-world
+  :END:
+
+{: .-prime}
+
+** hello.go
+   :PROPERTIES:
+   :CUSTOM_ID: hello.go
+   :END:
+
+{: .-file}
+
+#+BEGIN_EXAMPLE
+  package main
+
+  import "fmt"
+
+  func main() {
+    message := greetMe("world")
+    fmt.Println(message)
+  }
+
+  func greetMe(name string) string {
+    return "Hello, " + name + "!"
+  }
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+  $ go build
+#+END_SRC
+
+Or try it out in the [[https://repl.it/languages/go][Go repl]], or
+[[https://tour.golang.org/welcome/1][A Tour of Go]].
+
+* Variables
+  :PROPERTIES:
+  :CUSTOM_ID: variables
+  :END:
+
+** Variable declaration
+   :PROPERTIES:
+   :CUSTOM_ID: variable-declaration
+   :END:
+
+#+BEGIN_EXAMPLE
+  var msg string
+  msg = "Hello"
+#+END_EXAMPLE
+
+** Shortcut of above (Infers type)
+   :PROPERTIES:
+   :CUSTOM_ID: shortcut-of-above-infers-type
+   :END:
+
+#+BEGIN_EXAMPLE
+  msg := "Hello"
+#+END_EXAMPLE
+
+* Constants
+  :PROPERTIES:
+  :CUSTOM_ID: constants
+  :END:
+
+#+BEGIN_EXAMPLE
+  const Phi = 1.618
+#+END_EXAMPLE
+
+Constants can be character, string, boolean, or numeric values.
+
+See: [[https://tour.golang.org/basics/15][Constants]]
+
+{: .-three-column}
+
+* Strings
+  :PROPERTIES:
+  :CUSTOM_ID: strings
+  :END:
+
+#+BEGIN_EXAMPLE
+  str := "Hello"
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  str := `Multiline
+  string`
+#+END_EXAMPLE
+
+Strings are of type =string=.
+
+* Numbers
+  :PROPERTIES:
+  :CUSTOM_ID: numbers
+  :END:
+
+** Typical types
+   :PROPERTIES:
+   :CUSTOM_ID: typical-types
+   :END:
+
+#+BEGIN_EXAMPLE
+  num := 3          // int
+  num := 3.         // float64
+  num := 3 + 4i     // complex128
+  num := byte('a')  // byte (alias for uint8)
+#+END_EXAMPLE
+
+** Other types
+   :PROPERTIES:
+   :CUSTOM_ID: other-types
+   :END:
+
+#+BEGIN_EXAMPLE
+  var u uint = 7        // uint (unsigned)
+  var p float32 = 22.7  // 32-bit float
+#+END_EXAMPLE
+
+* Arrays
+  :PROPERTIES:
+  :CUSTOM_ID: arrays
+  :END:
+
+#+BEGIN_EXAMPLE
+  // var numbers [5]int
+  numbers := [...]int{0, 0, 0, 0, 0}
+#+END_EXAMPLE
+
+Arrays have a fixed size.
+
+* Slices
+  :PROPERTIES:
+  :CUSTOM_ID: slices
+  :END:
+
+#+BEGIN_EXAMPLE
+  slice := []int{2, 3, 4}
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  slice := []byte("Hello")
+#+END_EXAMPLE
+
+Slices have a dynamic size, unlike arrays.
+
+* Pointers
+  :PROPERTIES:
+  :CUSTOM_ID: pointers
+  :END:
+
+#+BEGIN_EXAMPLE
+  func main () {
+    b := *getPointer()
+    fmt.Println("Value is", b)
+  }
+#+END_EXAMPLE
+
+{: data-line="2"}
+
+#+BEGIN_EXAMPLE
+  func getPointer () (myPointer *int) {
+    a := 234
+    return &a
+  }
+#+END_EXAMPLE
+
+{: data-line="3"}
+
+Pointers point to a memory location of a variable. Go is fully
+garbage-collected.
+
+See: [[https://tour.golang.org/moretypes/1][Pointers]]
+
+* Type conversions
+  :PROPERTIES:
+  :CUSTOM_ID: type-conversions
+  :END:
+
+#+BEGIN_EXAMPLE
+  i := 2
+  f := float64(i)
+  u := uint(i)
+#+END_EXAMPLE
+
+See: [[https://tour.golang.org/basics/13][Type conversions]]
+
+{: .-three-column}
+
+* Conditional
+  :PROPERTIES:
+  :CUSTOM_ID: conditional
+  :END:
+
+#+BEGIN_EXAMPLE
+  if day == "sunday" || day == "saturday" {
+    rest()
+  } else if day == "monday" && isTired() {
+    groan()
+  } else {
+    work()
+  }
+#+END_EXAMPLE
+
+{: data-line="1,3,5"}
+
+See: [[https://tour.golang.org/flowcontrol/5][If]]
+
+* Statements in if
+  :PROPERTIES:
+  :CUSTOM_ID: statements-in-if
+  :END:
+
+#+BEGIN_EXAMPLE
+  if _, err := getResult(); err != nil {
+    fmt.Println("Uh oh")
+  }
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+A condition in an =if= statement can be preceded with a statement before
+a =;=.
+
+See: [[https://tour.golang.org/flowcontrol/6][If with a short
+statement]]
+
+* Switch
+  :PROPERTIES:
+  :CUSTOM_ID: switch
+  :END:
+
+#+BEGIN_EXAMPLE
+  switch day {
+    case "sunday":
+      // cases don't "fall through" by default!
+      fallthrough
+
+    case "saturday":
+      rest()
+
+    default:
+      work()
+  }
+#+END_EXAMPLE
+
+See: [[https://github.com/golang/go/wiki/Switch][Switch]]
+
+* For loop
+  :PROPERTIES:
+  :CUSTOM_ID: for-loop
+  :END:
+
+#+BEGIN_EXAMPLE
+    for count := 0; count <= 10; count++ {
+          fmt.Println("My counter is at", count)
+      }
+#+END_EXAMPLE
+
+See: [[https://tour.golang.org/flowcontrol/1][For loops]]
+
+* For-Range loop
+  :PROPERTIES:
+  :CUSTOM_ID: for-range-loop
+  :END:
+
+#+BEGIN_EXAMPLE
+    entry := []string{"Jack","John","Jones"}
+    for i, val := range entry {
+      fmt.Printf("At position %d, the character %s is present\n", i, val)
+    }
+#+END_EXAMPLE
+
+See: [[https://gobyexample.com/range][For-Range loops]]
+
+{: .-three-column}
+
+* Lambdas
+  :PROPERTIES:
+  :CUSTOM_ID: lambdas
+  :END:
+
+#+BEGIN_EXAMPLE
+  myfunc := func() bool {
+    return x > 10000
+  }
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+Functions are first class objects.
+
+* Multiple return types
+  :PROPERTIES:
+  :CUSTOM_ID: multiple-return-types
+  :END:
+
+#+BEGIN_EXAMPLE
+  a, b := getMessage()
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  func getMessage() (a string, b string) {
+    return "Hello", "World"
+  }
+#+END_EXAMPLE
+
+{: data-line="2"}
+
+* Named return values
+  :PROPERTIES:
+  :CUSTOM_ID: named-return-values
+  :END:
+
+#+BEGIN_EXAMPLE
+  func split(sum int) (x, y int) {
+    x = sum * 4 / 9
+    y = sum - x
+    return
+  }
+#+END_EXAMPLE
+
+{: data-line="4"}
+
+By defining the return value names in the signature, a =return= (no
+args) will return variables with those names.
+
+See: [[https://tour.golang.org/basics/7][Named return values]]
+
+{: .-three-column}
+
+* Importing
+  :PROPERTIES:
+  :CUSTOM_ID: importing
+  :END:
+
+#+BEGIN_EXAMPLE
+  import "fmt"
+  import "math/rand"
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  import (
+    "fmt"        // gives fmt.Println
+    "math/rand"  // gives rand.Intn
+  )
+#+END_EXAMPLE
+
+Both are the same.
+
+See: [[https://tour.golang.org/basics/1][Importing]]
+
+* Aliases
+  :PROPERTIES:
+  :CUSTOM_ID: aliases
+  :END:
+
+#+BEGIN_EXAMPLE
+  import r "math/rand"
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+#+BEGIN_EXAMPLE
+  r.Intn()
+#+END_EXAMPLE
+
+* Exporting names
+  :PROPERTIES:
+  :CUSTOM_ID: exporting-names
+  :END:
+
+#+BEGIN_EXAMPLE
+  func Hello () {
+    ···
+  }
+#+END_EXAMPLE
+
+Exported names begin with capital letters.
+
+See: [[https://tour.golang.org/basics/3][Exported names]]
+
+* Packages
+  :PROPERTIES:
+  :CUSTOM_ID: packages-1
+  :END:
+
+#+BEGIN_EXAMPLE
+  package hello
+#+END_EXAMPLE
+
+Every package file has to start with =package=.
+
+{: .-three-column}
+
+* Goroutines
+  :PROPERTIES:
+  :CUSTOM_ID: goroutines
+  :END:
+
+#+BEGIN_EXAMPLE
+  func main() {
+    // A "channel"
+    ch := make(chan string)
+
+    // Start concurrent routines
+    go push("Moe", ch)
+    go push("Larry", ch)
+    go push("Curly", ch)
+
+    // Read 3 results
+    // (Since our goroutines are concurrent,
+    // the order isn't guaranteed!)
+    fmt.Println(<-ch, <-ch, <-ch)
+  }
+#+END_EXAMPLE
+
+{: data-line="3,6,7,8,13"}
+
+#+BEGIN_EXAMPLE
+  func push(name string, ch chan string) {
+    msg := "Hey, " + name
+    ch <- msg
+  }
+#+END_EXAMPLE
+
+{: data-line="3"}
+
+Channels are concurrency-safe communication objects, used in goroutines.
+
+See: [[https://tour.golang.org/concurrency/1][Goroutines]],
+[[https://tour.golang.org/concurrency/2][Channels]]
+
+* Buffered channels
+  :PROPERTIES:
+  :CUSTOM_ID: buffered-channels
+  :END:
+
+#+BEGIN_EXAMPLE
+  ch := make(chan int, 2)
+  ch <- 1
+  ch <- 2
+  ch <- 3
+  // fatal error:
+  // all goroutines are asleep - deadlock!
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+Buffered channels limit the amount of messages it can keep.
+
+See: [[https://tour.golang.org/concurrency/3][Buffered channels]]
+
+* Closing channels
+  :PROPERTIES:
+  :CUSTOM_ID: closing-channels
+  :END:
+
+** Closes a channel
+   :PROPERTIES:
+   :CUSTOM_ID: closes-a-channel
+   :END:
+
+#+BEGIN_EXAMPLE
+  ch <- 1
+  ch <- 2
+  ch <- 3
+  close(ch)
+#+END_EXAMPLE
+
+{: data-line="4"}
+
+** Iterates across a channel until its closed
+   :PROPERTIES:
+   :CUSTOM_ID: iterates-across-a-channel-until-its-closed
+   :END:
+
+#+BEGIN_EXAMPLE
+  for i := range ch {
+    ···
+  }
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+** Closed if =ok == false=
+   :PROPERTIES:
+   :CUSTOM_ID: closed-if-ok-false
+   :END:
+
+#+BEGIN_EXAMPLE
+  v, ok := <- ch
+#+END_EXAMPLE
+
+See: [[https://tour.golang.org/concurrency/4][Range and close]]
+
+* Defer
+  :PROPERTIES:
+  :CUSTOM_ID: defer
+  :END:
+
+#+BEGIN_EXAMPLE
+  func main() {
+    defer fmt.Println("Done")
+    fmt.Println("Working...")
+  }
+#+END_EXAMPLE
+
+{: data-line="2"}
+
+Defers running a function until the surrounding function returns. The
+arguments are evaluated immediately, but the function call is not ran
+until later.
+
+See: [[https://blog.golang.org/defer-panic-and-recover][Defer, panic and
+recover]]
+
+* Deferring functions
+  :PROPERTIES:
+  :CUSTOM_ID: deferring-functions
+  :END:
+
+#+BEGIN_EXAMPLE
+  func main() {
+    defer func() {
+      fmt.Println("Done")
+    }()
+    fmt.Println("Working...")
+  }
+#+END_EXAMPLE
+
+{: data-line="2,3,4"}
+
+Lambdas are better suited for defer blocks.
+
+{: .-three-column}
+
+* Defining
+  :PROPERTIES:
+  :CUSTOM_ID: defining
+  :END:
+
+#+BEGIN_EXAMPLE
+  type Vertex struct {
+    X int
+    Y int
+  }
+#+END_EXAMPLE
+
+{: data-line="1,2,3,4"}
+
+#+BEGIN_EXAMPLE
+  func main() {
+    v := Vertex{1, 2}
+    v.X = 4
+    fmt.Println(v.X, v.Y)
+  }
+#+END_EXAMPLE
+
+See: [[https://tour.golang.org/moretypes/2][Structs]]
+
+* Literals
+  :PROPERTIES:
+  :CUSTOM_ID: literals
+  :END:
+
+#+BEGIN_EXAMPLE
+  v := Vertex{X: 1, Y: 2}
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  // Field names can be omitted
+  v := Vertex{1, 2}
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  // Y is implicit
+  v := Vertex{X: 1}
+#+END_EXAMPLE
+
+You can also put field names.
+
+* Pointers to structs
+  :PROPERTIES:
+  :CUSTOM_ID: pointers-to-structs
+  :END:
+
+#+BEGIN_EXAMPLE
+  v := &Vertex{1, 2}
+  v.X = 2
+#+END_EXAMPLE
+
+Doing =v.X= is the same as doing =(*v).X=, when =v= is a pointer.
+
+* Receivers
+  :PROPERTIES:
+  :CUSTOM_ID: receivers
+  :END:
+
+#+BEGIN_EXAMPLE
+  type Vertex struct {
+    X, Y float64
+  }
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  func (v Vertex) Abs() float64 {
+    return math.Sqrt(v.X * v.X + v.Y * v.Y)
+  }
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+#+BEGIN_EXAMPLE
+  v: = Vertex{1, 2}
+  v.Abs()
+#+END_EXAMPLE
+
+There are no classes, but you can define functions with /receivers/.
+
+See: [[https://tour.golang.org/methods/1][Methods]]
+
+* Mutation
+  :PROPERTIES:
+  :CUSTOM_ID: mutation
+  :END:
+
+#+BEGIN_EXAMPLE
+  func (v *Vertex) Scale(f float64) {
+    v.X = v.X * f
+    v.Y = v.Y * f
+  }
+#+END_EXAMPLE
+
+{: data-line="1"}
+
+#+BEGIN_EXAMPLE
+  v := Vertex{6, 12}
+  v.Scale(0.5)
+  // `v` is updated
+#+END_EXAMPLE
+
+By defining your receiver as a pointer (=*Vertex=), you can do
+mutations.
+
+See: [[https://tour.golang.org/methods/4][Pointer receivers]]
+
+- [[https://tour.golang.org/welcome/1][A tour of Go]]
+  /(tour.golang.org)/
+- [[https://github.com/golang/go/wiki/][Golang wiki]] /(github.com)/
+- [[https://awesome-go.com/][Awesome Go]] /(awesome-go.com)/
+- [[https://gobyexample.com/][Go by Example]] /(gobyexample.com)/
+- [[https://golang.org/doc/effective_go.html][Effective Go]]
+  /(golang.org)/
+- [[https://www.youtube.com/channel/UC_BzFbxG2za3bp5NRRRXJSw][JustForFunc
+  Youtube]] /(youtube.com)/
+- [[https://github.com/golang/go/wiki/CodeReviewComments][Style Guide]]
+  /(github.com)/

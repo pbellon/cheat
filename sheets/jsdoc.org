@@ -1,116 +1,141 @@
-#+TITLE:       Jsdoc
-#+COMMAND:     jsdoc
-#+CATEGORY:    JavaScript
-#+DESCRIPTION: Comment based documentation generation syntax
-#+SOURCE:      https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md
+#+TITLE: Jsdoc
+#+COMMAND: jsdoc
+#+CATEGORY: JavaScript
+#+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md
+
 * Functions
+  :PROPERTIES:
+  :CUSTOM_ID: functions
+  :END:
+
 #+BEGIN_SRC js
- /**
-  * This is a function.
-  *
-  * @param {string} n - A string param
-  * @return {string} A good string
-  *
-  * @example
-  *
-  *     foo('hello')
-  */
+  /**
+   * This is a function.
+   *
+   * @param {string} n - A string param
+   * @return {string} A good string
+   *
+   * @example
+   *
+   *     foo('hello')
+   */
 
   function foo(n) { return n }
 #+END_SRC
 
-See: <http://usejsdoc.org/index.html>
+See: [[http://usejsdoc.org/index.html]]
 
 * Types
-  
-| Type                            | Description                           |
-|---------------------------------+---------------------------------------|
-| `@param {string=} n`            | Optional                              |
-| `@param {string} [n]`           | Optional                              |
-| `@param {(string\vert{}number)} n`    | Multiple types                        |
-| `@param {*} n`                  | Any type                              |
-| `@param {...string} n`          | Repeatable arguments                  |
-| `@param {string} [n="hi"]`      | Optional with default                 |
-| `@param {string[]} n`           | Array of strings                      |
-| `@return {Promise<string[]>} n` | Promise fulfilled by array of strings |
+  :PROPERTIES:
+  :CUSTOM_ID: types
+  :END:
 
-See: <http://usejsdoc.org/tags-type.html>
+| Type                              | Description                             |
+|-----------------------------------+-----------------------------------------|
+| =@param {string=} n=              | Optional                                |
+| =@param {string} [n]=             | Optional                                |
+| =@param {(string\|number)} n=     | Multiple types                          |
+| =@param {*} n=                    | Any type                                |
+| =@param {...string} n=            | Repeatable arguments                    |
+| =@param {string} [n="hi"]=        | Optional with default                   |
+| =@param {string[]} n=             | Array of strings                        |
+| =@return {Promise<string[]>} n=   | Promise fulfilled by array of strings   |
+
+See: [[http://usejsdoc.org/tags-type.html]]
 
 * Variables
-   #+BEGIN_SRC js
-   /**
-    * @type {number}
-    */
-   var FOO = 1
-   #+END_SRC
+  :PROPERTIES:
+  :CUSTOM_ID: variables
+  :END:
 
-   #+BEGIN_SRC js
-   /**
-    * @const {number}
-    */
-   const FOO = 1
-   #+END_SRC
-    
+#+BEGIN_SRC js
+  /**
+   * @type {number}
+   */
+  var FOO = 1
+#+END_SRC
+
+#+BEGIN_SRC js
+  /**
+   * @const {number}
+   */
+  const FOO = 1
+#+END_SRC
+
 * Typedef
+  :PROPERTIES:
+  :CUSTOM_ID: typedef
+  :END:
 
-   #+BEGIN_SRC js
-   /**
-    * A song
-    * @typedef {Object} Song
-    * @property {string} title - The title
-    * @property {string} artist - The artist
-    * @property {number} year - The year
-    */
-   #+END_SRC
+#+BEGIN_SRC js
+  /**
+   * A song
+   * @typedef {Object} Song
+   * @property {string} title - The title
+   * @property {string} artist - The artist
+   * @property {number} year - The year
+   */
+#+END_SRC
 
-   #+BEGIN_SRC js
-   /**
-    * Plays a song
-    * @param {Song} song - The {@link Song} to be played
-    */
-   function play (song) {
-   }
-   #+END_SRC
+#+BEGIN_SRC js
+  /**
+   * Plays a song
+   * @param {Song} song - The {@link Song} to be played
+   */
 
-   See: <http://usejsdoc.org/tags-typedef.html>
+  function play (song) {
+  }
+#+END_SRC
+
+See: [[http://usejsdoc.org/tags-typedef.html]]
 
 * Importing types
+  :PROPERTIES:
+  :CUSTOM_ID: importing-types
+  :END:
 
-   #+BEGIN_SRC js
-   /**
-    * @typedef {import('./Foo').default} Bar
-    */
+#+BEGIN_SRC js
+  /**
+   * @typedef {import('./Foo').default} Bar
+   */
 
-   /**
-    * @param {Bar} x
-    */
-   function test(x) { }
-   #+END_SRC
+  /**
+   * @param {Bar} x
+   */
 
-   This syntax is [[https://github.com/Microsoft/TypeScript/wiki/JsDoc-support-in-JavaScript*import-types][TypeScript-specific]].
+  function test(x) { }
+#+END_SRC
+
+This syntax is
+[[https://github.com/Microsoft/TypeScript/wiki/JsDoc-support-in-JavaScript#import-types][TypeScript-specific]].
 
 * Other keywords
+  :PROPERTIES:
+  :CUSTOM_ID: other-keywords
+  :END:
 
-   #+BEGIN_SRC js
-   /**
-    * @throws {FooException}
-    * @private
-    * @deprecated
-    * @see
-    *
-    * @function
-    * @class
-    */
-   #+END_SRC
+#+BEGIN_SRC js
+  /**
+   * @throws {FooException}
+   * @private
+   * @deprecated
+   * @see
+   *
+   * @function
+   * @class
+   */
+#+END_SRC
 
 * Renaming
+  :PROPERTIES:
+  :CUSTOM_ID: renaming
+  :END:
 
-   #+BEGIN_SRC js
-   /*
-    * @alias Foo.bar
-    * @name Foo.bar
-    */
-   #+END_SRC
+#+BEGIN_SRC js
+  /*
+   * @alias Foo.bar
+   * @name Foo.bar
+   */
+#+END_SRC
 
-   Prefer `alias` over `name`. See: <http://usejsdoc.org/tags-alias.html>
-
+Prefer =alias= over =name=. See: [[http://usejsdoc.org/tags-alias.html]]

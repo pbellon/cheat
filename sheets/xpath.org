@@ -1,0 +1,526 @@
+#+TITLE: Xpath
+#+COMMAND: xpath
+#+CATEGORY: HTML
+#+DESCRIPTION: $x('//div//p///') == $('div p /'), $x('//[@id="item"]') == $('#item'),
+and many other Xpath examples.
+
+#+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/xpath.md
+
+* Xpath test bed
+  :PROPERTIES:
+  :CUSTOM_ID: xpath-test-bed
+  :END:
+
+Test queries in the Xpath test bed:
+[[http://www.whitebeam.org/library/guide/TechNotes/xpathtestbed.rhtm][Xpath
+test bed]] /(whitebeam.org)/
+
+* Browser console
+  :PROPERTIES:
+  :CUSTOM_ID: browser-console
+  :END:
+
+#+BEGIN_SRC js
+  $x('//div')
+#+END_SRC
+
+Works in Firefox and Chrome.
+
+* Descendant selectors
+  :PROPERTIES:
+  :CUSTOM_ID: descendant-selectors
+  :END:
+
+| CSS              | Xpath         | ?                  |
+|------------------+---------------+--------------------|
+| =h1=             | =//h1=        | [[#prefixes][?]]   |
+| =div p=          | =//div//p=    | [[#axes][?]]       |
+| =ul > li=        | =//ul/li=     | [[#axes][?]]       |
+| =ul > li > a=    | =//ul/li/a=   |                    |
+| =div > *=        | =//div/*=     |                    |
+| ----             | ----          | --                 |
+| =:root=          | =/=           | [[#prefixes][?]]   |
+| =:root > body=   | =/body=       |                    |
+
+{: .xp}
+
+* Attribute selectors
+  :PROPERTIES:
+  :CUSTOM_ID: attribute-selectors
+  :END:
+
+| CSS                      | Xpath                                                        | ?                          |
+|--------------------------+--------------------------------------------------------------+----------------------------|
+| =#id=                    | =//*[@id="id"]=                                              | [[#predicates][?]]         |
+| =.class=                 | =//*[@class="class"]= /...[[#class-check][kinda]]/           |                            |
+| =input[type="submit"]=   | =//input[@type="submit"]=                                    |                            |
+| =a#abc[for="xyz"]=       | =//a[@id="abc"][@for="xyz"]=                                 | [[#chaining-order][?]]     |
+| =a[rel]=                 | =//a[@rel]=                                                  |                            |
+| ----                     | ----                                                         | --                         |
+| =a[href^='/']=           | =//a[starts-with(@href, '/')]=                               | [[#string-functions][?]]   |
+| =a[href$='pdf']=         | =//a[ends-with(@href, '.pdf')]=                              |                            |
+| =a[href*='://']=         | =//a[contains(@href, '://')]=                                |                            |
+| =a[rel~='help']=         | =//a[contains(@rel, 'help')]= /...[[#class-check][kinda]]/   |                            |
+
+{: .xp}
+
+* Order selectors
+  :PROPERTIES:
+  :CUSTOM_ID: order-selectors
+  :END:
+
+| CSS                      | Xpath                 | ?                  |
+|--------------------------+-----------------------+--------------------|
+| =ul > li:first-child=    | =//ul/li[1]=          | [[#indexing][?]]   |
+| =ul > li:nth-child(2)=   | =//ul/li[2]=          |                    |
+| =ul > li:last-child=     | =//ul/li[last()]=     |                    |
+| =li#id:first-child=      | =//li[@id="id"][1]=   |                    |
+| =a:first-child=          | =//a[1]=              |                    |
+| =a:last-child=           | =//a[last()]=         |                    |
+
+{: .xp}
+
+* Siblings
+  :PROPERTIES:
+  :CUSTOM_ID: siblings
+  :END:
+
+| CSS          | Xpath                                  | ?                    |
+|--------------+----------------------------------------+----------------------|
+| =h1 ~ ul=    | =//h1/following-sibling::ul=           | [[#using-axes][?]]   |
+| =h1 + ul=    | =//h1/following-sibling::ul[1]=        |                      |
+| =h1 ~ #id=   | =//h1/following-sibling::[@id="id"]=   |                      |
+
+{: .xp}
+
+* jQuery
+  :PROPERTIES:
+  :CUSTOM_ID: jquery
+  :END:
+
+| CSS                            | Xpath                              | ?                    |
+|--------------------------------+------------------------------------+----------------------|
+| =$('ul > li').parent()=        | =//ul/li/..=                       | [[#other-axes][?]]   |
+| =$('li').closest('section')=   | =//li/ancestor-or-self::section=   |                      |
+| =$('a').attr('href')=          | =//a/@href=                        | [[#steps][?]]        |
+| =$('span').text()=             | =//span/text()=                    |                      |
+
+{: .xp}
+
+* Other things
+  :PROPERTIES:
+  :CUSTOM_ID: other-things
+  :END:
+
+| CSS                       | Xpath                               | ?                           |
+|---------------------------+-------------------------------------+-----------------------------|
+| =h1:not([id])=            | =//h1[not(@id)]=                    | [[#boolean-functions][?]]   |
+| Text match                | =//button[text()="Submit"]=         | [[#operators][?]]           |
+| Text match (substring)    | =//button[contains(text(),"Go")]=   |                             |
+| Arithmetic                | =//product[@price > 2.50]=          |                             |
+| Has children              | =//ul[*]=                           |                             |
+| Has children (specific)   | =//ul[li]=                          |                             |
+| Or logic                  | =//a[@name or @href]=               | [[#operators][?]]           |
+| Union (joins results)     | =//a | //div=                       | [[#unions][?]]              |
+
+{: .xp}
+
+#+BEGIN_HTML
+  <style>
+  /* ensure tables align */
+  table.xp {table-layout: fixed;}
+  table.xp tr>:nth-child(1) {width: 35%;}
+  table.xp tr>:nth-child(2) {width: auto;}
+  table.xp tr>:nth-child(3) {width: 10%; text-align:right;}
+  </style>
+#+END_HTML
+
+* Class check
+  :PROPERTIES:
+  :CUSTOM_ID: class-check
+  :END:
+
+#+BEGIN_SRC sh
+  //div[contains(concat(' ',normalize-space(@class),' '),' foobar ')]
+#+END_SRC
+
+Xpath doesn't have the "check if part of space-separated list" operator,
+so this is the workaround
+([[http://pivotallabs.com/xpath-css-class-matching/][source]]).
+
+* Steps and axes
+  :PROPERTIES:
+  :CUSTOM_ID: steps-and-axes
+  :END:
+
+#+BEGIN_VERSE
+  =//= | =ul= | =/= | =a[@id='link']= |
+  Axis | Step | Axis | Step |
+#+END_VERSE
+
+{: .-css-breakdown}
+
+* Prefixes
+  :PROPERTIES:
+  :CUSTOM_ID: prefixes
+  :END:
+
+| Prefix   | Example                 | What       |
+|----------+-------------------------+------------|
+| =//=     | =//hr[@class='edge']=   | Anywhere   |
+| =./=     | =./a=                   | Relative   |
+| =/=      | =/html/body/div=        | Root       |
+
+{: .-headers}
+
+Begin your expression with any of these.
+
+* Axes
+  :PROPERTIES:
+  :CUSTOM_ID: axes
+  :END:
+
+| Axis   | Example               | What         |
+|--------+-----------------------+--------------|
+| =/=    | =//ul/li/a=           | Child        |
+| =//=   | =//[@id="list"]//a=   | Descendant   |
+
+{: .-headers}
+
+Separate your steps with =/=. Use two (=//=) if you don't want to select
+direct children.
+
+* Steps
+  :PROPERTIES:
+  :CUSTOM_ID: steps
+  :END:
+
+#+BEGIN_SRC sh
+  //div
+  //div[@name='box']
+  //[@id='link']
+#+END_SRC
+
+A step may have an element name (=div=) and [[#predicate][predicates]]
+(=[...]=). Both are optional. They can also be these other things:
+
+#+BEGIN_SRC sh
+  //a/text()     #=> "Go home"
+  //a/@href      #=> "index.html"
+  //a/*          #=> All a's child elements
+#+END_SRC
+
+* Predicates
+  :PROPERTIES:
+  :CUSTOM_ID: predicates-1
+  :END:
+
+#+BEGIN_SRC sh
+  //div[true()]
+  //div[@class="head"]
+  //div[@class="head"][@id="top"]
+#+END_SRC
+
+Restricts a nodeset only if some condition is true. They can be chained.
+
+* Operators
+  :PROPERTIES:
+  :CUSTOM_ID: operators
+  :END:
+
+#+BEGIN_SRC sh
+  # Comparison
+  //a[@id = "xyz"]
+  //a[@id != "xyz"]
+  //a[@price > 25]
+#+END_SRC
+
+#+BEGIN_SRC sh
+  # Logic (and/or)
+  //div[@id="head" and position()=2]
+  //div[(x and y) or not(z)]
+#+END_SRC
+
+Use comparison and logic operators to make conditionals.
+
+* Using nodes
+  :PROPERTIES:
+  :CUSTOM_ID: using-nodes
+  :END:
+
+#+BEGIN_SRC sh
+  # Use them inside functions
+  //ul[count(li) > 2]
+  //ul[count(li[@class='hide']) > 0]
+#+END_SRC
+
+#+BEGIN_SRC sh
+  # This returns `<ul>` that has a `<li>` child
+  //ul[li]
+#+END_SRC
+
+You can use nodes inside predicates.
+
+* Indexing
+  :PROPERTIES:
+  :CUSTOM_ID: indexing
+  :END:
+
+#+BEGIN_SRC sh
+  //a[1]                  # first <a>
+  //a[last()]             # last <a>
+  //ol/li[2]              # second <li>
+  //ol/li[position()=2]   # same as above
+  //ol/li[position()>1]   # :not(:first-child)
+#+END_SRC
+
+Use =[]= with a number, or =last()= or =position()=.
+
+* Chaining order
+  :PROPERTIES:
+  :CUSTOM_ID: chaining-order
+  :END:
+
+#+BEGIN_SRC sh
+  a[1][@href='/']
+  a[@href='/'][1]
+#+END_SRC
+
+Order is significant, these two are different.
+
+* Nesting predicates
+  :PROPERTIES:
+  :CUSTOM_ID: nesting-predicates
+  :END:
+
+#+BEGIN_EXAMPLE
+  //section[//h1[@id='hi']]
+#+END_EXAMPLE
+
+This returns =<section>= if it has an =<h1>= descendant with =id='hi'=.
+
+* Node functions
+  :PROPERTIES:
+  :CUSTOM_ID: node-functions
+  :END:
+
+#+BEGIN_SRC sh
+  name()                     # //[starts-with(name(), 'h')]
+  text()                     # //button[text()="Submit"]
+                             # //button/text()
+  lang(str)
+  namespace-uri()
+#+END_SRC
+
+#+BEGIN_SRC sh
+  count()                    # //table[count(tr)=1]
+  position()                 # //ol/li[position()=2]
+#+END_SRC
+
+* Boolean functions
+  :PROPERTIES:
+  :CUSTOM_ID: boolean-functions
+  :END:
+
+#+BEGIN_SRC sh
+  not(expr)                  # button[not(starts-with(text(),"Submit"))]
+#+END_SRC
+
+* String functions
+  :PROPERTIES:
+  :CUSTOM_ID: string-functions
+  :END:
+
+#+BEGIN_SRC sh
+  contains()                 # font[contains(@class,"head")]
+  starts-with()              # font[starts-with(@class,"head")]
+  ends-with()                # font[ends-with(@class,"head")]
+#+END_SRC
+
+#+BEGIN_SRC sh
+  concat(x,y)
+  substring(str, start, len)
+  substring-before("01/02", "/")  #=> 01
+  substring-after("01/02", "/")   #=> 02
+  translate()
+  normalize-space()
+  string-length()
+#+END_SRC
+
+* Type conversion
+  :PROPERTIES:
+  :CUSTOM_ID: type-conversion
+  :END:
+
+#+BEGIN_SRC sh
+  string()
+  number()
+  boolean()
+#+END_SRC
+
+* Using axes
+  :PROPERTIES:
+  :CUSTOM_ID: using-axes
+  :END:
+
+#+BEGIN_SRC sh
+  //ul/li                       # ul > li
+  //ul/child::li                # ul > li (same)
+  //ul/following-sibling::li    # ul ~ li
+  //ul/descendant-or-self::li   # ul li
+  //ul/ancestor-or-self::li     # $('ul').closest('li')
+#+END_SRC
+
+Steps of an expression are separated by =/=, usually used to pick child
+nodes. That's not always true: you can specify a different "axis" with
+=::=.
+
+#+BEGIN_VERSE
+  =//= | =ul= | =/child::= | =li= |
+  Axis | Step | Axis | Step |
+#+END_VERSE
+
+{: .-css-breakdown}
+
+* Child axis
+  :PROPERTIES:
+  :CUSTOM_ID: child-axis
+  :END:
+
+#+BEGIN_SRC sh
+  # both the same
+  //ul/li/a
+  //child::ul/child::li/child::a
+#+END_SRC
+
+=child::= is the default axis. This makes =//a/b/c= work.
+
+#+BEGIN_SRC sh
+  # both the same
+  # this works because `child::li` is truthy, so the predicate succeeds
+  //ul[li]
+  //ul[child::li]
+#+END_SRC
+
+#+BEGIN_SRC sh
+  # both the same
+  //ul[count(li) > 2]
+  //ul[count(child::li) > 2]
+#+END_SRC
+
+* Descendant-or-self axis
+  :PROPERTIES:
+  :CUSTOM_ID: descendant-or-self-axis
+  :END:
+
+#+BEGIN_SRC sh
+  # both the same
+  //div//h4
+  //div/descendant-or-self::h4
+#+END_SRC
+
+=//= is short for the =descendant-or-self::= axis.
+
+#+BEGIN_SRC sh
+  # both the same
+  //ul//[last()]
+  //ul/descendant-or-self::[last()]
+#+END_SRC
+
+* Other axes
+  :PROPERTIES:
+  :CUSTOM_ID: other-axes
+  :END:
+
+| Axis                   | Abbrev   | Notes                                              |
+|------------------------+----------+----------------------------------------------------|
+| =ancestor=             |          |                                                    |
+| =ancestor-or-self=     |          |                                                    |
+| ---                    | ---      | ---                                                |
+| =attribute=            | =@=      | =@href= is short for =attribute::href=             |
+| =child=                |          | =div= is short for =child::div=                    |
+| =descendant=           |          |                                                    |
+| =descendant-or-self=   | =//=     | =//= is short for =/descendant-or-self::node()/=   |
+| =namespace=            |          |                                                    |
+| ---                    | ---      | ---                                                |
+| =self=                 | =.=      | =.= is short for =self::node()=                    |
+| =parent=               | =..=     | =..= is short for =parent::node()=                 |
+| ---                    | ---      | ---                                                |
+| =following=            |          |                                                    |
+| =following-sibling=    |          |                                                    |
+| =preceding=            |          |                                                    |
+| =preceding-sibling=    |          |                                                    |
+
+{: .-headers}
+
+There are other axes you can use.
+
+* Unions
+  :PROPERTIES:
+  :CUSTOM_ID: unions
+  :END:
+
+#+BEGIN_SRC sh
+  //a | //span
+#+END_SRC
+
+Use =|= to join two expressions.
+
+* Examples
+  :PROPERTIES:
+  :CUSTOM_ID: examples
+  :END:
+
+#+BEGIN_SRC sh
+  //*                 # all elements
+  count(//*)          # count all elements
+  (//h1)[1]/text()    # text of the first h1 heading
+  //li[span]          # find a <li> with an <span> inside it
+                      # ...expands to //li[child::span]
+  //ul/li/..          # use .. to select a parent
+#+END_SRC
+
+* Find a parent
+  :PROPERTIES:
+  :CUSTOM_ID: find-a-parent
+  :END:
+
+#+BEGIN_SRC sh
+  //section[h1[@id='section-name']]
+#+END_SRC
+
+Finds a =<section>= that directly contains =h1#section-name=
+
+#+BEGIN_SRC sh
+  //section[//h1[@id='section-name']]
+#+END_SRC
+
+Finds a =<section>= that contains =h1#section-name=. (Same as above, but
+uses descendant-or-self instead of child)
+
+* Closest
+  :PROPERTIES:
+  :CUSTOM_ID: closest
+  :END:
+
+#+BEGIN_SRC sh
+  ./ancestor-or-self::[@class="box"]
+#+END_SRC
+
+Works like jQuery's =$().closest('.box')=.
+
+* Attributes
+  :PROPERTIES:
+  :CUSTOM_ID: attributes
+  :END:
+
+#+BEGIN_SRC sh
+  //item[@price > 2*@discount]
+#+END_SRC
+
+Finds =<item>= and check its attributes
+
+{: .-one-column}
+
+- [[http://www.whitebeam.org/library/guide/TechNotes/xpathtestbed.rhtm][Xpath
+  test bed]] /(whitebeam.org)/

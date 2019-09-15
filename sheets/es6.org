@@ -1,0 +1,756 @@
+#+TITLE: ES2015+
+#+COMMAND: es6
+#+CATEGORY: JavaScript
+#+DESCRIPTION: A quick overview of new JavaScript features in ES2015, ES2016, ES2017,
+ES2018 and beyond.
+
+#+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/es6.md
+
+* Block scoping
+  :PROPERTIES:
+  :CUSTOM_ID: block-scoping
+  :END:
+
+** Let
+   :PROPERTIES:
+   :CUSTOM_ID: let
+   :END:
+
+#+BEGIN_SRC js
+  function fn () {
+    let x = 0
+    if (true) {
+      let x = 1 // only inside this `if`
+    }
+  }
+#+END_SRC
+
+{: data-line="2,4"}
+
+** Const
+   :PROPERTIES:
+   :CUSTOM_ID: const
+   :END:
+
+#+BEGIN_SRC js
+  const a = 1
+#+END_SRC
+
+=let= is the new =var=. Constants work just like =let=, but can't be
+reassigned. See: [[https://babeljs.io/learn-es2015/#let--const][Let and
+const]]
+
+* Backtick strings
+  :PROPERTIES:
+  :CUSTOM_ID: backtick-strings
+  :END:
+
+** Interpolation
+   :PROPERTIES:
+   :CUSTOM_ID: interpolation
+   :END:
+
+#+BEGIN_SRC js
+  const message = `Hello ${name}`
+#+END_SRC
+
+** Multiline strings
+   :PROPERTIES:
+   :CUSTOM_ID: multiline-strings
+   :END:
+
+#+BEGIN_SRC js
+  const str = `
+  hello
+  world
+  `
+#+END_SRC
+
+Templates and multiline strings. See:
+[[https://babeljs.io/learn-es2015/#template-strings][Template strings]]
+
+* Binary and octal literals
+  :PROPERTIES:
+  :CUSTOM_ID: binary-and-octal-literals
+  :END:
+
+#+BEGIN_SRC js
+  let bin = 0b1010010
+  let oct = 0o755
+#+END_SRC
+
+See:
+[[https://babeljs.io/learn-es2015/#binary-and-octal-literals][Binary and
+octal literals]]
+
+* New methods
+  :PROPERTIES:
+  :CUSTOM_ID: new-methods
+  :END:
+
+** New string methods
+   :PROPERTIES:
+   :CUSTOM_ID: new-string-methods
+   :END:
+
+#+BEGIN_SRC js
+  "hello".repeat(3)
+  "hello".includes("ll")
+  "hello".startsWith("he")
+  "hello".padStart(8) // "   hello"
+  "hello".padEnd(8) // "hello   " 
+  "hello".padEnd(8, '!') // hello!!!
+  "\u1E9B\u0323".normalize("NFC")
+#+END_SRC
+
+See:
+[[https://babeljs.io/learn-es2015/#math--number--string--object-apis][New
+methods]]
+
+* Classes
+  :PROPERTIES:
+  :CUSTOM_ID: classes
+  :END:
+
+#+BEGIN_SRC js
+  class Circle extends Shape {
+#+END_SRC
+
+** Constructor
+   :PROPERTIES:
+   :CUSTOM_ID: constructor
+   :END:
+
+#+BEGIN_SRC js
+    constructor (radius) {
+      this.radius = radius
+    }
+#+END_SRC
+
+{: data-line="1"}
+
+** Methods
+   :PROPERTIES:
+   :CUSTOM_ID: methods
+   :END:
+
+#+BEGIN_SRC js
+    getArea () {
+      return Math.PI * 2 * this.radius
+    }
+#+END_SRC
+
+{: data-line="1"}
+
+** Calling superclass methods
+   :PROPERTIES:
+   :CUSTOM_ID: calling-superclass-methods
+   :END:
+
+#+BEGIN_SRC js
+    expand (n) {
+      return super.expand(n) * Math.PI
+    }
+#+END_SRC
+
+{: data-line="2"}
+
+** Static methods
+   :PROPERTIES:
+   :CUSTOM_ID: static-methods
+   :END:
+
+#+BEGIN_SRC js
+    static createFromDiameter(diameter) {
+      return new Circle(diameter / 2)
+    }
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+Syntactic sugar for prototypes. See:
+[[https://babeljs.io/learn-es2015/#classes][Classes]]
+
+* Exponent operator
+  :PROPERTIES:
+  :CUSTOM_ID: exponent-operator
+  :END:
+
+#+BEGIN_SRC js
+  const byte = 2 ** 8
+  // Same as: Math.pow(2, 8)
+#+END_SRC
+
+{: data-line="1"}
+
+{: .-three-column}
+
+* Making promises
+  :PROPERTIES:
+  :CUSTOM_ID: making-promises
+  :END:
+
+#+BEGIN_SRC js
+  new Promise((resolve, reject) => {
+    if (ok) { resolve(result) }
+    else { reject(error) }
+  })
+#+END_SRC
+
+{: data-line="1"}
+
+For asynchronous programming. See:
+[[https://babeljs.io/learn-es2015/#promises][Promises]]
+
+* Using promises
+  :PROPERTIES:
+  :CUSTOM_ID: using-promises
+  :END:
+
+#+BEGIN_SRC js
+  promise
+    .then((result) => { ··· })
+    .catch((error) => { ··· })
+#+END_SRC
+
+{: data-line="2,3"}
+
+* Using promises with finally
+  :PROPERTIES:
+  :CUSTOM_ID: using-promises-with-finally
+  :END:
+
+#+BEGIN_SRC js
+  promise
+    .then((result) => { ··· })
+    .catch((error) => { ··· })
+    .finally(() => { // logic independent of success/error })
+#+END_SRC
+
+{: data-line="4"}
+
+The handler is called when the promise is fulfilled or rejected.
+
+* Promise functions
+  :PROPERTIES:
+  :CUSTOM_ID: promise-functions
+  :END:
+
+#+BEGIN_SRC js
+  Promise.all(···)
+  Promise.race(···)
+  Promise.reject(···)
+  Promise.resolve(···)
+#+END_SRC
+
+* Async-await
+  :PROPERTIES:
+  :CUSTOM_ID: async-await
+  :END:
+
+#+BEGIN_SRC js
+  async function run () {
+    const user = await getUser()
+    const tweets = await getTweets(user)
+    return [user, tweets]
+  }
+#+END_SRC
+
+{: data-line="2,3"}
+
+=async= functions are another way of using functions.
+
+See:
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function][async
+function]]
+
+{: .-three-column}
+
+* Destructuring assignment
+  :PROPERTIES:
+  :CUSTOM_ID: destructuring-assignment
+  :END:
+
+** Arrays
+   :PROPERTIES:
+   :CUSTOM_ID: arrays
+   :END:
+
+#+BEGIN_SRC js
+  const [first, last] = ['Nikola', 'Tesla']
+#+END_SRC
+
+{: data-line="1"}
+
+** Objects
+   :PROPERTIES:
+   :CUSTOM_ID: objects
+   :END:
+
+#+BEGIN_SRC js
+  let {title, author} = {
+    title: 'The Silkworm',
+    author: 'R. Galbraith'
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+Supports for matching arrays and objects. See:
+[[https://babeljs.io/learn-es2015/#destructuring][Destructuring]]
+
+* Default values
+  :PROPERTIES:
+  :CUSTOM_ID: default-values
+  :END:
+
+#+BEGIN_SRC js
+  const scores = [22, 33]
+  const [math = 50, sci = 50, arts = 50] = scores
+#+END_SRC
+
+#+BEGIN_SRC js
+  // Result:
+  // math === 22, sci === 33, arts === 50
+#+END_SRC
+
+Default values can be assigned while destructuring arrays or objects.
+
+* Function arguments
+  :PROPERTIES:
+  :CUSTOM_ID: function-arguments
+  :END:
+
+#+BEGIN_SRC js
+  function greet({ name, greeting }) {
+    console.log(`${greeting}, ${name}!`)
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+#+BEGIN_SRC js
+  greet({ name: 'Larry', greeting: 'Ahoy' })
+#+END_SRC
+
+Destructuring of objects and arrays can be also be done in function
+arguments.
+
+* Default values
+  :PROPERTIES:
+  :CUSTOM_ID: default-values-1
+  :END:
+
+#+BEGIN_SRC js
+  function greet({ name = 'Rauno' } = {}) {
+    console.log(`Hi ${name}!`);
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+#+BEGIN_SRC js
+  greet() // Hi Rauno!
+  greet({ name: 'Larry' }) // Hi Larry!
+#+END_SRC
+
+* Reassigning keys
+  :PROPERTIES:
+  :CUSTOM_ID: reassigning-keys
+  :END:
+
+#+BEGIN_SRC js
+  function printCoordinates({ left: x, top: y }) {
+    console.log(`x: ${x}, y: ${y}`)
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+#+BEGIN_SRC js
+  printCoordinates({ left: 25, top: 90 })
+#+END_SRC
+
+This example assigns =x= to the value of the =left= key.
+
+* Loops
+  :PROPERTIES:
+  :CUSTOM_ID: loops
+  :END:
+
+#+BEGIN_SRC js
+  for (let {title, artist} of songs) {
+    ···
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+The assignment expressions work in loops, too.
+
+* Object destructuring
+  :PROPERTIES:
+  :CUSTOM_ID: object-destructuring
+  :END:
+
+#+BEGIN_SRC js
+  const { id, ...detail } = song;
+#+END_SRC
+
+{: data-line="1"}
+
+Extract some keys individually and remaining keys in the object using
+rest (...) operator
+
+* Object spread
+  :PROPERTIES:
+  :CUSTOM_ID: object-spread
+  :END:
+
+** with Object spread
+   :PROPERTIES:
+   :CUSTOM_ID: with-object-spread
+   :END:
+
+#+BEGIN_SRC js
+  const options = {
+    ...defaults,
+    visible: true
+  }
+#+END_SRC
+
+{: data-line="2"}
+
+** without Object spread
+   :PROPERTIES:
+   :CUSTOM_ID: without-object-spread
+   :END:
+
+#+BEGIN_SRC js
+  const options = Object.assign(
+    {}, defaults,
+    { visible: true })
+#+END_SRC
+
+The Object spread operator lets you build new objects from other
+objects.
+
+See:
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator][Object
+spread]]
+
+* Array spread
+  :PROPERTIES:
+  :CUSTOM_ID: array-spread
+  :END:
+
+** with Array spread
+   :PROPERTIES:
+   :CUSTOM_ID: with-array-spread
+   :END:
+
+#+BEGIN_SRC js
+  const users = [
+    ...admins,
+    ...editors,
+    'rstacruz'
+  ]
+#+END_SRC
+
+{: data-line="2,3"}
+
+** without Array spread
+   :PROPERTIES:
+   :CUSTOM_ID: without-array-spread
+   :END:
+
+#+BEGIN_SRC js
+  const users = admins
+    .concat(editors)
+    .concat([ 'rstacruz' ])
+#+END_SRC
+
+The spread operator lets you build new arrays in the same way.
+
+See:
+[[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator][Spread
+operator]]
+
+* Function arguments
+  :PROPERTIES:
+  :CUSTOM_ID: function-arguments-1
+  :END:
+
+** Default arguments
+   :PROPERTIES:
+   :CUSTOM_ID: default-arguments
+   :END:
+
+#+BEGIN_SRC js
+  function greet (name = 'Jerry') {
+    return `Hello ${name}`
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+** Rest arguments
+   :PROPERTIES:
+   :CUSTOM_ID: rest-arguments
+   :END:
+
+#+BEGIN_SRC js
+  function fn(x, ...y) {
+    // y is an Array
+    return x * y.length
+  }
+#+END_SRC
+
+{: data-line="1"}
+
+** Spread
+   :PROPERTIES:
+   :CUSTOM_ID: spread-1
+   :END:
+
+#+BEGIN_SRC js
+  fn(...[1, 2, 3])
+  // same as fn(1, 2, 3)
+#+END_SRC
+
+{: data-line="1"}
+
+Default, rest, spread. See:
+[[https://babeljs.io/learn-es2015/#default--rest--spread][Function
+arguments]]
+
+* Fat arrows
+  :PROPERTIES:
+  :CUSTOM_ID: fat-arrows
+  :END:
+
+** Fat arrows
+   :PROPERTIES:
+   :CUSTOM_ID: fat-arrows-1
+   :END:
+
+#+BEGIN_SRC js
+  setTimeout(() => {
+    ···
+  })
+#+END_SRC
+
+{: data-line="1"}
+
+** With arguments
+   :PROPERTIES:
+   :CUSTOM_ID: with-arguments
+   :END:
+
+#+BEGIN_SRC js
+  readFile('text.txt', (err, data) => {
+    ...
+  })
+#+END_SRC
+
+{: data-line="1"}
+
+** Implicit return
+   :PROPERTIES:
+   :CUSTOM_ID: implicit-return
+   :END:
+
+#+BEGIN_SRC js
+  numbers.map(n => n * 2)
+  // No curly braces = implicit return
+  // Same as: numbers.map(function (n) { return n * 2 })
+  numbers.map(n => ({
+    result: n * 2
+  })
+  // Implicitly returning objects requires parentheses around the object
+#+END_SRC
+
+{: data-line="1,4,5,6"}
+
+Like functions but with =this= preserved. See:
+[[https://babeljs.io/learn-es2015/#arrows-and-lexical-this][Fat arrows]]
+
+* Shorthand syntax
+  :PROPERTIES:
+  :CUSTOM_ID: shorthand-syntax
+  :END:
+
+#+BEGIN_SRC js
+  module.exports = { hello, bye }
+  // Same as: module.exports = { hello: hello, bye: bye }
+#+END_SRC
+
+See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
+literal enhancements]]
+
+* Methods
+  :PROPERTIES:
+  :CUSTOM_ID: methods-1
+  :END:
+
+#+BEGIN_SRC js
+  const App = {
+    start () {
+      console.log('running')
+    }
+  }
+  // Same as: App = { start: function () {···} }
+#+END_SRC
+
+{: data-line="2"}
+
+See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
+literal enhancements]]
+
+* Getters and setters
+  :PROPERTIES:
+  :CUSTOM_ID: getters-and-setters
+  :END:
+
+#+BEGIN_SRC js
+  const App = {
+    get closed () {
+      return this.status === 'closed'
+    },
+    set closed (value) {
+      this.status = value ? 'closed' : 'open'
+    }
+  }
+#+END_SRC
+
+{: data-line="2,5"}
+
+See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
+literal enhancements]]
+
+* Computed property names
+  :PROPERTIES:
+  :CUSTOM_ID: computed-property-names
+  :END:
+
+#+BEGIN_SRC js
+  let event = 'click'
+  let handlers = {
+    [`on${event}`]: true
+  }
+  // Same as: handlers = { 'onclick': true }
+#+END_SRC
+
+{: data-line="3"}
+
+See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
+literal enhancements]]
+
+* Extract values
+  :PROPERTIES:
+  :CUSTOM_ID: extract-values
+  :END:
+
+#+BEGIN_SRC js
+  const fatherJS = { age: 57, name: "Brendan Eich" }
+
+  Object.values(fatherJS)
+  // [57, "Brendan Eich"]
+  Object.entries(fatherJS)
+  // [["age", 57], ["name", "Brendan Eich"]]
+#+END_SRC
+
+{: data-line="3,5"}
+
+* Imports
+  :PROPERTIES:
+  :CUSTOM_ID: imports
+  :END:
+
+#+BEGIN_SRC js
+  import 'helpers'
+  // aka: require('···')
+#+END_SRC
+
+#+BEGIN_SRC js
+  import Express from 'express'
+  // aka: const Express = require('···').default || require('···')
+#+END_SRC
+
+#+BEGIN_SRC js
+  import { indent } from 'helpers'
+  // aka: const indent = require('···').indent
+#+END_SRC
+
+#+BEGIN_SRC js
+  import * as Helpers from 'helpers'
+  // aka: const Helpers = require('···')
+#+END_SRC
+
+#+BEGIN_SRC js
+  import { indentSpaces as indent } from 'helpers'
+  // aka: const indent = require('···').indentSpaces
+#+END_SRC
+
+=import= is the new =require()=. See:
+[[https://babeljs.io/learn-es2015/#modules][Module imports]]
+
+* Exports
+  :PROPERTIES:
+  :CUSTOM_ID: exports
+  :END:
+
+#+BEGIN_SRC js
+  export default function () { ··· }
+  // aka: module.exports.default = ···
+#+END_SRC
+
+#+BEGIN_SRC js
+  export function mymethod () { ··· }
+  // aka: module.exports.mymethod = ···
+#+END_SRC
+
+#+BEGIN_SRC js
+  export const pi = 3.14159
+  // aka: module.exports.pi = ···
+#+END_SRC
+
+=export= is the new =module.exports=. See:
+[[https://babeljs.io/learn-es2015/#modules][Module exports]]
+
+* Generators
+  :PROPERTIES:
+  :CUSTOM_ID: generators-1
+  :END:
+
+#+BEGIN_SRC js
+  function* idMaker () {
+    let id = 0
+    while (true) { yield id++ }
+  }
+#+END_SRC
+
+#+BEGIN_SRC js
+  let gen = idMaker()
+  gen.next().value  // → 0
+  gen.next().value  // → 1
+  gen.next().value  // → 2
+#+END_SRC
+
+It's complicated. See:
+[[https://babeljs.io/learn-es2015/#generators][Generators]]
+
+* For..of iteration
+  :PROPERTIES:
+  :CUSTOM_ID: for..of-iteration
+  :END:
+
+#+BEGIN_SRC js
+  for (let i of iterable) {
+    ···
+  }
+#+END_SRC
+
+For iterating through generators and arrays. See:
+[[https://babeljs.io/learn-es2015/#iterators--forof][For..of iteration]]
