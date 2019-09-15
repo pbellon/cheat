@@ -5,12 +5,11 @@
 
 (defconst cheat/version "0.1.1")
 
-(defcustom cheat/categories '("js" "emacs" "git")
+(defcustom cheat/categories '("JavaScript" "Emacs" "Markup")
   "The categories to display when calling cheat/list-sheets"
   :type '(list string)
   :group 'cheat)
 
-(message "Categories: %s" cheat/categories)
 ;; base directory to retrieve sheets
 (defvar cheat/root
   (if load-file-name
@@ -19,9 +18,7 @@
 (defcustom cheat/sheets-folders `(,cheat/root)
   "The list of folders cheat/ should analyses"
   :type '(list string)
-  :group 'cheat)(defun cheat-command (sheet)
-  "Returns command from sheet alist"
-  (prop "command" sheet))
+  :group 'cheat)
 
 (defvar all-sheets nil
   "Hold all parsed sheets took from sheets folders"
