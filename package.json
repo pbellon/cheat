@@ -7,10 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "clean": "npm run cask -- clean-elc",
-    "cask": "~/.cask/bin/cask",
-    "build": "npm run cask -- build",
-    "package": "npm run cask -- package",
+    "clean": "cask clean-elc",
+    "build": "cask build",
+    "package": "cask package",
     "deploy": "npm run deploy:prepare && npm run deploy:push",
     "deploy:prepare": "npm run clean && npm run build && npm run package",
     "deploy:push": "tar -xvf dist/cheat-0.1.0.tar -C ~/.emacs.d/elpa",
