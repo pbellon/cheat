@@ -52,3 +52,22 @@
 
 (ert-deftest test-cheat-fn-name ()
   (should (equal (cheat-fn-name (fake-sheet)) "cheat/fake")))
+
+(ert-deftest test-filtered-sheets ()
+  (update-sheets-list)
+  (setq cheat/categories '("First"))
+  (should (= (length (filtered-sheets)) 2))
+  (setq cheat/categories '("Second"))
+  (should (= (length (filtered-sheets)) 1)))
+
+(ert-deftest test-declare-all-functions ()
+  (update-sheets-list)
+  (setq cheat/categories '("First"))
+  (declare-all-functions)
+  (should (fboundp 'cheat/first))
+  (setq cheat/categories '("Second"))
+  (declare-all-functions)
+  (fmakunbound 'cheat/first)
+  (should (not (fboundp 'cheat/first)))
+  (should (fboundp 'cheat/third))
+)

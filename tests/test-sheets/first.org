@@ -1,3 +1,4 @@
 #+TITLE: First Cheatsheet
 #+COMMAND: first
+#+CATEGORY: First
 #+DESCRIPTION: My first cheatsheet

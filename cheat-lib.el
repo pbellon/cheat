@@ -24,6 +24,28 @@
   "Hold all parsed sheets took from sheets folders"
 )
 
+(defvar all-registered-sheets nil
+  "Hold all sheets currently having an alias"
+)
+
+(defun declare-all-functions ()
+  ;; Unregister previously created sheets
+  (unless (eq all-registered-sheets nil)
+    (dolist (sheet all-registered-sheets)
+      (message "Unregistering %s" (cheat-fn-name sheet))
+      (fmakunbound (intern (cheat-fn-name sheet)))))
+
+  (setq all-registered-sheets
+    (dolist
+      (sheet (filtered-sheets))
+      (defalias (intern (cheat-fn-name sheet))
+        (lambda ()
+          (interactive)
+          (open-sheet (cheat-title sheet) (cheat-path sheet)))
+      )
+      sheet
+    )))
+
 ;; props helpers
 (defun prop (key props) (cdr (assoc key props)))
 

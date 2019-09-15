@@ -14,15 +14,6 @@
 (require 'cheat-lib)
 (require 'bui)
 
-(defun declare-all-functions ()
-  (dolist
-    (sheet (filtered-sheets))
-      (defalias (intern (cheat-fn-name sheet))
-        (lambda ()
-          (interactive)
-          (open-sheet (cheat-title sheet) (cheat-path sheet)))
-      )))
-
 (defun cheat/reload-sheets (&optional no-macro)
   "Init cheat/sheats"
   (interactive)
