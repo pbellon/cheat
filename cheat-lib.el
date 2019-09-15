@@ -6,10 +6,43 @@
 
 (defconst cheat/version "0.1.1")
 
-(defcustom cheat/categories '("JavaScript" "Emacs" "Markup" "CLI" "Org" "HTML" "C-Like")
+(defcustom cheat/categories 
+  '(
+     "JavaScript"
+     "Emacs"
+     "Markup"
+     "CLI"
+     "Org"
+     "HTML"
+     "C-like"
+     "Ruby"
+     "Python"
+   )
   "The categories to display when calling cheat/list-sheets"
   :type '(list string)
   :group 'cheat)
+
+(defcustom cheat/completion-backend 'ivy
+  "The completion backend to use when calling cheat interactive function"
+  :type (string)
+  :options '(ivy)
+  :group 'cheat)
+
+(defun ivy-complete-sheet-command ()
+  (ivy-read "Cheat command: "
+    (let ((commands))
+      (dolist
+        (sheet (filtered-sheets) commands)
+        (push (cheat-command sheet) commands)))
+    :action
+    (lambda (cmd)
+      (open-sheet-by-command cmd))
+    :sort t
+  )
+)
+
+(defun complete-sheet-command ()
+  (ivy-complete-sheet-command))
 
 ;; base directory to retrieve sheets
 (defvar cheat/root
@@ -42,10 +75,9 @@
       (defalias (intern (cheat-fn-name sheet))
         (lambda ()
           (interactive)
-          (open-sheet (cheat-title sheet) (cheat-path sheet)))
-      )
-      sheet
-    )))
+          (open-sheet sheet)))
+      sheet)
+    ))
 
 ;; props helpers
 (defun prop (key props) (cdr (assoc key props)))
@@ -79,7 +111,6 @@
 (defun cheat-fn-name (sheet)
   "Returns the cheat/<command> function declaration name"
  (format "cheat/%s" (cheat-command sheet)))
-
 
 (defun buffer-exists (bname)
   (not (eq nil (get-buffer bname))))
@@ -163,7 +194,24 @@
 (defun in-sheet-buffer ()
   (string-suffix-p "Cheatsheet*" (buffer-name)))
 
-(defun open-sheet (wname fname)
+(defun find-sheet-by-command (command)
+  (seq-find
+    (lambda (sheet)
+      (string= command (cheat-command sheet)))
+    (filtered-sheets))
+)
+
+(defun open-sheet-by-command (command)
+  (message "open-sheet-by-command %s" command)
+  (let ((sheet (find-sheet-by-command command)))
+    (message "Sheet %s" sheet)
+    (if sheet
+      (open-sheet sheet))))
+
+(defun open-sheet (sheet)
+ (open-sheet-window (cheat-title sheet) (cheat-path sheet)))
+
+(defun open-sheet-window (wname fname)
   "Opens a buffer with the given `wname` as frame name and insert content from `fname` filename"
   (let 
     (
@@ -189,7 +237,6 @@
           (org-mode)
           (read-only-mode t))))))
 
-
 (defun command-as-button (command &rest properties)
   "Return a command button"
   (list command
@@ -208,7 +255,6 @@
 (defun sheets-buffer-entries ()
   (mapcar 'sheet-as-list-entry (filtered-sheets)))
 
-
 (bui-define-interface sheets-buffer list
   :buffer-name "* Cheatsheets *"
   :get-entries-function 'sheets-buffer-entries
@@ -217,7 +263,6 @@
             (command     command-as-button 20 t)
             (description nil 70 t)
             (path        bui-list-get-file-name 20 :right-aligned t)))
-
 
 (provide 'cheat-lib)
 

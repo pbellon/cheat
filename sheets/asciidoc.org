@@ -1,9 +1,9 @@
 #+INCLUDE: "./base.org"
-#+TITLE: AsciiDoc Syntax Quick Reference
-#+NAME: AsciiDoc
+#+TITLE: AsciiDoc 
 #+COMMAND: adoc
 #+CATEGORY: Markup
-# Converted from asciidoctor quick syntax reference: https://github.com/asciidoctor/asciidoctor.org
+#+DESCRIPTION: AsciiDoc + asciidoctor Syntax Quick Reference
+#+SOURCE: https://github.com/asciidoctor/asciidoctor.org
 
 * About
 AsciiDoc is a lightweight markup language for authoring notes, articles, documentation, books, web pages, slide decks and man pages in plain text.

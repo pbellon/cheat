@@ -21,6 +21,10 @@
     (declare-all-functions))
 )
 
+(defun cheat ()
+  (interactive)
+  (complete-sheet-command))
+
 (defun cheat/setup ()
   (update-sheets-list)
   (declare-all-functions)
