@@ -5,7 +5,7 @@
 
 (defconst cheat/version "0.1.1")
 
-(defcustom cheat/categories '("JavaScript" "Emacs" "Markup")
+(defcustom cheat/categories '("JavaScript" "Emacs" "Markup" "CLI")
   "The categories to display when calling cheat/list-sheets"
   :type '(list string)
   :group 'cheat)
@@ -156,17 +156,34 @@
         ))
     ))
 
+(defun in-sheet-buffer ()
+  (string-suffix-p "Cheatsheet*" (buffer-name)))
+
 (defun open-sheet (wname fname)
   "Opens a buffer with the given `wname` as frame name and insert content from `fname` filename"
-  (let ((bname (concat "*" wname " Cheatsheet*")))
+  (let 
+    (
+      (bname (concat "*" wname " Cheatsheet*"))
+      (split-direction (if (in-sheet-buffer) 'below 'right))
+    )
+    (message "in sheet buffer ? %s" (in-sheet-buffer))
+    (message "split direction: %s" split-direction)
     (if (buffer-exists bname)
       (switch-to-buffer bname)
-      (let (($b (generate-new-buffer bname)))
-        (set-buffer-major-mode $b)
-        (switch-to-buffer $b)
-        (insert-file-contents fname)
-        (org-mode)
-        (read-only-mode t)))))
+      (let 
+        (($w
+           (split-window
+             nil
+             nil
+             split-direction
+           )))
+        (select-window $w)
+        (let (($b (generate-new-buffer bname)))
+          (set-buffer-major-mode $b)
+          (switch-to-buffer $b)
+          (insert-file-contents fname)
+          (org-mode)
+          (read-only-mode t))))))
 
 
 (provide 'cheat-lib)
