@@ -12,7 +12,6 @@
 
 ;;; Code: 
 (require 'cheat-lib)
-(require 'bui)
 
 (defun cheat/reload-sheets (&optional no-macro)
   "Init cheat/sheats"
@@ -26,30 +25,6 @@
   (update-sheets-list)
   (declare-all-functions)
 )
-
-(defun command-as-button (command &rest properties)
-  "Return a command button"
-  (list command
-        :supertype 'help-function
-        'action (lambda (cmd) (funcall (intern command)))
-  )
-)
-
-(defun sheet-as-list-entry (sheet)
-  `((title    . ,(cheat-title   sheet))
-    (command  . ,(cheat-fn-name sheet))
-    (path     . ,(cheat-path    sheet))))
-
-(defun sheets-buffer-entries ()
-  (mapcar 'sheet-as-list-entry (filtered-sheets)))
-
-(bui-define-interface sheets-buffer list
-  :buffer-name "* Cheatsheets *"
-  :get-entries-function 'sheets-buffer-entries
-  :format '((title    nil 20 t)
-            (category nil 50 t)
-            (command  command-as-button 20 t)
-            (path     bui-list-get-file-name 20 :right-aligned t)))
 
 (defun cheat/list-sheets ()
   "Find all cheatsheets under sheets directories"

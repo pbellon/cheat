@@ -2,10 +2,11 @@
 
 ;;; Code
 (require 'org)
+(require 'bui)
 
 (defconst cheat/version "0.1.1")
 
-(defcustom cheat/categories '("JavaScript" "Emacs" "Markup" "CLI")
+(defcustom cheat/categories '("JavaScript" "Emacs" "Markup" "CLI" "Org")
   "The categories to display when calling cheat/list-sheets"
   :type '(list string)
   :group 'cheat)
@@ -71,6 +72,9 @@
 (defun cheat-path (sheet)
   "Return path to sheet's file from sheet alist"
   (prop "path" sheet))
+
+(defun cheat-list-path (sheet)
+  (file-relative-name (cheat-path sheet) "~"))
 
 (defun cheat-fn-name (sheet)
   "Returns the cheat/<command> function declaration name"
@@ -184,6 +188,35 @@
           (insert-file-contents fname)
           (org-mode)
           (read-only-mode t))))))
+
+
+(defun command-as-button (command &rest properties)
+  "Return a command button"
+  (list command
+        :supertype 'help-function
+        'action (lambda (cmd) (funcall (intern command)))
+  )
+)
+
+(defun sheet-as-list-entry (sheet)
+  `((title    .    ,(cheat-title    sheet))
+    (command  .    ,(cheat-fn-name  sheet))
+    (category .    ,(cheat-category sheet))
+    (description . ,(cheat-description sheet))
+    (path     .    ,(cheat-list-path sheet))))
+
+(defun sheets-buffer-entries ()
+  (mapcar 'sheet-as-list-entry (filtered-sheets)))
+
+
+(bui-define-interface sheets-buffer list
+  :buffer-name "* Cheatsheets *"
+  :get-entries-function 'sheets-buffer-entries
+  :format '((title       nil 20 t)
+            (category    nil 20 t)
+            (command     command-as-button 20 t)
+            (description nil 50 t)
+            (path        bui-list-get-file-name 20 :right-aligned t)))
 
 
 (provide 'cheat-lib)
