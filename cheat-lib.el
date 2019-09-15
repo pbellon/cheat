@@ -6,7 +6,7 @@
 
 (defconst cheat/version "0.1.1")
 
-(defcustom cheat/categories '("JavaScript" "Emacs" "Markup" "CLI" "Org")
+(defcustom cheat/categories '("JavaScript" "Emacs" "Markup" "CLI" "Org" "HTML" "C-Like")
   "The categories to display when calling cheat/list-sheets"
   :type '(list string)
   :group 'cheat)
@@ -215,7 +215,7 @@
   :format '((title       nil 20 t)
             (category    nil 20 t)
             (command     command-as-button 20 t)
-            (description nil 50 t)
+            (description nil 70 t)
             (path        bui-list-get-file-name 20 :right-aligned t)))
 
 
