@@ -61,8 +61,6 @@
 (defun buffer-exists (bname)
   (not (eq nil (get-buffer bname))))
 
-
-
 (defun get-org-keywords ()
   "Parse the buffer and return a cons list of (property . value)"
   (org-element-map (org-element-parse-buffer 'element) 'keyword
@@ -125,12 +123,6 @@
           (push category categories)
         )))
     categories))
-
-(setq cheat/sheets-folders '("~/Dev/cheat/sheets"))
-(update-sheets-list)
-(message "Total sheets: %s" (length all-sheets))
-(message "Sheets filtered by category: %s" (length (filtered-sheets)))
-(message "All categories: %s" (get-all-categories))
 
 (defun update-sheets-list ()
   (setq all-sheets nil)
