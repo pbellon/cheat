@@ -21,7 +21,7 @@ transform_to_org(){
   source="https://github.com/rstacruz/cheatsheets/blob/master/$1"
 
   pandoc \
-    -f gfm \
+    -f markdown \
     -t org \
     --template=$SCRIPTPATH/sheet-template.org \
     --log=transform.log \
