@@ -1,23 +1,19 @@
-#+TITLE: Go
+#+TITLE: 
 #+COMMAND: go
-#+CATEGORY: C-like
+#+CATEGORY: 
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/go.md
 
-{: .-three-column}
+--------------
 
 * Hello world
   :PROPERTIES:
   :CUSTOM_ID: hello-world
   :END:
 
-{: .-prime}
-
 ** hello.go
    :PROPERTIES:
-   :CUSTOM_ID: hello.go
+   :CUSTOM_ID: hellogo
    :END:
-
-{: .-file}
 
 #+BEGIN_EXAMPLE
   package main
@@ -77,8 +73,6 @@ Or try it out in the [[https://repl.it/languages/go][Go repl]], or
 Constants can be character, string, boolean, or numeric values.
 
 See: [[https://tour.golang.org/basics/15][Constants]]
-
-{: .-three-column}
 
 * Strings
   :PROPERTIES:
@@ -162,16 +156,12 @@ Slices have a dynamic size, unlike arrays.
   }
 #+END_EXAMPLE
 
-{: data-line="2"}
-
 #+BEGIN_EXAMPLE
   func getPointer () (myPointer *int) {
     a := 234
     return &a
   }
 #+END_EXAMPLE
-
-{: data-line="3"}
 
 Pointers point to a memory location of a variable. Go is fully
 garbage-collected.
@@ -191,8 +181,6 @@ See: [[https://tour.golang.org/moretypes/1][Pointers]]
 
 See: [[https://tour.golang.org/basics/13][Type conversions]]
 
-{: .-three-column}
-
 * Conditional
   :PROPERTIES:
   :CUSTOM_ID: conditional
@@ -208,8 +196,6 @@ See: [[https://tour.golang.org/basics/13][Type conversions]]
   }
 #+END_EXAMPLE
 
-{: data-line="1,3,5"}
-
 See: [[https://tour.golang.org/flowcontrol/5][If]]
 
 * Statements in if
@@ -222,8 +208,6 @@ See: [[https://tour.golang.org/flowcontrol/5][If]]
     fmt.Println("Uh oh")
   }
 #+END_EXAMPLE
-
-{: data-line="1"}
 
 A condition in an =if= statement can be preceded with a statement before
 a =;=.
@@ -279,8 +263,6 @@ See: [[https://tour.golang.org/flowcontrol/1][For loops]]
 
 See: [[https://gobyexample.com/range][For-Range loops]]
 
-{: .-three-column}
-
 * Lambdas
   :PROPERTIES:
   :CUSTOM_ID: lambdas
@@ -291,8 +273,6 @@ See: [[https://gobyexample.com/range][For-Range loops]]
     return x > 10000
   }
 #+END_EXAMPLE
-
-{: data-line="1"}
 
 Functions are first class objects.
 
@@ -311,8 +291,6 @@ Functions are first class objects.
   }
 #+END_EXAMPLE
 
-{: data-line="2"}
-
 * Named return values
   :PROPERTIES:
   :CUSTOM_ID: named-return-values
@@ -326,14 +304,10 @@ Functions are first class objects.
   }
 #+END_EXAMPLE
 
-{: data-line="4"}
-
 By defining the return value names in the signature, a =return= (no
 args) will return variables with those names.
 
 See: [[https://tour.golang.org/basics/7][Named return values]]
-
-{: .-three-column}
 
 * Importing
   :PROPERTIES:
@@ -365,8 +339,6 @@ See: [[https://tour.golang.org/basics/1][Importing]]
   import r "math/rand"
 #+END_EXAMPLE
 
-{: data-line="1"}
-
 #+BEGIN_EXAMPLE
   r.Intn()
 #+END_EXAMPLE
@@ -397,8 +369,6 @@ See: [[https://tour.golang.org/basics/3][Exported names]]
 
 Every package file has to start with =package=.
 
-{: .-three-column}
-
 * Goroutines
   :PROPERTIES:
   :CUSTOM_ID: goroutines
@@ -421,16 +391,12 @@ Every package file has to start with =package=.
   }
 #+END_EXAMPLE
 
-{: data-line="3,6,7,8,13"}
-
 #+BEGIN_EXAMPLE
   func push(name string, ch chan string) {
     msg := "Hey, " + name
     ch <- msg
   }
 #+END_EXAMPLE
-
-{: data-line="3"}
 
 Channels are concurrency-safe communication objects, used in goroutines.
 
@@ -450,8 +416,6 @@ See: [[https://tour.golang.org/concurrency/1][Goroutines]],
   // fatal error:
   // all goroutines are asleep - deadlock!
 #+END_EXAMPLE
-
-{: data-line="1"}
 
 Buffered channels limit the amount of messages it can keep.
 
@@ -474,8 +438,6 @@ See: [[https://tour.golang.org/concurrency/3][Buffered channels]]
   close(ch)
 #+END_EXAMPLE
 
-{: data-line="4"}
-
 ** Iterates across a channel until its closed
    :PROPERTIES:
    :CUSTOM_ID: iterates-across-a-channel-until-its-closed
@@ -487,11 +449,9 @@ See: [[https://tour.golang.org/concurrency/3][Buffered channels]]
   }
 #+END_EXAMPLE
 
-{: data-line="1"}
-
 ** Closed if =ok == false=
    :PROPERTIES:
-   :CUSTOM_ID: closed-if-ok-false
+   :CUSTOM_ID: closed-if-ok--false
    :END:
 
 #+BEGIN_EXAMPLE
@@ -511,154 +471,3 @@ See: [[https://tour.golang.org/concurrency/4][Range and close]]
     fmt.Println("Working...")
   }
 #+END_EXAMPLE
-
-{: data-line="2"}
-
-Defers running a function until the surrounding function returns. The
-arguments are evaluated immediately, but the function call is not ran
-until later.
-
-See: [[https://blog.golang.org/defer-panic-and-recover][Defer, panic and
-recover]]
-
-* Deferring functions
-  :PROPERTIES:
-  :CUSTOM_ID: deferring-functions
-  :END:
-
-#+BEGIN_EXAMPLE
-  func main() {
-    defer func() {
-      fmt.Println("Done")
-    }()
-    fmt.Println("Working...")
-  }
-#+END_EXAMPLE
-
-{: data-line="2,3,4"}
-
-Lambdas are better suited for defer blocks.
-
-{: .-three-column}
-
-* Defining
-  :PROPERTIES:
-  :CUSTOM_ID: defining
-  :END:
-
-#+BEGIN_EXAMPLE
-  type Vertex struct {
-    X int
-    Y int
-  }
-#+END_EXAMPLE
-
-{: data-line="1,2,3,4"}
-
-#+BEGIN_EXAMPLE
-  func main() {
-    v := Vertex{1, 2}
-    v.X = 4
-    fmt.Println(v.X, v.Y)
-  }
-#+END_EXAMPLE
-
-See: [[https://tour.golang.org/moretypes/2][Structs]]
-
-* Literals
-  :PROPERTIES:
-  :CUSTOM_ID: literals
-  :END:
-
-#+BEGIN_EXAMPLE
-  v := Vertex{X: 1, Y: 2}
-#+END_EXAMPLE
-
-#+BEGIN_EXAMPLE
-  // Field names can be omitted
-  v := Vertex{1, 2}
-#+END_EXAMPLE
-
-#+BEGIN_EXAMPLE
-  // Y is implicit
-  v := Vertex{X: 1}
-#+END_EXAMPLE
-
-You can also put field names.
-
-* Pointers to structs
-  :PROPERTIES:
-  :CUSTOM_ID: pointers-to-structs
-  :END:
-
-#+BEGIN_EXAMPLE
-  v := &Vertex{1, 2}
-  v.X = 2
-#+END_EXAMPLE
-
-Doing =v.X= is the same as doing =(*v).X=, when =v= is a pointer.
-
-* Receivers
-  :PROPERTIES:
-  :CUSTOM_ID: receivers
-  :END:
-
-#+BEGIN_EXAMPLE
-  type Vertex struct {
-    X, Y float64
-  }
-#+END_EXAMPLE
-
-#+BEGIN_EXAMPLE
-  func (v Vertex) Abs() float64 {
-    return math.Sqrt(v.X * v.X + v.Y * v.Y)
-  }
-#+END_EXAMPLE
-
-{: data-line="1"}
-
-#+BEGIN_EXAMPLE
-  v: = Vertex{1, 2}
-  v.Abs()
-#+END_EXAMPLE
-
-There are no classes, but you can define functions with /receivers/.
-
-See: [[https://tour.golang.org/methods/1][Methods]]
-
-* Mutation
-  :PROPERTIES:
-  :CUSTOM_ID: mutation
-  :END:
-
-#+BEGIN_EXAMPLE
-  func (v *Vertex) Scale(f float64) {
-    v.X = v.X * f
-    v.Y = v.Y * f
-  }
-#+END_EXAMPLE
-
-{: data-line="1"}
-
-#+BEGIN_EXAMPLE
-  v := Vertex{6, 12}
-  v.Scale(0.5)
-  // `v` is updated
-#+END_EXAMPLE
-
-By defining your receiver as a pointer (=*Vertex=), you can do
-mutations.
-
-See: [[https://tour.golang.org/methods/4][Pointer receivers]]
-
-- [[https://tour.golang.org/welcome/1][A tour of Go]]
-  /(tour.golang.org)/
-- [[https://github.com/golang/go/wiki/][Golang wiki]] /(github.com)/
-- [[https://awesome-go.com/][Awesome Go]] /(awesome-go.com)/
-- [[https://gobyexample.com/][Go by Example]] /(gobyexample.com)/
-- [[https://golang.org/doc/effective_go.html][Effective Go]]
-  /(golang.org)/
-- [[https://www.youtube.com/channel/UC_BzFbxG2za3bp5NRRRXJSw][JustForFunc
-  Youtube]] /(youtube.com)/
-- [[https://github.com/golang/go/wiki/CodeReviewComments][Style Guide]]
-  /(github.com)/

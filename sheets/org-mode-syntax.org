@@ -3,8 +3,8 @@
 #+COMMAND: org-syntax
 #+OPTIONS: toc:nil 
 #+STARTUP: showeverything
+#+SOURCE: https://github.com/higham/org-mode-syntax-cheat-sheet/blob/master/cheat_sheet.org
 # Adapted from http://karl-voit.at/2017/09/23/orgmode-as-markup-only/
-# Source: https://github.com/higham/org-mode-syntax-cheat-sheet/blob/master/cheat_sheet.org
 
 * Top Level Heading
 ** Second Level Heading

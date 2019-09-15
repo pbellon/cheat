@@ -1,10 +1,9 @@
-#+TITLE: ES2015+
+#+TITLE: 
 #+COMMAND: es6
-#+CATEGORY: JavaScript
-#+DESCRIPTION: A quick overview of new JavaScript features in ES2015, ES2016, ES2017,
-ES2018 and beyond.
-
+#+CATEGORY: 
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/es6.md
+
+--------------
 
 * Block scoping
   :PROPERTIES:
@@ -24,8 +23,6 @@ ES2018 and beyond.
     }
   }
 #+END_SRC
-
-{: data-line="2,4"}
 
 ** Const
    :PROPERTIES:
@@ -127,8 +124,6 @@ methods]]
     }
 #+END_SRC
 
-{: data-line="1"}
-
 ** Methods
    :PROPERTIES:
    :CUSTOM_ID: methods
@@ -139,8 +134,6 @@ methods]]
       return Math.PI * 2 * this.radius
     }
 #+END_SRC
-
-{: data-line="1"}
 
 ** Calling superclass methods
    :PROPERTIES:
@@ -153,8 +146,6 @@ methods]]
     }
 #+END_SRC
 
-{: data-line="2"}
-
 ** Static methods
    :PROPERTIES:
    :CUSTOM_ID: static-methods
@@ -166,8 +157,6 @@ methods]]
     }
   }
 #+END_SRC
-
-{: data-line="1"}
 
 Syntactic sugar for prototypes. See:
 [[https://babeljs.io/learn-es2015/#classes][Classes]]
@@ -182,10 +171,6 @@ Syntactic sugar for prototypes. See:
   // Same as: Math.pow(2, 8)
 #+END_SRC
 
-{: data-line="1"}
-
-{: .-three-column}
-
 * Making promises
   :PROPERTIES:
   :CUSTOM_ID: making-promises
@@ -197,8 +182,6 @@ Syntactic sugar for prototypes. See:
     else { reject(error) }
   })
 #+END_SRC
-
-{: data-line="1"}
 
 For asynchronous programming. See:
 [[https://babeljs.io/learn-es2015/#promises][Promises]]
@@ -214,8 +197,6 @@ For asynchronous programming. See:
     .catch((error) => { ··· })
 #+END_SRC
 
-{: data-line="2,3"}
-
 * Using promises with finally
   :PROPERTIES:
   :CUSTOM_ID: using-promises-with-finally
@@ -227,8 +208,6 @@ For asynchronous programming. See:
     .catch((error) => { ··· })
     .finally(() => { // logic independent of success/error })
 #+END_SRC
-
-{: data-line="4"}
 
 The handler is called when the promise is fulfilled or rejected.
 
@@ -257,15 +236,11 @@ The handler is called when the promise is fulfilled or rejected.
   }
 #+END_SRC
 
-{: data-line="2,3"}
-
 =async= functions are another way of using functions.
 
 See:
 [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function][async
 function]]
-
-{: .-three-column}
 
 * Destructuring assignment
   :PROPERTIES:
@@ -281,8 +256,6 @@ function]]
   const [first, last] = ['Nikola', 'Tesla']
 #+END_SRC
 
-{: data-line="1"}
-
 ** Objects
    :PROPERTIES:
    :CUSTOM_ID: objects
@@ -294,8 +267,6 @@ function]]
     author: 'R. Galbraith'
   }
 #+END_SRC
-
-{: data-line="1"}
 
 Supports for matching arrays and objects. See:
 [[https://babeljs.io/learn-es2015/#destructuring][Destructuring]]
@@ -328,8 +299,6 @@ Default values can be assigned while destructuring arrays or objects.
   }
 #+END_SRC
 
-{: data-line="1"}
-
 #+BEGIN_SRC js
   greet({ name: 'Larry', greeting: 'Ahoy' })
 #+END_SRC
@@ -348,8 +317,6 @@ arguments.
   }
 #+END_SRC
 
-{: data-line="1"}
-
 #+BEGIN_SRC js
   greet() // Hi Rauno!
   greet({ name: 'Larry' }) // Hi Larry!
@@ -365,8 +332,6 @@ arguments.
     console.log(`x: ${x}, y: ${y}`)
   }
 #+END_SRC
-
-{: data-line="1"}
 
 #+BEGIN_SRC js
   printCoordinates({ left: 25, top: 90 })
@@ -385,8 +350,6 @@ This example assigns =x= to the value of the =left= key.
   }
 #+END_SRC
 
-{: data-line="1"}
-
 The assignment expressions work in loops, too.
 
 * Object destructuring
@@ -397,8 +360,6 @@ The assignment expressions work in loops, too.
 #+BEGIN_SRC js
   const { id, ...detail } = song;
 #+END_SRC
-
-{: data-line="1"}
 
 Extract some keys individually and remaining keys in the object using
 rest (...) operator
@@ -419,8 +380,6 @@ rest (...) operator
     visible: true
   }
 #+END_SRC
-
-{: data-line="2"}
 
 ** without Object spread
    :PROPERTIES:
@@ -458,8 +417,6 @@ spread]]
   ]
 #+END_SRC
 
-{: data-line="2,3"}
-
 ** without Array spread
    :PROPERTIES:
    :CUSTOM_ID: without-array-spread
@@ -493,8 +450,6 @@ operator]]
   }
 #+END_SRC
 
-{: data-line="1"}
-
 ** Rest arguments
    :PROPERTIES:
    :CUSTOM_ID: rest-arguments
@@ -507,8 +462,6 @@ operator]]
   }
 #+END_SRC
 
-{: data-line="1"}
-
 ** Spread
    :PROPERTIES:
    :CUSTOM_ID: spread-1
@@ -518,8 +471,6 @@ operator]]
   fn(...[1, 2, 3])
   // same as fn(1, 2, 3)
 #+END_SRC
-
-{: data-line="1"}
 
 Default, rest, spread. See:
 [[https://babeljs.io/learn-es2015/#default--rest--spread][Function
@@ -541,8 +492,6 @@ arguments]]
   })
 #+END_SRC
 
-{: data-line="1"}
-
 ** With arguments
    :PROPERTIES:
    :CUSTOM_ID: with-arguments
@@ -553,8 +502,6 @@ arguments]]
     ...
   })
 #+END_SRC
-
-{: data-line="1"}
 
 ** Implicit return
    :PROPERTIES:
@@ -570,8 +517,6 @@ arguments]]
   })
   // Implicitly returning objects requires parentheses around the object
 #+END_SRC
-
-{: data-line="1,4,5,6"}
 
 Like functions but with =this= preserved. See:
 [[https://babeljs.io/learn-es2015/#arrows-and-lexical-this][Fat arrows]]
@@ -603,8 +548,6 @@ literal enhancements]]
   // Same as: App = { start: function () {···} }
 #+END_SRC
 
-{: data-line="2"}
-
 See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
 literal enhancements]]
 
@@ -624,8 +567,6 @@ literal enhancements]]
   }
 #+END_SRC
 
-{: data-line="2,5"}
-
 See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
 literal enhancements]]
 
@@ -641,8 +582,6 @@ literal enhancements]]
   }
   // Same as: handlers = { 'onclick': true }
 #+END_SRC
-
-{: data-line="3"}
 
 See: [[https://babeljs.io/learn-es2015/#enhanced-object-literals][Object
 literal enhancements]]
@@ -660,8 +599,6 @@ literal enhancements]]
   Object.entries(fatherJS)
   // [["age", 57], ["name", "Brendan Eich"]]
 #+END_SRC
-
-{: data-line="3,5"}
 
 * Imports
   :PROPERTIES:
@@ -743,7 +680,7 @@ It's complicated. See:
 
 * For..of iteration
   :PROPERTIES:
-  :CUSTOM_ID: for..of-iteration
+  :CUSTOM_ID: forof-iteration
   :END:
 
 #+BEGIN_SRC js

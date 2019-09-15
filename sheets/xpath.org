@@ -1,10 +1,9 @@
-#+TITLE: Xpath
+#+TITLE: 
 #+COMMAND: xpath
-#+CATEGORY: HTML
-#+DESCRIPTION: $x('//div//p///') == $('div p /'), $x('//[@id="item"]') == $('#item'),
-and many other Xpath examples.
-
+#+CATEGORY: 
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/xpath.md
+
+--------------
 
 * Xpath test bed
   :PROPERTIES:
@@ -31,99 +30,30 @@ Works in Firefox and Chrome.
   :CUSTOM_ID: descendant-selectors
   :END:
 
-| CSS              | Xpath         | ?                  |
-|------------------+---------------+--------------------|
-| =h1=             | =//h1=        | [[#prefixes][?]]   |
-| =div p=          | =//div//p=    | [[#axes][?]]       |
-| =ul > li=        | =//ul/li=     | [[#axes][?]]       |
-| =ul > li > a=    | =//ul/li/a=   |                    |
-| =div > *=        | =//div/*=     |                    |
-| ----             | ----          | --                 |
-| =:root=          | =/=           | [[#prefixes][?]]   |
-| =:root > body=   | =/body=       |                    |
-
-{: .xp}
-
 * Attribute selectors
   :PROPERTIES:
   :CUSTOM_ID: attribute-selectors
   :END:
-
-| CSS                      | Xpath                                                        | ?                          |
-|--------------------------+--------------------------------------------------------------+----------------------------|
-| =#id=                    | =//*[@id="id"]=                                              | [[#predicates][?]]         |
-| =.class=                 | =//*[@class="class"]= /...[[#class-check][kinda]]/           |                            |
-| =input[type="submit"]=   | =//input[@type="submit"]=                                    |                            |
-| =a#abc[for="xyz"]=       | =//a[@id="abc"][@for="xyz"]=                                 | [[#chaining-order][?]]     |
-| =a[rel]=                 | =//a[@rel]=                                                  |                            |
-| ----                     | ----                                                         | --                         |
-| =a[href^='/']=           | =//a[starts-with(@href, '/')]=                               | [[#string-functions][?]]   |
-| =a[href$='pdf']=         | =//a[ends-with(@href, '.pdf')]=                              |                            |
-| =a[href*='://']=         | =//a[contains(@href, '://')]=                                |                            |
-| =a[rel~='help']=         | =//a[contains(@rel, 'help')]= /...[[#class-check][kinda]]/   |                            |
-
-{: .xp}
 
 * Order selectors
   :PROPERTIES:
   :CUSTOM_ID: order-selectors
   :END:
 
-| CSS                      | Xpath                 | ?                  |
-|--------------------------+-----------------------+--------------------|
-| =ul > li:first-child=    | =//ul/li[1]=          | [[#indexing][?]]   |
-| =ul > li:nth-child(2)=   | =//ul/li[2]=          |                    |
-| =ul > li:last-child=     | =//ul/li[last()]=     |                    |
-| =li#id:first-child=      | =//li[@id="id"][1]=   |                    |
-| =a:first-child=          | =//a[1]=              |                    |
-| =a:last-child=           | =//a[last()]=         |                    |
-
-{: .xp}
-
 * Siblings
   :PROPERTIES:
   :CUSTOM_ID: siblings
   :END:
-
-| CSS          | Xpath                                  | ?                    |
-|--------------+----------------------------------------+----------------------|
-| =h1 ~ ul=    | =//h1/following-sibling::ul=           | [[#using-axes][?]]   |
-| =h1 + ul=    | =//h1/following-sibling::ul[1]=        |                      |
-| =h1 ~ #id=   | =//h1/following-sibling::[@id="id"]=   |                      |
-
-{: .xp}
 
 * jQuery
   :PROPERTIES:
   :CUSTOM_ID: jquery
   :END:
 
-| CSS                            | Xpath                              | ?                    |
-|--------------------------------+------------------------------------+----------------------|
-| =$('ul > li').parent()=        | =//ul/li/..=                       | [[#other-axes][?]]   |
-| =$('li').closest('section')=   | =//li/ancestor-or-self::section=   |                      |
-| =$('a').attr('href')=          | =//a/@href=                        | [[#steps][?]]        |
-| =$('span').text()=             | =//span/text()=                    |                      |
-
-{: .xp}
-
 * Other things
   :PROPERTIES:
   :CUSTOM_ID: other-things
   :END:
-
-| CSS                       | Xpath                               | ?                           |
-|---------------------------+-------------------------------------+-----------------------------|
-| =h1:not([id])=            | =//h1[not(@id)]=                    | [[#boolean-functions][?]]   |
-| Text match                | =//button[text()="Submit"]=         | [[#operators][?]]           |
-| Text match (substring)    | =//button[contains(text(),"Go")]=   |                             |
-| Arithmetic                | =//product[@price > 2.50]=          |                             |
-| Has children              | =//ul[*]=                           |                             |
-| Has children (specific)   | =//ul[li]=                          |                             |
-| Or logic                  | =//a[@name or @href]=               | [[#operators][?]]           |
-| Union (joins results)     | =//a | //div=                       | [[#unions][?]]              |
-
-{: .xp}
 
 #+BEGIN_HTML
   <style>
@@ -153,25 +83,10 @@ so this is the workaround
   :CUSTOM_ID: steps-and-axes
   :END:
 
-#+BEGIN_VERSE
-  =//= | =ul= | =/= | =a[@id='link']= |
-  Axis | Step | Axis | Step |
-#+END_VERSE
-
-{: .-css-breakdown}
-
 * Prefixes
   :PROPERTIES:
   :CUSTOM_ID: prefixes
   :END:
-
-| Prefix   | Example                 | What       |
-|----------+-------------------------+------------|
-| =//=     | =//hr[@class='edge']=   | Anywhere   |
-| =./=     | =./a=                   | Relative   |
-| =/=      | =/html/body/div=        | Root       |
-
-{: .-headers}
 
 Begin your expression with any of these.
 
@@ -179,13 +94,6 @@ Begin your expression with any of these.
   :PROPERTIES:
   :CUSTOM_ID: axes
   :END:
-
-| Axis   | Example               | What         |
-|--------+-----------------------+--------------|
-| =/=    | =//ul/li/a=           | Child        |
-| =//=   | =//[@id="list"]//a=   | Descendant   |
-
-{: .-headers}
 
 Separate your steps with =/=. Use two (=//=) if you don't want to select
 direct children.
@@ -375,13 +283,6 @@ Steps of an expression are separated by =/=, usually used to pick child
 nodes. That's not always true: you can specify a different "axis" with
 =::=.
 
-#+BEGIN_VERSE
-  =//= | =ul= | =/child::= | =li= |
-  Axis | Step | Axis | Step |
-#+END_VERSE
-
-{: .-css-breakdown}
-
 * Child axis
   :PROPERTIES:
   :CUSTOM_ID: child-axis
@@ -431,27 +332,6 @@ nodes. That's not always true: you can specify a different "axis" with
   :PROPERTIES:
   :CUSTOM_ID: other-axes
   :END:
-
-| Axis                   | Abbrev   | Notes                                              |
-|------------------------+----------+----------------------------------------------------|
-| =ancestor=             |          |                                                    |
-| =ancestor-or-self=     |          |                                                    |
-| ---                    | ---      | ---                                                |
-| =attribute=            | =@=      | =@href= is short for =attribute::href=             |
-| =child=                |          | =div= is short for =child::div=                    |
-| =descendant=           |          |                                                    |
-| =descendant-or-self=   | =//=     | =//= is short for =/descendant-or-self::node()/=   |
-| =namespace=            |          |                                                    |
-| ---                    | ---      | ---                                                |
-| =self=                 | =.=      | =.= is short for =self::node()=                    |
-| =parent=               | =..=     | =..= is short for =parent::node()=                 |
-| ---                    | ---      | ---                                                |
-| =following=            |          |                                                    |
-| =following-sibling=    |          |                                                    |
-| =preceding=            |          |                                                    |
-| =preceding-sibling=    |          |                                                    |
-
-{: .-headers}
 
 There are other axes you can use.
 
@@ -519,8 +399,3 @@ Works like jQuery's =$().closest('.box')=.
 #+END_SRC
 
 Finds =<item>= and check its attributes
-
-{: .-one-column}
-
-- [[http://www.whitebeam.org/library/guide/TechNotes/xpathtestbed.rhtm][Xpath
-  test bed]] /(whitebeam.org)/

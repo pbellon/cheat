@@ -12,8 +12,21 @@ function compute_min_level(blocks)
   end
 end
 
+function is_prism_line(line)
+  print("Is line a prism one ?" .. line)
+  return 
+end
+
+function is_prism_block(block)
+  local str = pandoc.utils.stringify(block)
+  local index = string.find(str, "{:")
+  return not (index == nil)
+end
+
 function change_level(block, i)
-  if (is_header(block)) then
+  if (is_prism_block(block)) then
+    return nil
+  elseif (is_header(block)) then
     if (block.level < min_level) then
       return nil
     else

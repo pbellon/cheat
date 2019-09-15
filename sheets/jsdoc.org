@@ -1,7 +1,9 @@
-#+TITLE: Jsdoc
+#+TITLE: 
 #+COMMAND: jsdoc
-#+CATEGORY: JavaScript
+#+CATEGORY: 
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md
+
+--------------
 
 * Functions
   :PROPERTIES:
@@ -23,7 +25,7 @@
   function foo(n) { return n }
 #+END_SRC
 
-See: [[http://usejsdoc.org/index.html]]
+See: [[http://usejsdoc.org/index.html][http://usejsdoc.org/index.html]]
 
 * Types
   :PROPERTIES:
@@ -34,14 +36,15 @@ See: [[http://usejsdoc.org/index.html]]
 |-----------------------------------+-----------------------------------------|
 | =@param {string=} n=              | Optional                                |
 | =@param {string} [n]=             | Optional                                |
-| =@param {(string\|number)} n=     | Multiple types                          |
+| =@param {(string|number)} n=      | Multiple types                          |
 | =@param {*} n=                    | Any type                                |
 | =@param {...string} n=            | Repeatable arguments                    |
 | =@param {string} [n="hi"]=        | Optional with default                   |
 | =@param {string[]} n=             | Array of strings                        |
 | =@return {Promise<string[]>} n=   | Promise fulfilled by array of strings   |
 
-See: [[http://usejsdoc.org/tags-type.html]]
+See:
+[[http://usejsdoc.org/tags-type.html][http://usejsdoc.org/tags-type.html]]
 
 * Variables
   :PROPERTIES:
@@ -87,7 +90,8 @@ See: [[http://usejsdoc.org/tags-type.html]]
   }
 #+END_SRC
 
-See: [[http://usejsdoc.org/tags-typedef.html]]
+See:
+[[http://usejsdoc.org/tags-typedef.html][http://usejsdoc.org/tags-typedef.html]]
 
 * Importing types
   :PROPERTIES:
@@ -138,4 +142,5 @@ This syntax is
    */
 #+END_SRC
 
-Prefer =alias= over =name=. See: [[http://usejsdoc.org/tags-alias.html]]
+Prefer =alias= over =name=. See:
+[[http://usejsdoc.org/tags-alias.html][http://usejsdoc.org/tags-alias.html]]
