@@ -14,37 +14,26 @@
 (require 'cheat-lib)
 (require 'bui)
 
-(defun sheet-function--macro (sheet)
-  "Register a new cheat/<command> interactive function"
-  (let
-    (
-      (fn-name (intern (cheat-fn-name sheet)))
-      (title (cheat-title sheet))
-      (path (cheat-path sheet))
-    )
-    `(defun ,fn-name ()
-        "Opens ,title cheatsheet"
-        (interactive)
-        (open-sheet ,title ,path))))
-
-;; Main entry point to register all defined cheatsheets in (filtered-sheets)
-(defmacro cheat--macro ()
-  "Register an interactive function for each sheet in (filtered-sheets)"
-  `(progn ,@(mapcar
-              'sheet-function--macro
-              (filtered-sheets))))
+(defun declare-all-functions ()
+  (dolist
+    (sheet (filtered-sheets))
+      (defalias (intern (cheat-fn-name sheet))
+        (lambda ()
+          (interactive)
+          (open-sheet (cheat-title sheet) (cheat-path sheet)))
+      )))
 
 (defun cheat/reload-sheets (&optional no-macro)
   "Init cheat/sheats"
   (interactive)
   (update-sheets-list)
   (unless no-macro
-    (cheat--macro))
+    (declare-all-functions))
 )
 
 (defun cheat/setup ()
   (update-sheets-list)
-  (cheat--macro)
+  (declare-all-functions)
 )
 
 (defun command-as-button (command &rest properties)
