@@ -1,18 +1,18 @@
 {
   "name": "cheat",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Small emacs utility to register & open cheatsheets",
   "main": "cheat.el",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "clean": "cask clean-elc",
+    "clean": "cask clean-elc && rm ~/.emacs.d/elpa/cheat-0.1.1 -rf",
     "build": "cask build",
     "package": "cask package",
     "deploy": "npm run deploy:prepare && npm run deploy:push",
     "deploy:prepare": "npm run clean && npm run build && npm run package",
-    "deploy:push": "tar -xvf dist/cheat-0.1.0.tar -C ~/.emacs.d/elpa",
+    "deploy:push": "tar -xvf dist/cheat-0.1.1.tar -C ~/.emacs.d/elpa",
     "test": "emacs -batch -l org -l cheat-lib.el -l tests/cheat-test.el -f ert-run-tests-batch",
     "test:clean": "rm *.elc tests/*.elc"
   },
