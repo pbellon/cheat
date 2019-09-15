@@ -1,9 +1,10 @@
-#+TITLE: 
+#+TITLE: ES2015+
 #+COMMAND: es6
-#+CATEGORY: 
-#+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/es6.md
+#+CATEGORY: JavaScript
+#+DESCRIPTION: A quick overview of new JavaScript features in ES2015, ES2016, ES2017,
+ES2018 and beyond.
 
---------------
+#+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/es6.md
 
 * Block scoping
   :PROPERTIES:
@@ -680,7 +681,7 @@ It's complicated. See:
 
 * For..of iteration
   :PROPERTIES:
-  :CUSTOM_ID: forof-iteration
+  :CUSTOM_ID: for..of-iteration
   :END:
 
 #+BEGIN_SRC js

@@ -1,9 +1,7 @@
-#+TITLE: 
+#+TITLE: Python
 #+COMMAND: python
-#+CATEGORY: 
+#+CATEGORY: Python
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/python.md
-
---------------
 
 * Lists
   :PROPERTIES:

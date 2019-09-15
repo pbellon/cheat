@@ -1,9 +1,7 @@
-#+TITLE: 
+#+TITLE: HTML
 #+COMMAND: html
-#+CATEGORY: 
+#+CATEGORY: HTML
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/html.md
-
---------------
 
 * Head stuff
   :PROPERTIES:

@@ -1,9 +1,7 @@
-#+TITLE: 
+#+TITLE: Go
 #+COMMAND: go
-#+CATEGORY: 
+#+CATEGORY: C-like
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/go.md
-
---------------
 
 * Hello world
   :PROPERTIES:
@@ -12,7 +10,7 @@
 
 ** hello.go
    :PROPERTIES:
-   :CUSTOM_ID: hellogo
+   :CUSTOM_ID: hello.go
    :END:
 
 #+BEGIN_EXAMPLE
@@ -451,7 +449,7 @@ See: [[https://tour.golang.org/concurrency/3][Buffered channels]]
 
 ** Closed if =ok == false=
    :PROPERTIES:
-   :CUSTOM_ID: closed-if-ok--false
+   :CUSTOM_ID: closed-if-ok-false
    :END:
 
 #+BEGIN_EXAMPLE
@@ -471,3 +469,130 @@ See: [[https://tour.golang.org/concurrency/4][Range and close]]
     fmt.Println("Working...")
   }
 #+END_EXAMPLE
+
+Defers running a function until the surrounding function returns. The
+arguments are evaluated immediately, but the function call is not ran
+until later.
+
+See: [[https://blog.golang.org/defer-panic-and-recover][Defer, panic and
+recover]]
+
+* Deferring functions
+  :PROPERTIES:
+  :CUSTOM_ID: deferring-functions
+  :END:
+
+#+BEGIN_EXAMPLE
+  func main() {
+    defer func() {
+      fmt.Println("Done")
+    }()
+    fmt.Println("Working...")
+  }
+#+END_EXAMPLE
+
+Lambdas are better suited for defer blocks.
+
+* Defining
+  :PROPERTIES:
+  :CUSTOM_ID: defining
+  :END:
+
+#+BEGIN_EXAMPLE
+  type Vertex struct {
+    X int
+    Y int
+  }
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  func main() {
+    v := Vertex{1, 2}
+    v.X = 4
+    fmt.Println(v.X, v.Y)
+  }
+#+END_EXAMPLE
+
+See: [[https://tour.golang.org/moretypes/2][Structs]]
+
+* Literals
+  :PROPERTIES:
+  :CUSTOM_ID: literals
+  :END:
+
+#+BEGIN_EXAMPLE
+  v := Vertex{X: 1, Y: 2}
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  // Field names can be omitted
+  v := Vertex{1, 2}
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  // Y is implicit
+  v := Vertex{X: 1}
+#+END_EXAMPLE
+
+You can also put field names.
+
+* Pointers to structs
+  :PROPERTIES:
+  :CUSTOM_ID: pointers-to-structs
+  :END:
+
+#+BEGIN_EXAMPLE
+  v := &Vertex{1, 2}
+  v.X = 2
+#+END_EXAMPLE
+
+Doing =v.X= is the same as doing =(*v).X=, when =v= is a pointer.
+
+* Receivers
+  :PROPERTIES:
+  :CUSTOM_ID: receivers
+  :END:
+
+#+BEGIN_EXAMPLE
+  type Vertex struct {
+    X, Y float64
+  }
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  func (v Vertex) Abs() float64 {
+    return math.Sqrt(v.X * v.X + v.Y * v.Y)
+  }
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  v: = Vertex{1, 2}
+  v.Abs()
+#+END_EXAMPLE
+
+There are no classes, but you can define functions with /receivers/.
+
+See: [[https://tour.golang.org/methods/1][Methods]]
+
+* Mutation
+  :PROPERTIES:
+  :CUSTOM_ID: mutation
+  :END:
+
+#+BEGIN_EXAMPLE
+  func (v *Vertex) Scale(f float64) {
+    v.X = v.X * f
+    v.Y = v.Y * f
+  }
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  v := Vertex{6, 12}
+  v.Scale(0.5)
+  // `v` is updated
+#+END_EXAMPLE
+
+By defining your receiver as a pointer (=*Vertex=), you can do
+mutations.
+
+See: [[https://tour.golang.org/methods/4][Pointer receivers]]
