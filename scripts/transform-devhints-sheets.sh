@@ -22,9 +22,10 @@ transform_to_org(){
 
   pandoc \
     -f markdown \
-    -t org \
+    -t org-fenced_code_blocks-backtick_code_blocks \
     --template=$SCRIPTPATH/sheet-template.org \
-    --log=transform.log \
+    --log=$SCRIPTPATH/transform.log \
+    --highlight-style=pygments \
     --lua-filter=$SCRIPTPATH/reduce-header-levels.lua \
     --variable=command=$command \
     --variable=source=$source \
@@ -39,10 +40,12 @@ batch(){
   transform_to_org go.md     > $out/go.org
   transform_to_org html.md   > $out/html.org
   transform_to_org jsdoc.md  > $out/jsdoc.org
+  transform_to_org less.md   > $out/less.org
+  transform_to_org npm.md    > $out/npm.org
   transform_to_org python.md > $out/python.org
+  transform_to_org ruby.md   > $out/ruby.org
   transform_to_org xpath.md  > $out/xpath.org
 }
-
 
 update_sheets
 batch
