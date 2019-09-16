@@ -1,8 +1,7 @@
 #+TITLE: ES2015+
 #+COMMAND: es6
 #+CATEGORY: JavaScript
-#+DESCRIPTION: A quick overview of new JavaScript features in ES2015, ES2016, ES2017,
-ES2018 and beyond.
+#+DESCRIPTION: A quick overview of new JavaScript features in ES2015, ES2016, ES2017, ES2018 and beyond.
 
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/es6.md
 

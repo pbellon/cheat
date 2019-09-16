@@ -1,4 +1,4 @@
-# Source: https://orgmode.org/worg/orgcard.org.html
+#+SOURCE: https://orgmode.org/worg/orgcard.org.html
 #+TITLE: Org-Mode 
 #+CATEGORY: Org
 #+COMMAND: org
