@@ -4,10 +4,13 @@
 A small utility to register and create cheatsheets based on org-mode.
 
 ** Provided cheatsheets
-- Emacs
-- AsciiDoc
-- Org mode
-- Org mode syntax
+| Name            | Description |
+|-----------------+-------------|
+| JSDoc           |             |
+| Magit           |             |
+| AsciiDoc        |             |
+| Org mode        |             |
+| Org mode syntax |             |
 
 ** Installation
 The package has not yet been published to MELPA yet so you'll have to install it manually or use [[https://framagit.org/steckerhalter/quelpa][quelpa]].
@@ -25,11 +28,10 @@ The package has not yet been published to MELPA yet so you'll have to install it
 
 ** Usage
 *** Open a cheatsheet 
-All cheatsheets are accessible through interactive functions their first list element preceded by the ~cheat/~ prefix. 
+~M-x RET cheat RET <command>~
 
-- ~M-x RET cheat/adoc~ opens asciidoc cheatsheet
-- ~M-x RET cheat/org~ open org-mode cheatsheet
-- ~M-x RET cheat/org-syntax~ open org-mode syntax cheatsheet
+*** Cheasheet commands
+All cheatsheets are accessible through interactive functions with ~cheat/<command>~ format. For instance ~cheat/adoc~  opens asciidoc cheatsheet.
 
 *** Register a new cheatsheets folder
 
@@ -40,10 +42,27 @@ All cheatsheets are accessible through interactive functions their first list el
 (cheat/reload-sheets)
 #+END_SRC
 
-*** Adds a new cheatsheet file
+*** Filter cheatsheets by categories
 
-All sheets files must be located under a folder included in =cheat/sheets-folder=. They must have an header like bellow:
+You can change which set of cheatsheet is loaded by default by the package by changing =cheat/categories= value: 
+
+#+BEGIN_SRC elisp
+(setq cheat/categories '("JavaScript" "Emacs" "CLI"))
+#+END_SRC
+
+You can see all available categories by calling ~cheat/list-categories~ interactive function.
+
+*** Add a new cheatsheet file / folder
+
+All sheets files must be located under a folder included in =cheat/sheets-folder=. 
+
+They must have an header like bellow:
+
 #+BEGIN_SRC org
 #+TITLE: My title
 #+COMMAND: mycommand
+#+DESCRIPTION: Optional description
+#+CATEGORY: Category
 #+END_SRC
+
+You can then reload the cheatsheets by calling ~cheat/reload-sheets~ interactive function. However take care that your new cheatsheet's category is listed under =cheat/categories=
