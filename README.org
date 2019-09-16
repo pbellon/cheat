@@ -61,8 +61,13 @@ They must have an header like bellow:
 
 Make sure to have the /Category/ of your new cheatsheet listed under ~cheat/categories~ & call ~cheat/reload-sheets~ to load it .
 
-**  Open a cheatsheet
+** ~cheat~ or ~cheat/<command>~  Open a cheatsheet
+| ~M-x RET cheat RET <command> RET~ | Open a cheatsheet having given <command>. Needs ivy to work |
+| ~M-x RET cheat/<command> RET~ | All cheatsheets have dedicated interactive functions, for instance ~cheat/adoc~ opens AsciiDoc cheatsheet. |
 
-| ~M-x RET cheat RET <command>~ | Open a cheatsheet having given <command>. Needs ivy to work |
-| ~M-x RET cheat/<command>~     | All cheatsheets have dedicated interactive functions, for instance ~cheat/adoc~ opens AsciiDoc cheatsheet. |
+** List cheathsheets
+List all cheatsheets filtered by [[Loaded categories]]. 
+
+~M-x RET cheat/list-sheets RET~
+
 
