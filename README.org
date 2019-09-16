@@ -4,13 +4,16 @@
 An Emacs package to register and create cheatsheets based on org-mode.
 
 ** Provided cheatsheets
-| Name            | Description |
-|-----------------+-------------|
-| JSDoc           |             |
-| Magit           |             |
-| AsciiDoc        |             |
-| Org mode        |             |
-| Org mode syntax |             |
+| Name            | Description                                                   | Source                                  |
+|-----------------+---------------------------------------------------------------+-----------------------------------------|
+| AsciiDoc        | AsciiDoc + asciidoctor Syntax Quick Reference                 | [[https://github.com/asciidoctor/asciidoctor.org][github.com/asciidoctor/asciidoctorg.org]] |
+| ES2015+         | A quick overview of JavaScript features in ES2015 and beyond. | [[https://github.com/rstacruz/cheatsheets/blob/master/es6.md][devhints.io/es6]]                         |
+| JSDoc           | JSDoc syntax overview                                         | [[https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md][devhints.io/jsdoc]]                                        |
+| Magit           | Magit Reference Card                                          | [[https://github.com/magit/magit/wiki/Cheatsheet][github.com/magit/magit]]                  |
+| Org mode        | Org-Mode Reference Card                                       | [[https://orgmode.org/worg/orgcard.org.html][orgmode.org]]                |
+| Org mode syntax | Syntax overview of Org-Mode files                             |                                         |
+| go              | Go-lang Cheatsheet                                            |  [[https://github.com/rstacruz/cheatsheets/blob/master/go.md][devhints.io/go]]                                       |
+| python              | Python Cheatsheet                                            |  [[https://github.com/rstacruz/cheatsheets/blob/master/python.md][devhints.io/python]]                                       |
 
 ** Installation
 The package has not yet been published to MELPA yet so you'll have to install it manually or use [[https://framagit.org/steckerhalter/quelpa][quelpa]].
