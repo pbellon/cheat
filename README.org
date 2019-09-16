@@ -17,32 +17,17 @@ The package has not yet been published to MELPA yet so you'll have to install it
 #+BEGIN_SRC elisp
 (quelpa '(cheat :fetcher github :repo "pbellon/cheat"))
 (require 'cheat)
-(cheat/reload-sheets)
+(cheat/setup)
 
 ;; Or, if you have use-package & quelpa-use-package
 (use-package
     :quelpa (cheat :fetcher github :repo "pbellon/cheat")
     :config
-    (cheat/reload-sheets))
+    (cheat/setup))
 #+END_SRC
 
-** Usage
-*** Open a cheatsheet 
-~M-x RET cheat RET <command>~
-
-*** Cheasheet commands
-All cheatsheets are accessible through interactive functions with ~cheat/<command>~ format. For instance ~cheat/adoc~  opens asciidoc cheatsheet.
-
-*** Register a new cheatsheets folder
-
-#+BEGIN_SRC elisp
-;; Register your cheatsheets in the cheat/sheets list
-(add-to-list 'cheat/sheets-folders "path/to/my/cheatsheets/")
-;; Launch initialization of the utility, it will create the ~cheat/custom~ interactive function.
-(cheat/reload-sheets)
-#+END_SRC
-
-*** Filter cheatsheets by categories
+** Configuration
+***  Loaded categories
 
 You can change which set of cheatsheet is loaded by default by the package by changing =cheat/categories= value: 
 
@@ -52,10 +37,19 @@ You can change which set of cheatsheet is loaded by default by the package by ch
 
 You can see all available categories by calling ~cheat/list-categories~ interactive function.
 
-*** Add a new cheatsheet file / folder
 
-All sheets files must be located under a folder included in =cheat/sheets-folder=. 
+*** Register a new cheatsheets folder
 
+Register your cheatsheets folds in the ~cheat/sheets-folders~ list:
+
+#+BEGIN_SRC elisp
+(add-to-list 'cheat/sheets-folders "path/to/my/cheatsheets/")
+#+END_SRC
+
+You can then update the loaded cheatsheets with the ~cheat/reload-sheets~ interactive function to see you new cheatsheets. See [[Cheatsheet template]] to see how to write new cheatsheets.
+
+*** Cheatsheet template
+All sheets files must be located under a folder included in =cheat/sheets-folders=.
 They must have an header like bellow:
 
 #+BEGIN_SRC org
@@ -65,4 +59,10 @@ They must have an header like bellow:
 #+CATEGORY: Category
 #+END_SRC
 
-You can then reload the cheatsheets by calling ~cheat/reload-sheets~ interactive function. However take care that your new cheatsheet's category is listed under =cheat/categories=
+Make sure to have the /Category/ of your new cheatsheet listed under ~cheat/categories~ & call ~cheat/reload-sheets~ to load it .
+
+**  Open a cheatsheet
+
+| ~M-x RET cheat RET <command>~ | Open a cheatsheet having given <command>. Needs ivy to work |
+| ~M-x RET cheat/<command>~     | All cheatsheets have dedicated interactive functions, for instance ~cheat/adoc~ opens AsciiDoc cheatsheet. |
+
