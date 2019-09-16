@@ -1,6 +1,7 @@
 #+TITLE: Jsdoc
 #+COMMAND: jsdoc
 #+CATEGORY: JavaScript
+#+DESCRIPTION: Write & generate js code documentation
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md
 
 * Functions
