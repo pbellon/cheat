@@ -41,7 +41,10 @@ You can change which set of cheatsheet is loaded by default by the package by ch
 You can see all available categories by calling ~cheat/list-categories~ interactive function.
 
 
-*** Register a new cheatsheets folder
+*** Register cheatsheet folders
+:PROPERTIES:
+:CUSTOM_ID: register-cheatsheet-folders
+:END:
 
 Register your cheatsheets folds in the ~cheat/sheets-folders~ list:
 
@@ -49,9 +52,14 @@ Register your cheatsheets folds in the ~cheat/sheets-folders~ list:
 (add-to-list 'cheat/sheets-folders "path/to/my/cheatsheets/")
 #+END_SRC
 
-You can then update the loaded cheatsheets with the ~cheat/reload-sheets~ interactive function to see you new cheatsheets. See [[Cheatsheet template]] to see how to write new cheatsheets.
+You can then update the loaded cheatsheets with the ~cheat/reload-sheets~ interactive function to see you new cheatsheets. See [[#cheatsheet-template][Cheatsheet template]] to see how to write new cheatsheets.
+
 
 *** Cheatsheet template
+:PROPERTIES:
+:CUSTOM_ID: cheatsheet-template
+:END:
+
 All sheets files must be located under a folder included in =cheat/sheets-folders=.
 They must have an header like bellow:
 
@@ -68,8 +76,10 @@ Make sure to have the /Category/ of your new cheatsheet listed under ~cheat/cate
 | ~M-x RET cheat RET <command> RET~ | Open a cheatsheet having given <command>. Needs ivy to work |
 | ~M-x RET cheat/<command> RET~ | All cheatsheets have dedicated interactive functions, for instance ~cheat/adoc~ opens AsciiDoc cheatsheet. |
 
-** List cheathsheets
-List all cheatsheets filtered by [[#loaded-categories][Loaded categories]]. 
+** List cheatsheets
+
+List all cheatsheets filtered by [[#loaded-categories][Loaded categories]].
+ 
 ~M-x RET cheat/list-sheets RET~
 
 
