@@ -28,6 +28,9 @@ The package has not yet been published to MELPA yet so you'll have to install it
 
 ** Configuration
 ***  Loaded categories
+:PROPERTIES:
+:CUSTOM_ID: loaded_categories
+:END:
 
 You can change which set of cheatsheet is loaded by default by the package by changing =cheat/categories= value: 
 
@@ -66,8 +69,7 @@ Make sure to have the /Category/ of your new cheatsheet listed under ~cheat/cate
 | ~M-x RET cheat/<command> RET~ | All cheatsheets have dedicated interactive functions, for instance ~cheat/adoc~ opens AsciiDoc cheatsheet. |
 
 ** List cheathsheets
-List all cheatsheets filtered by [[Loaded categories]]. 
-
+List all cheatsheets filtered by [[#loaded_categories][Loaded categories]]. 
 ~M-x RET cheat/list-sheets RET~
 
 
