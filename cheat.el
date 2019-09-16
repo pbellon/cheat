@@ -36,7 +36,14 @@
   (unless all-sheets (update-sheets-list))
   (bui-get-display-entries 'sheets-buffer 'list))
 
-
+(defun cheat/list-categories ()
+  (interactive)
+  (unless all-sheets (update-sheets-list))
+  (message "%s" 
+    (mapcar
+      (lambda (cat) (format "\n\t%s" cat))
+      (list-all-categories))))
+  
 ;; Custom special symbols for org-mode
 (defvar cheat/org-entities
    '(("lsbr" "\\[" nil "&#91;" "[" "[" "[")

@@ -166,13 +166,14 @@
     filtered
   ))
 
-(defun get-all-categories ()
-  "Return the list of all categories from all cheatsheets files"
+(defun list-all-categories ()
+  "Return all available categories based on loaded sheets in all-sheets"
   (let ((categories))
     (dolist (sheet all-sheets categories)
       (let ((category (cheat-category sheet)))
         (unless
           (or (eq category nil)
+              (= (length category) 0)
               (member category categories))
           (push category categories)
         )))
