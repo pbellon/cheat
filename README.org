@@ -1,7 +1,7 @@
 #+STARTUP: showeverything
 
 * Cheat
-A small utility to register and create cheatsheets based on org-mode.
+An Emacs package to register and create cheatsheets based on org-mode.
 
 ** Provided cheatsheets
 | Name            | Description |
