@@ -4,16 +4,19 @@
 An Emacs package to register and create cheatsheets based on org-mode.
 
 ** Provided cheatsheets
-| Name            | Description                                                   | Source                                  |
-|-----------------+---------------------------------------------------------------+-----------------------------------------|
-| AsciiDoc        | AsciiDoc + asciidoctor Syntax Quick Reference                 | [[https://github.com/asciidoctor/asciidoctor.org][github.com/asciidoctor/asciidoctorg.org]] |
-| ES2015+         | A quick overview of JavaScript features in ES2015 and beyond. | [[https://github.com/rstacruz/cheatsheets/blob/master/es6.md][devhints.io/es6]]                         |
-| JSDoc           | JSDoc syntax overview                                         | [[https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md][devhints.io/jsdoc]]                                        |
-| Magit           | Magit Reference Card                                          | [[https://github.com/magit/magit/wiki/Cheatsheet][github.com/magit/magit]]                  |
-| Org mode        | Org-Mode Reference Card                                       | [[https://orgmode.org/worg/orgcard.org.html][orgmode.org]]                |
-| Org mode syntax | Syntax overview of Org-Mode files                             |                                         |
-| go              | Go-lang Cheatsheet                                            |  [[https://github.com/rstacruz/cheatsheets/blob/master/go.md][devhints.io/go]]                                       |
-| python              | Python Cheatsheet                                            |  [[https://github.com/rstacruz/cheatsheets/blob/master/python.md][devhints.io/python]]                                       |
+| Command            | Title           | Description                                                   | Source                                  |
+|--------------------+-----------------+---------------------------------------------------------------+-----------------------------------------|
+| ~cheat/adoc~       | AsciiDoc        | AsciiDoc + asciidoctor Syntax Quick Reference                 | [[https://github.com/asciidoctor/asciidoctor.org][github.com/asciidoctor/asciidoctorg.org]] |
+| ~cheat/es6~        | ES2015+         | A quick overview of JavaScript features in ES2015 and beyond. | [[https://github.com/rstacruz/cheatsheets/blob/master/es6.md][devhints.io/es6]]                         |
+| ~cheat/emacs~      | Emacs           | Small guide to emacs functions & shortcuts                    | [[https://thb.lt/emacs-cheatsheet/][thb.lt/emacs-cheatsheet]]                 |
+| ~cheat/go~         | go              | Go-lang Cheatsheet                                            | [[https://github.com/rstacruz/cheatsheets/blob/master/go.md][devhints.io/go]]                          |
+| ~cheat/jsdoc~      | JSDoc           | JSDoc syntax overview                                         | [[https://github.com/rstacruz/cheatsheets/blob/master/jsdoc.md][devhints.io/jsdoc]]                       |
+| ~cheat/magit~      | Magit           | Magit Reference Card                                          | [[https://github.com/magit/magit/wiki/Cheatsheet][github.com/magit/magit]]                  |
+| ~cheat/npm~        | Npm             | Npm Cheatsheet                                                | [[https://github.com/npm/npm/wiki/Cheatsheet][github.com/npm/npm]]                      |
+| ~cheat/org-syntax~ | Org mode syntax | Syntax overview of Org-Mode files                             | [[https://github.com/higham/org-mode-syntax-cheat-sheet/blob/master/cheat_sheet.org][github.com/higham]]                       |
+| ~cheat/org~        | Org mode        | Org-Mode Reference Card                                       | [[https://orgmode.org/worg/orgcard.org.html][orgmode.org]]                             |
+| ~cheat/python~     | python          | Python Cheatsheet                                             | [[https://github.com/rstacruz/cheatsheets/blob/master/python.md][devhints.io/python]]                      |
+| ~cheat/xpath~      | Xpath           | Collection of XPath examples                                  | [[https://github.com/rstacruz/cheatsheets/blob/master/xpath.md][devhints.io/xpath]]                       |
 
 ** Installation
 The package has not yet been published to MELPA yet so you'll have to install it manually or use [[https://framagit.org/steckerhalter/quelpa][quelpa]].

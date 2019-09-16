@@ -1,9 +1,7 @@
 #+TITLE: Xpath
 #+COMMAND: xpath
 #+CATEGORY: HTML
-#+DESCRIPTION: $x('//div//p///') == $('div p /'), $x('//[@id="item"]') == $('#item'),
-and many other Xpath examples.
-
+#+DESCRIPTION: Collection of XPath examples
 #+SOURCE: https://github.com/rstacruz/cheatsheets/blob/master/xpath.md
 
 * Xpath test bed

@@ -3,6 +3,7 @@
 #+CATEGORY: Emacs
 #+DESCRIPTION: Small guide to emacs functions & shortcuts
 #+AUTHOR: Thibault Polge
+#+SOURCE: https://thb.lt/emacs-cheatsheet/
 #+OPTIONS: html-postamble:nil num:nil toc:nil
 
 * Self descriptive functions
