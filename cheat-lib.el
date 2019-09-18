@@ -22,21 +22,34 @@
   :type '(list string)
   :group 'cheat)
 
+
 (defcustom cheat/completion-backend 'ivy
   "The completion backend to use when calling cheat interactive function"
   :type (string)
   :options '(ivy)
   :group 'cheat)
 
+(defun ivy-command-line (sheet)
+  (let ((cmd      (cheat-command     sheet))
+        (cmd-size (length (cheat-command sheet)))
+        (desc     (or (cheat-description sheet) "")))
+    (let ((sep (table--multiply-string " " (- 20 cmd-size))))
+      (format "%s%s%s" cmd sep desc))))
+
 (defun ivy-complete-sheet-command ()
   (ivy-read "Cheat command: "
-    (let ((commands))
-      (dolist
-        (sheet (filtered-sheets) commands)
-        (push (cheat-command sheet) commands)))
+    (cl-mapcar
+      (lambda (sheet)
+        (propertize
+          (ivy-command-line sheet)
+          'property
+          (cheat-command sheet)))
+      (filtered-sheets))
     :action
-    (lambda (cmd)
-      (open-sheet-by-command cmd))
+    (lambda (str)
+      (let ((cmd (get-text-property 0 'property str)))
+        (message "should open sheet having %s as command" cmd)
+        (open-sheet-by-command cmd)))
     :sort t
   )
 )
@@ -203,9 +216,7 @@
 )
 
 (defun open-sheet-by-command (command)
-  (message "open-sheet-by-command %s" command)
   (let ((sheet (find-sheet-by-command command)))
-    (message "Sheet %s" sheet)
     (if sheet
       (open-sheet sheet))))
 
@@ -219,8 +230,6 @@
       (bname (concat "*" wname " Cheatsheet*"))
       (split-direction (if (in-sheet-buffer) 'below 'right))
     )
-    (message "in sheet buffer ? %s" (in-sheet-buffer))
-    (message "split direction: %s" split-direction)
     (if (buffer-exists bname)
       (switch-to-buffer bname)
       (let 
