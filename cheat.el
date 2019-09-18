@@ -11,38 +11,8 @@
 ;; included cheat/emacs or cheat/org.
 
 ;;; Code: 
+(require 'bui)
 (require 'cheat-lib)
-
-(defun cheat/reload-sheets (&optional no-macro)
-  "Init cheat/sheats"
-  (interactive)
-  (update-sheets-list)
-  (unless no-macro
-    (declare-all-functions))
-)
-
-(defun cheat ()
-  (interactive)
-  (complete-sheet-command))
-
-(defun cheat/setup ()
-  (update-sheets-list)
-  (declare-all-functions)
-)
-
-(defun cheat/list-sheets ()
-  "Find all cheatsheets under sheets directories"
-  (interactive)
-  (unless all-sheets (update-sheets-list))
-  (bui-get-display-entries 'sheets-buffer 'list))
-
-(defun cheat/list-categories ()
-  (interactive)
-  (unless all-sheets (update-sheets-list))
-  (message "%s" 
-    (mapcar
-      (lambda (cat) (format "\n\t%s" cat))
-      (list-all-categories))))
   
 ;; Custom special symbols for org-mode
 (defvar cheat/org-entities
@@ -52,7 +22,53 @@
 (dolist (symbol cheat/org-entities)
           (add-to-list 'org-entities-user symbol))
 
-(provide 'cheat-lib)
+(declare-function 'cheat--update-sheets-list "cheat-lib")
+(declare-function 'cheat--declare-all-functions "cheat-lib")
+(declare-function 'cheat--complete-sheet-command "cheat-lib")
+
+(bui-define-interface cheat--list-sheets-buffer list
+  :buffer-name "* Cheatsheets *"
+  :get-entries-function 'list-sheets-buffer-entries
+  :format '((title       nil 20 t)
+            (category    nil 20 t)
+            (command     command-as-button 20 t)
+            (description nil 70 t)
+            (path        bui-list-get-file-name 20 :right-aligned t)))
+
+
+;;;###autoload
+(defun cheat ()
+  (interactive)
+  (cheat--complete-sheet-command))
+
+;;;###autoload
+(defun cheat/setup ()
+  (cheat--update-sheets-list)
+  (cheat--declare-all-functions)
+)
+;;;###autoload
+(defun cheat/list-sheets ()
+  "Find all cheatsheets under sheets directories"
+  (interactive)
+  (unless cheat--all-sheets (cheat--update-sheets-list))
+  (bui-get-display-entries 'cheat--list-sheets-buffer 'list))
+
+;;;###autoload
+(defun cheat/reload-sheets ()
+  "Init cheat/sheats"
+  (interactive)
+  (cheat/setup)
+)
+
+;;;###autoload
+(defun cheat/list-categories ()
+  (interactive)
+  (unless cheat--all-sheets (cheat--update-sheets-list))
+  (message "%s" 
+    (mapcar
+      (lambda (cat) (format "\n\t%s" cat))
+      (cheat--list-all-categories))))
+
 (provide 'cheat)
 
 ;;; cheat.el ends here

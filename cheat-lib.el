@@ -2,7 +2,7 @@
 
 ;;; Code
 (require 'org)
-(require 'bui)
+(require 'table)
 
 (defconst cheat/version "0.1.1")
 
@@ -22,75 +22,11 @@
   :type '(list string)
   :group 'cheat)
 
-
-(defcustom cheat/completion-backend 'ivy
+(defcustom cheat/completion-backend nil
   "The completion backend to use when calling cheat interactive function"
-  :type (string)
-  :options '(ivy)
+  :type 'string
+  :options '('ivy 'helm)
   :group 'cheat)
-
-(defun ivy-command-line (sheet)
-  (let ((cmd      (cheat-command     sheet))
-        (cmd-size (length (cheat-command sheet)))
-        (desc     (or (cheat-description sheet) "")))
-    (let ((sep (table--multiply-string " " (- 20 cmd-size))))
-      (format "%s%s%s" cmd sep desc))))
-
-(defun ivy-complete-sheet-command ()
-  (ivy-read "Cheat command: "
-    (cl-mapcar
-      (lambda (sheet)
-        (propertize
-          (ivy-command-line sheet)
-          'property
-          (cheat-command sheet)))
-      (filtered-sheets))
-    :action
-    (lambda (str)
-      (let ((cmd (get-text-property 0 'property str)))
-        (message "should open sheet having %s as command" cmd)
-        (open-sheet-by-command cmd)))
-    :sort t
-  )
-)
-
-(defun complete-sheet-command ()
-  (ivy-complete-sheet-command))
-
-;; base directory to retrieve sheets
-(defvar cheat/root
-  (if load-file-name
-      (file-name-directory load-file-name)))
-
-(defcustom cheat/sheets-folders `(,cheat/root)
-  "The list of folders cheat/ should analyses"
-  :type '(list string)
-  :group 'cheat)
-
-(defvar all-sheets nil
-  "Hold all parsed sheets took from sheets folders"
-)
-
-(defvar all-registered-sheets nil
-  "Hold all sheets currently having an alias"
-)
-
-(defun declare-all-functions ()
-  ;; Unregister previously created sheets
-  (unless (eq all-registered-sheets nil)
-    (dolist (sheet all-registered-sheets)
-      (message "Unregistering %s" (cheat-fn-name sheet))
-      (fmakunbound (intern (cheat-fn-name sheet)))))
-
-  (setq all-registered-sheets
-    (dolist
-      (sheet (filtered-sheets))
-      (defalias (intern (cheat-fn-name sheet))
-        (lambda ()
-          (interactive)
-          (open-sheet sheet)))
-      sheet)
-    ))
 
 ;; props helpers
 (defun prop (key props) (cdr (assoc key props)))
@@ -124,6 +60,83 @@
 (defun cheat-fn-name (sheet)
   "Returns the cheat/<command> function declaration name"
  (format "cheat/%s" (cheat-command sheet)))
+
+(defvar completion-prompt "Cheatsheet command: ") 
+
+(defun completion-line (sheet)
+  (let ((cmd      (cheat-command     sheet))
+        (cmd-size (length (cheat-command sheet)))
+        (desc     (or (cheat-description sheet) "")))
+    (let ((sep (table--multiply-string " " (- 20 cmd-size))))
+      (format "%s%s%s" cmd sep desc))))
+
+(defun completion-list (sheets)
+  (cl-mapcar
+    (lambda (sheet)
+      (propertize (completion-line sheet) 'property (cheat-command sheet)))
+    sheets))
+
+(defun on-complete (str)
+  (let ((cmd (get-text-property 0 'property str)))
+    (open-sheet-by-command cmd)))
+
+(defun helm-complete-sheet-command (sheets)
+  (generic-complete-sheet-command sheets)
+)
+
+(defun ivy-complete-sheet-command (sheets)
+  (ivy-read completion-prompt
+    (completion-list sheets)
+    :action #'on-complete :sort t))
+
+(defun generic-complete-sheet-command (sheets)
+  (open-sheet-by-command 
+    (completing-read completion-prompt (mapcar #'cheat-command sheets) nil nil "")))
+
+;;;###autoload
+(defun cheat--complete-sheet-command ()
+  (let ((sheets (filtered-sheets)))
+    (cl-case cheat/completion-backend
+      (helm (helm-complete-sheet-command sheets))
+      (ivy  (ivy-complete-sheet-command sheets))
+      (t    (generic-complete-sheet-command sheets)))))
+
+;; base directory to retrieve sheets
+(defvar cheat/root
+  (if load-file-name
+      (file-name-directory load-file-name)))
+
+(defcustom cheat/sheets-folders `(,cheat/root)
+  "The list of folders cheat/ should analyses"
+  :type '(list string)
+  :group 'cheat)
+
+(defvar cheat--all-sheets nil
+  "Hold all parsed sheets took from sheets folders"
+)
+
+(defvar all-registered-sheets nil
+  "Hold all sheets currently having an alias"
+)
+
+;;;###autoload
+(defun cheat--declare-all-functions ()
+  ;; Unregister previously created sheets
+  (unless (eq all-registered-sheets nil)
+    (dolist (sheet all-registered-sheets)
+      (message "Unregistering %s" (cheat-fn-name sheet))
+      (fmakunbound (intern (cheat-fn-name sheet)))))
+
+  (setq all-registered-sheets
+    (dolist
+      (sheet (filtered-sheets))
+      (defalias (intern (cheat-fn-name sheet))
+        (lambda ()
+          (interactive)
+          (open-sheet sheet)))
+      sheet)
+    ))
+
 
 (defun buffer-exists (bname)
   (not (eq nil (get-buffer bname))))
@@ -173,16 +186,17 @@
 (defun filtered-sheets ()
   "Returns all sheets filtered by category (use cheat/categories to define which category to keep)"
   (let ((filtered))
-    (dolist (sheet all-sheets filtered)
+    (dolist (sheet cheat--all-sheets filtered)
       (if (member (cheat-category sheet) cheat/categories)
           (push sheet filtered)))
     filtered
   ))
 
-(defun list-all-categories ()
-  "Return all available categories based on loaded sheets in all-sheets"
+;;;###autoload
+(defun cheat--list-all-categories ()
+  "Return all available categories based on loaded sheets in cheat--all-sheets"
   (let ((categories))
-    (dolist (sheet all-sheets categories)
+    (dolist (sheet cheat--all-sheets categories)
       (let ((category (cheat-category sheet)))
         (unless
           (or (eq category nil)
@@ -192,15 +206,17 @@
         )))
     categories))
 
-(defun update-sheets-list ()
-  (setq all-sheets nil)
+
+;;;###autoload
+(defun cheat--update-sheets-list ()
+  (setq cheat--all-sheets nil)
   (dolist (dir cheat/sheets-folders)
     (if (file-directory-p dir)
       (let ((folder-sheets (get-sheets-in dir)))
         (unless (eq folder-sheets nil)
           (dolist (sheet folder-sheets)
             (unless (eq sheet nil)
-              (push sheet all-sheets))
+              (push sheet cheat--all-sheets))
             ))
         ))
     ))
@@ -233,12 +249,7 @@
     (if (buffer-exists bname)
       (switch-to-buffer bname)
       (let 
-        (($w
-           (split-window
-             nil
-             nil
-             split-direction
-           )))
+        (($w (split-window nil nil split-direction)))
         (select-window $w)
         (let (($b (generate-new-buffer bname)))
           (set-buffer-major-mode $b)
@@ -251,9 +262,7 @@
   "Return a command button"
   (list command
         :supertype 'help-function
-        'action (lambda (cmd) (funcall (intern command)))
-  )
-)
+        'action (lambda (cmd) (funcall (intern command)))))
 
 (defun sheet-as-list-entry (sheet)
   `((title    .    ,(cheat-title    sheet))
@@ -262,17 +271,8 @@
     (description . ,(cheat-description sheet))
     (path     .    ,(cheat-list-path sheet))))
 
-(defun sheets-buffer-entries ()
+(defun list-sheets-buffer-entries ()
   (mapcar 'sheet-as-list-entry (filtered-sheets)))
-
-(bui-define-interface sheets-buffer list
-  :buffer-name "* Cheatsheets *"
-  :get-entries-function 'sheets-buffer-entries
-  :format '((title       nil 20 t)
-            (category    nil 20 t)
-            (command     command-as-button 20 t)
-            (description nil 70 t)
-            (path        bui-list-get-file-name 20 :right-aligned t)))
 
 (provide 'cheat-lib)
 
