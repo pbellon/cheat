@@ -106,7 +106,9 @@
   (if load-file-name
       (file-name-directory load-file-name)))
 
-(defcustom cheat/sheets-folders `(,cheat/root)
+(defvar pkg-sheets-folder (expand-file-name "sheets/" cheat/root)) 
+
+(defcustom cheat/sheets-folders `(,pkg-sheets-folder)
   "The list of folders cheat/ should analyses"
   :type '(list string)
   :group 'cheat)
@@ -181,7 +183,9 @@
         (let ((cmd (cheat-command sheet))
               (title (cheat-title sheet)))
             (if (and (not (eq cmd nil)) (not (eq title nil)))
-                (push sheet sheets)))))))
+                (push sheet sheets)
+                (message "Could not add %s to cheatsheet list because either command or title is null" f)
+              ))))))
 
 (defun filtered-sheets ()
   "Returns all sheets filtered by category (use cheat/categories to define which category to keep)"
