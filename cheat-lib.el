@@ -226,7 +226,11 @@
     ))
 
 (defun in-sheet-buffer ()
-  (string-suffix-p "Cheatsheet*" (buffer-name)))
+  (let ((bname (buffer-name)))
+    (or
+      (string-suffix-p "Cheatsheet*" bname)
+      (string-suffix-p "Cheatsheets*" bname)
+    )))
 
 (defun find-sheet-by-command (command)
   (seq-find
@@ -248,12 +252,11 @@
   (let 
     (
       (bname (concat "*" wname " Cheatsheet*"))
-      (split-direction (if (in-sheet-buffer) 'below 'right))
     )
     (if (buffer-exists bname)
       (switch-to-buffer bname)
       (let 
-        (($w (split-window nil nil split-direction)))
+        (($w (split-window)))
         (select-window $w)
         (let (($b (generate-new-buffer bname)))
           (set-buffer-major-mode $b)
