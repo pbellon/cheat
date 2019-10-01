@@ -27,7 +27,7 @@
 (declare-function 'cheat--complete-sheet-command "cheat-lib")
 
 (bui-define-interface cheat--list-sheets-buffer list
-  :buffer-name "* Cheatsheets *"
+  :buffer-name "*Cheatsheets*"
   :get-entries-function 'list-sheets-buffer-entries
   :format '((title       nil 20 t)
             (category    nil 20 t)
