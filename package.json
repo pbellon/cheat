@@ -28,7 +28,7 @@
     "asciidoc"
   ],
   "author": "Pierre BELLON",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/pbellon/cheat/issues"
   },
