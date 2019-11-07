@@ -33,7 +33,7 @@ See: [[http://usejsdoc.org/index.html]]
 
 | Type                              | Description                             |
 |-----------------------------------+-----------------------------------------|
-| =@param {string=} n=              | Optional                                |
+| =@param {string} n=              | Optional                                |
 | =@param {string} [n]=             | Optional                                |
 | =@param {(string\|number)} n=     | Multiple types                          |
 | =@param {*} n=                    | Any type                                |
