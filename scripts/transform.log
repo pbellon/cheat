@@ -1,0 +1,178 @@
+[
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"headers\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"emphasis\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"lists\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"links\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"images\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"code\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<code>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "</code>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"tables\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"blockquotes\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"html\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<em>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "</em>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"hr\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"lines\"/>"
+            ]
+        }
+    },
+    {
+        "type": "InlineNotRendered",
+        "verbosity": "INFO",
+        "contents": {
+            "t": "RawInline",
+            "c": [
+                "html",
+                "<a name=\"videos\"/>"
+            ]
+        }
+    }
+]
