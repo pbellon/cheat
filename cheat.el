@@ -15,12 +15,12 @@
 (require 'cheat-lib)
   
 ;; Custom special symbols for org-mode
-(defvar cheat/org-entities
+(defvar cheat--org-entities
    '(("lsbr" "\\[" nil "&#91;" "[" "[" "[")
      ("rsbr" "\\]" nil "&#93;" "]" "]" "]")))
 
-(dolist (symbol cheat/org-entities)
-          (add-to-list 'org-entities-user symbol))
+(dolist (symbol cheat--org-entities)
+  (add-to-list 'org-entities-user symbol))
 
 (declare-function 'cheat--update-sheets-list "cheat-lib")
 (declare-function 'cheat--declare-all-functions "cheat-lib")
@@ -28,7 +28,7 @@
 
 (bui-define-interface cheat--list-sheets-buffer list
   :buffer-name "*Cheatsheets*"
-  :get-entries-function 'list-sheets-buffer-entries
+  :get-entries-function 'cheat--list-sheets-buffer-entries
   :format '((title       nil 20 t)
             (category    nil 20 t)
             (command     command-as-button 20 t)
@@ -42,26 +42,26 @@
   (cheat--complete-sheet-command))
 
 ;;;###autoload
-(defun cheat/setup ()
+(defun cheat--setup ()
   (cheat--update-sheets-list)
   (cheat--declare-all-functions)
 )
 ;;;###autoload
-(defun cheat/list-sheets ()
+(defun cheat--list-sheets ()
   "Find all cheatsheets under sheets directories"
   (interactive)
   (unless cheat--all-sheets (cheat--update-sheets-list))
   (bui-get-display-entries 'cheat--list-sheets-buffer 'list))
 
 ;;;###autoload
-(defun cheat/reload-sheets ()
+(defun cheat--reload-sheets ()
   "Init cheat/sheats"
   (interactive)
-  (cheat/setup)
+  (cheat--setup)
 )
 
 ;;;###autoload
-(defun cheat/list-categories ()
+(defun cheat--list-categories ()
   (interactive)
   (unless cheat--all-sheets (cheat--update-sheets-list))
   (message "%s" 

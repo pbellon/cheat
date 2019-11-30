@@ -29,77 +29,81 @@
   :group 'cheat)
 
 ;; props helpers
-(defun prop (key props) (cdr (assoc key props)))
+(defun cheat--prop (key props)
+  "Return value for given key in props"
+  (and props
+    (cdr (assoc key props)))
+)
 
-(defun cheat-command (sheet)
+(defun cheat--command (sheet)
   "Returns command from sheet alist"
-  (prop "command" sheet))
+  (cheat--prop "command" sheet))
 
-(defun cheat-category (sheet)
-  (prop "category" sheet))
+(defun cheat--category (sheet)
+  (cheat--prop "category" sheet))
 
-(defun cheat-description (sheet)
+(defun cheat--description (sheet)
   "Returns description from sheet alist"
-  (prop "description" sheet))
+  (cheat--prop "description" sheet))
 
-(defun cheat-title (sheet)
+(defun cheat--title (sheet)
   "Return the buffer title from sheet  alist"
-  (prop "title" sheet))
+  (cheat--prop "title" sheet))
 
-(defun cheat-name (sheet)
+(defun cheat--name (sheet)
   "Return the buffer name from sheet  alist"
-  (prop "name" sheet))
+  (cheat--prop "name" sheet))
 
-(defun cheat-path (sheet)
+(defun cheat--path (sheet)
   "Return path to sheet's file from sheet alist"
-  (prop "path" sheet))
+  (cheat--prop "path" sheet))
 
-(defun cheat-list-path (sheet)
-  (file-relative-name (cheat-path sheet) "~"))
+(defun cheat--list-path (sheet)
+  (file-relative-name (cheat--path sheet) "~"))
 
-(defun cheat-fn-name (sheet)
+(defun cheat--fname (sheet)
   "Returns the cheat/<command> function declaration name"
- (format "cheat/%s" (cheat-command sheet)))
+ (format "cheat/%s" (cheat--command sheet)))
 
-(defvar completion-prompt "Cheatsheet command: ") 
+(defvar cheat--completion-prompt "Cheatsheet command: ") 
 
-(defun completion-line (sheet)
-  (let ((cmd      (cheat-command     sheet))
-        (cmd-size (length (cheat-command sheet)))
-        (desc     (or (cheat-description sheet) "")))
+(defun cheat--completion-line (sheet)
+  (let ((cmd      (cheat--command     sheet))
+        (cmd-size (length (cheat--command sheet)))
+        (desc     (or (cheat--description sheet) "")))
     (let ((sep (table--multiply-string " " (- 20 cmd-size))))
       (format "%s%s%s" cmd sep desc))))
 
-(defun completion-list (sheets)
+(defun cheat--completion-list (sheets)
   (cl-mapcar
     (lambda (sheet)
-      (propertize (completion-line sheet) 'property (cheat-command sheet)))
+      (cheat--propertize (cheat--completion-line sheet) 'property (cheat--command sheet)))
     sheets))
 
 (defun on-complete (str)
   (let ((cmd (get-text-property 0 'property str)))
-    (open-sheet-by-command cmd)))
+    (cheat--open-sheet-by-command cmd)))
 
-(defun helm-complete-sheet-command (sheets)
-  (generic-complete-sheet-command sheets)
+(defun cheat--helm-complete (sheets)
+  (cheat--generic-complete sheets)
 )
 
-(defun ivy-complete-sheet-command (sheets)
-  (ivy-read completion-prompt
-    (completion-list sheets)
+(defun cheat--ivy-complete (sheets)
+  (ivy-read cheat--completion-prompt
+    (cheat--completion-list sheets)
     :action #'on-complete :sort t))
 
-(defun generic-complete-sheet-command (sheets)
-  (open-sheet-by-command 
-    (completing-read completion-prompt (mapcar #'cheat-command sheets) nil nil "")))
+(defun cheat--generic-complete (sheets)
+  (cheat--open-sheet-by-command 
+    (completing-read cheat--completion-prompt (mapcar #'cheat--command sheets) nil nil "")))
 
 ;;;###autoload
 (defun cheat--complete-sheet-command ()
-  (let ((sheets (filtered-sheets)))
+  (let ((sheets (cheat--list-filtered-sheets)))
     (cl-case cheat/completion-backend
-      (helm (helm-complete-sheet-command sheets))
-      (ivy  (ivy-complete-sheet-command sheets))
-      (t    (generic-complete-sheet-command sheets)))))
+      (helm (cheat--helm-complete sheets))
+      (ivy  (cheat--ivy-complete sheets))
+      (t    (cheat--generic-complete sheets)))))
 
 ;; base directory to retrieve sheets
 (defvar cheat/root
@@ -117,55 +121,55 @@
   "Hold all parsed sheets took from sheets folders"
 )
 
-(defvar all-registered-sheets nil
+(defvar cheat--all-registered-sheets nil
   "Hold all sheets currently having an alias"
 )
 
 ;;;###autoload
 (defun cheat--declare-all-functions ()
   ;; Unregister previously created sheets
-  (unless (eq all-registered-sheets nil)
-    (dolist (sheet all-registered-sheets)
-      (message "Unregistering %s" (cheat-fn-name sheet))
-      (fmakunbound (intern (cheat-fn-name sheet)))))
+  (unless (eq cheat--all-registered-sheets nil)
+    (dolist (sheet cheat--all-registered-sheets)
+      (message "Unregistering %s" (cheat--fname sheet))
+      (fmakunbound (intern (cheat--fname sheet)))))
 
-  (setq all-registered-sheets
+  (setq cheat--all-registered-sheets
     (dolist
-      (sheet (filtered-sheets))
-      (defalias (intern (cheat-fn-name sheet))
+      (sheet (cheat--list-filtered-sheets))
+      (defalias (intern (cheat--fname sheet))
         (lambda ()
           (interactive)
-          (open-sheet sheet)))
+          (cheat--open-sheet sheet)))
       sheet)
     ))
 
 
-(defun buffer-exists (bname)
+(defun cheat--buffer-exists (bname)
   (not (eq nil (get-buffer bname))))
 
-(defun get-org-keywords ()
-  "Parse the buffer and return a cons list of (property . value)"
+(defun cheat--org-keywords ()
+  "Parse the buffer and return a cons list of (cheat--property . value)"
   (org-element-map (org-element-parse-buffer 'element) 'keyword
     (lambda (keyword) (cons
                         (org-element-property :key keyword)
                         (org-element-property :value keyword)))))
   
-(defun get-org-keyword (key &optional kwds)
+(defun cheat--org-keyword (key &optional kwds)
   "return the value associated to key"
-  (unless kwds (setq kwds (get-org-keywords)))
-  (prop key kwds))
+  (unless kwds (setq kwds (cheat--org-keywords)))
+  (cheat--prop key kwds))
 
-(defun parse-sheet (path)
+(defun cheat--parse-sheet (path)
   "Returns properties of a cheat sheet file"
   (with-temp-buffer
     (insert-file-contents path)
-    (let ((keywords (get-org-keywords)))
+    (let ((keywords (cheat--org-keywords)))
       (let (
-        (command     (get-org-keyword "COMMAND"     keywords))
-        (category    (get-org-keyword "CATEGORY"    keywords))
-        (title       (get-org-keyword "TITLE"       keywords))
-        (name        (get-org-keyword "NAME"        keywords))
-        (description (get-org-keyword "DESCRIPTION" keywords)))
+        (command     (cheat--org-keyword "COMMAND"     keywords))
+        (category    (cheat--org-keyword "CATEGORY"    keywords))
+        (title       (cheat--org-keyword "TITLE"       keywords))
+        (name        (cheat--org-keyword "NAME"        keywords))
+        (description (cheat--org-keyword "DESCRIPTION" keywords)))
         `(
            ("command"     . ,command)
            ("category"    . ,category)
@@ -175,23 +179,23 @@
            ("path"        . ,path)
         )))))
 
-(defun get-sheets-in (folder-path)
+(defun cheat--get-sheets-in (folder-path)
   "Returns all sheets located under folder-path"
   (let ((sheets))
     (dolist (f (directory-files folder-path t ".org$") sheets)
-        (let ((sheet (parse-sheet f)))
-        (let ((cmd (cheat-command sheet))
-              (title (cheat-title sheet)))
+        (let ((sheet (cheat--parse-sheet f)))
+        (let ((cmd (cheat--command sheet))
+              (title (cheat--title sheet)))
             (if (and (not (eq cmd nil)) (not (eq title nil)))
                 (push sheet sheets)
                 (message "Could not add %s to cheatsheet list because either command or title is null" f)
               ))))))
 
-(defun filtered-sheets ()
+(defun cheat--list-filtered-sheets ()
   "Returns all sheets filtered by category (use cheat/categories to define which category to keep)"
   (let ((filtered))
     (dolist (sheet cheat--all-sheets filtered)
-      (if (member (cheat-category sheet) cheat/categories)
+      (if (member (cheat--category sheet) cheat/categories)
           (push sheet filtered)))
     filtered
   ))
@@ -201,7 +205,7 @@
   "Return all available categories based on loaded sheets in cheat--all-sheets"
   (let ((categories))
     (dolist (sheet cheat--all-sheets categories)
-      (let ((category (cheat-category sheet)))
+      (let ((category (cheat--category sheet)))
         (unless
           (or (eq category nil)
               (= (length category) 0)
@@ -216,7 +220,7 @@
   (setq cheat--all-sheets nil)
   (dolist (dir cheat/sheets-folders)
     (if (file-directory-p dir)
-      (let ((folder-sheets (get-sheets-in dir)))
+      (let ((folder-sheets (cheat--get-sheets-in dir)))
         (unless (eq folder-sheets nil)
           (dolist (sheet folder-sheets)
             (unless (eq sheet nil)
@@ -232,28 +236,28 @@
       (string-suffix-p "Cheatsheets*" bname)
     )))
 
-(defun find-sheet-by-command (command)
+(defun cheat--find-sheet-by-command (command)
   (seq-find
     (lambda (sheet)
-      (string= command (cheat-command sheet)))
-    (filtered-sheets))
+      (string= command (cheat--command sheet)))
+    (cheat--list-filtered-sheets))
 )
 
-(defun open-sheet-by-command (command)
-  (let ((sheet (find-sheet-by-command command)))
+(defun cheat--open-sheet-by-command (command)
+  (let ((sheet (cheat--find-sheet-by-command command)))
     (if sheet
-      (open-sheet sheet))))
+      (cheat--open-sheet sheet))))
 
-(defun open-sheet (sheet)
- (open-sheet-window (cheat-title sheet) (cheat-path sheet)))
+(defun cheat--open-sheet (sheet)
+ (cheat--open-sheet-window (cheat--title sheet) (cheat--path sheet)))
 
-(defun open-sheet-window (wname fname)
+(defun cheat--open-sheet-window (wname fname)
   "Opens a buffer with the given `wname` as frame name and insert content from `fname` filename"
   (let 
     (
       (bname (concat "*" wname " Cheatsheet*"))
     )
-    (if (buffer-exists bname)
+    (if (cheat--buffer-exists bname)
       (switch-to-buffer bname)
       (let 
         (($w (split-window)))
@@ -265,21 +269,21 @@
           (org-mode)
           (read-only-mode t))))))
 
-(defun command-as-button (command &rest properties)
+(defun cheat--command-as-button (command &rest properties)
   "Return a command button"
   (list command
         :supertype 'help-function
         'action (lambda (cmd) (funcall (intern command)))))
 
-(defun sheet-as-list-entry (sheet)
-  `((title    .    ,(cheat-title    sheet))
-    (command  .    ,(cheat-fn-name  sheet))
-    (category .    ,(cheat-category sheet))
-    (description . ,(cheat-description sheet))
-    (path     .    ,(cheat-list-path sheet))))
+(defun cheat--sheet-as-list-entry (sheet)
+  `((title    .    ,(cheat--title    sheet))
+    (command  .    ,(cheat--fname  sheet))
+    (category .    ,(cheat--category sheet))
+    (description . ,(cheat--description sheet))
+    (path     .    ,(cheat--list-path sheet))))
 
-(defun list-sheets-buffer-entries ()
-  (mapcar 'sheet-as-list-entry (filtered-sheets)))
+(defun cheat--list-sheets-buffer-entries ()
+  (mapcar 'cheat--sheet-as-list-entry (cheat--list-filtered-sheets)))
 
 (provide 'cheat-lib)
 
