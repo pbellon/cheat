@@ -1,0 +1,274 @@
+#+TITLE: TypeScript
+#+COMMAND: typescript
+#+CATEGORY: JavaScript libraries
+TypeScript is just like ES2015 with type-checking. All ES2015 (classes,
+etc) should work.
+
+* Basic types
+  :PROPERTIES:
+  :CUSTOM_ID: basic-types
+  :END:
+
+#+BEGIN_EXAMPLE
+  any
+  void
+
+  boolean
+  number
+  string
+
+  null
+  undefined
+
+  string[]          /* or Array<string> */
+  [string, number]  /* tuple */
+
+  string | null | undefined   /* union */
+
+  never  /* unreachable */
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  enum Color {Red, Green, Blue = 4}
+  let c: Color = Color.Green
+#+END_EXAMPLE
+
+* Declarations
+  :PROPERTIES:
+  :CUSTOM_ID: declarations
+  :END:
+
+#+BEGIN_EXAMPLE
+  let isDone: boolean
+  let isDone: boolean = false
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  function add (a: number, b: number): number {
+    return a + b
+  }
+
+  // Return type is optional
+  function add (a: number, b: number) { ... }
+#+END_EXAMPLE
+
+* Type assertions
+  :PROPERTIES:
+  :CUSTOM_ID: type-assertions
+  :END:
+
+*** Variables
+    :PROPERTIES:
+    :CUSTOM_ID: variables
+    :END:
+
+#+BEGIN_EXAMPLE
+  let len: number = (input as string).length
+  let len: number = (<string> input).length  /* not allowed in JSX */
+#+END_EXAMPLE
+
+*** Functions
+    :PROPERTIES:
+    :CUSTOM_ID: functions
+    :END:
+
+#+BEGIN_EXAMPLE
+  function object(this: {a: number, b: number}, a: number, b: number) {
+    this.a = a;
+    this.b = b;
+    return this;
+  }
+
+  // this is used only for type declaration
+  let a = object(1,2);
+  // a has type {a: number, b: number}
+#+END_EXAMPLE
+
+* Interfaces
+  :PROPERTIES:
+  :CUSTOM_ID: interfaces
+  :END:
+
+** Inline
+   :PROPERTIES:
+   :CUSTOM_ID: inline
+   :END:
+
+#+BEGIN_EXAMPLE
+  function printLabel (options: { label: string }) {
+    console.log(options.label)
+  }
+
+  // Note the semicolon
+  function getUser (): { name: string; age?: number } {
+  }
+#+END_EXAMPLE
+
+** Explicit
+   :PROPERTIES:
+   :CUSTOM_ID: explicit
+   :END:
+
+#+BEGIN_EXAMPLE
+  interface LabelOptions {
+    label: string
+  }
+
+  function printLabel(options: LabelOptions) { ... }
+#+END_EXAMPLE
+
+** Optional properties
+   :PROPERTIES:
+   :CUSTOM_ID: optional-properties
+   :END:
+
+#+BEGIN_EXAMPLE
+  interface User {
+    name: string,
+    age?: number
+  }
+#+END_EXAMPLE
+
+** Read only
+   :PROPERTIES:
+   :CUSTOM_ID: read-only
+   :END:
+
+#+BEGIN_EXAMPLE
+  interface User {
+    readonly name: string
+  }
+#+END_EXAMPLE
+
+** Dynamic keys
+   :PROPERTIES:
+   :CUSTOM_ID: dynamic-keys
+   :END:
+
+#+BEGIN_EXAMPLE
+  {
+    [key: string]: Object[]
+  }
+#+END_EXAMPLE
+
+* Type aliases
+  :PROPERTIES:
+  :CUSTOM_ID: type-aliases
+  :END:
+
+#+BEGIN_EXAMPLE
+  type Name = string | string[]
+#+END_EXAMPLE
+
+* Function types
+  :PROPERTIES:
+  :CUSTOM_ID: function-types
+  :END:
+
+#+BEGIN_EXAMPLE
+  interface User { ... }
+
+  function getUser(callback: (user: User) => any) { callback({...}) }
+
+  getUser(function (user: User) { ... })
+#+END_EXAMPLE
+
+* Classes
+  :PROPERTIES:
+  :CUSTOM_ID: classes
+  :END:
+
+#+BEGIN_EXAMPLE
+  class Point {
+    x: number
+    y: number
+    static instances = 0
+    constructor(x: number, y: number) {
+      this.x = x
+      this.y = y
+    }
+  }
+#+END_EXAMPLE
+
+*** Inheritance
+    :PROPERTIES:
+    :CUSTOM_ID: inheritance
+    :END:
+
+#+BEGIN_EXAMPLE
+  class Point {...}
+
+  class Point3D extends Point {...}
+
+  interface Colored {...}
+
+  class Pixel extends Point implements Colored {...}
+#+END_EXAMPLE
+
+*** Short fields initialisation
+    :PROPERTIES:
+    :CUSTOM_ID: short-fields-initialisation
+    :END:
+
+#+BEGIN_EXAMPLE
+  class Point {
+    static instances = 0;
+    constructor(
+      public x: number,
+      public y: number,
+    ){}
+  }
+#+END_EXAMPLE
+
+*** Fields which do not require initialisation
+    :PROPERTIES:
+    :CUSTOM_ID: fields-which-do-not-require-initialisation
+    :END:
+
+#+BEGIN_EXAMPLE
+  class Point {
+    public someUselessValue!: number;
+    ...
+  }
+#+END_EXAMPLE
+
+* Generics
+  :PROPERTIES:
+  :CUSTOM_ID: generics
+  :END:
+
+#+BEGIN_EXAMPLE
+  class Greeter<T> {
+    greeting: T
+    constructor(message: T) {
+      this.greeting = message
+    }
+  }
+
+  let greeter = new Greeter<string>('Hello, world')
+#+END_EXAMPLE
+
+* Modules
+  :PROPERTIES:
+  :CUSTOM_ID: modules
+  :END:
+
+#+BEGIN_EXAMPLE
+  export interface User { ... }
+#+END_EXAMPLE
+
+* Type extraction
+  :PROPERTIES:
+  :CUSTOM_ID: type-extraction
+  :END:
+
+#+BEGIN_EXAMPLE
+  interface Building {
+    room: {
+      door: string,
+      walls: string[],
+    };
+  }
+
+  type Walls = Building['room']['walls']; // string[]
+#+END_EXAMPLE

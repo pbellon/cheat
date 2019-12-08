@@ -23,13 +23,13 @@ The package has not yet been published to MELPA yet so you'll have to install it
 #+BEGIN_SRC elisp
 (quelpa '(cheat :fetcher github :repo "pbellon/cheat"))
 (require 'cheat)
-(cheat/setup)
+(cheat--setup)
 
 ;; Or, if you have use-package & quelpa-use-package
 (use-package
     :quelpa (cheat :fetcher github :repo "pbellon/cheat")
     :config
-    (cheat/setup))
+    (cheat--setup))
 #+END_SRC
 
 ** Configuration
@@ -38,13 +38,13 @@ The package has not yet been published to MELPA yet so you'll have to install it
 :CUSTOM_ID: loaded-categories
 :END:
 
-You can change which set of cheatsheet is loaded by default by the package by changing =cheat/categories= value: 
+You can change which set of cheatsheet is loaded by default by the package by changing =cheat--categories= value: 
 
 #+BEGIN_SRC elisp
-(setq cheat/categories '("JavaScript" "Emacs" "CLI"))
+(setq cheat--categories '("JavaScript" "Emacs" "CLI"))
 #+END_SRC
 
-You can see all available categories by calling ~cheat/list-categories~ interactive function.
+You can see all available categories by calling ~cheat--list-categories~ interactive function.
 
 
 *** Register cheatsheet folders
@@ -52,13 +52,13 @@ You can see all available categories by calling ~cheat/list-categories~ interact
 :CUSTOM_ID: register-cheatsheet-folders
 :END:
 
-Register your cheatsheets folds in the ~cheat/sheets-folders~ list:
+Register your cheatsheets folds in the ~cheat--sheets-folders~ list:
 
 #+BEGIN_SRC elisp
-(add-to-list 'cheat/sheets-folders "path/to/my/cheatsheets/")
+(add-to-list 'cheat--sheets-folders "path/to/my/cheatsheets/")
 #+END_SRC
 
-You can then update the loaded cheatsheets with the ~cheat/reload-sheets~ interactive function to see you new cheatsheets. See [[#cheatsheet-template][Cheatsheet template]] to see how to write new cheatsheets.
+You can then update the loaded cheatsheets with the ~cheat--reload-sheets~ interactive function to see you new cheatsheets. See [[#cheatsheet-template][Cheatsheet template]] to see how to write new cheatsheets.
 
 
 *** Cheatsheet template
@@ -66,7 +66,7 @@ You can then update the loaded cheatsheets with the ~cheat/reload-sheets~ intera
 :CUSTOM_ID: cheatsheet-template
 :END:
 
-All sheets files must be located under a folder included in =cheat/sheets-folders=.
+All sheets files must be located under a folder included in =cheat--sheets-folders=.
 They must have an header like bellow:
 
 #+BEGIN_SRC org
@@ -76,7 +76,7 @@ They must have an header like bellow:
 #+CATEGORY: Category
 #+END_SRC
 
-Make sure to have the /Category/ of your new cheatsheet listed under ~cheat/categories~ & call ~cheat/reload-sheets~ to load it .
+Make sure to have the /Category/ of your new cheatsheet listed under ~cheat--categories~ & call ~cheat--reload-sheets~ to load it .
 
 ** ~cheat~ or ~cheat/<command>~  Open a cheatsheet
 | ~M-x RET cheat RET <command> RET~ | Open a cheatsheet having given <command>. Needs ivy to work |
@@ -86,6 +86,6 @@ Make sure to have the /Category/ of your new cheatsheet listed under ~cheat/cate
 
 List all cheatsheets filtered by [[#loaded-categories][Loaded categories]].
  
-~M-x RET cheat/list-sheets RET~
+~M-x RET cheat--list-sheets RET~
 
 

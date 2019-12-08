@@ -4,9 +4,9 @@
 (require 'org)
 (require 'table)
 
-(defconst cheat/version "0.1.1")
+(defconst cheat--version "0.1.1")
 
-(defcustom cheat/categories 
+(defcustom cheat--categories 
   '(
      "JavaScript"
      "Emacs"
@@ -18,11 +18,11 @@
      "Ruby"
      "Python"
    )
-  "The categories to display when calling cheat/list-sheets"
+  "The categories to display when calling cheat--list-sheets"
   :type '(list string)
   :group 'cheat)
 
-(defcustom cheat/completion-backend nil
+(defcustom cheat--completion-backend nil
   "The completion backend to use when calling cheat interactive function"
   :type 'string
   :options '('ivy 'helm)
@@ -77,10 +77,10 @@
 (defun cheat--completion-list (sheets)
   (cl-mapcar
     (lambda (sheet)
-      (cheat--propertize (cheat--completion-line sheet) 'property (cheat--command sheet)))
+      (propertize (cheat--completion-line sheet) 'property (cheat--command sheet)))
     sheets))
 
-(defun on-complete (str)
+(defun cheat--on-complete (str)
   (let ((cmd (get-text-property 0 'property str)))
     (cheat--open-sheet-by-command cmd)))
 
@@ -91,7 +91,7 @@
 (defun cheat--ivy-complete (sheets)
   (ivy-read cheat--completion-prompt
     (cheat--completion-list sheets)
-    :action #'on-complete :sort t))
+    :action #'cheat--on-complete :sort t))
 
 (defun cheat--generic-complete (sheets)
   (cheat--open-sheet-by-command 
@@ -100,19 +100,19 @@
 ;;;###autoload
 (defun cheat--complete-sheet-command ()
   (let ((sheets (cheat--list-filtered-sheets)))
-    (cl-case cheat/completion-backend
+    (cl-case cheat--completion-backend
       (helm (cheat--helm-complete sheets))
       (ivy  (cheat--ivy-complete sheets))
       (t    (cheat--generic-complete sheets)))))
 
 ;; base directory to retrieve sheets
-(defvar cheat/root
+(defvar cheat--root
   (if load-file-name
       (file-name-directory load-file-name)))
 
-(defvar pkg-sheets-folder (expand-file-name "sheets/" cheat/root)) 
+(defvar cheat--pkg-sheets-folder (expand-file-name "sheets/" cheat--root)) 
 
-(defcustom cheat/sheets-folders `(,pkg-sheets-folder)
+(defcustom cheat--sheets-folders `(,cheat--pkg-sheets-folder)
   "The list of folders cheat/ should analyses"
   :type '(list string)
   :group 'cheat)
@@ -125,23 +125,26 @@
   "Hold all sheets currently having an alias"
 )
 
+
 ;;;###autoload
-(defun cheat--declare-all-functions ()
+(defun cheat--unbind-declared-functions ()
   ;; Unregister previously created sheets
   (unless (eq cheat--all-registered-sheets nil)
     (dolist (sheet cheat--all-registered-sheets)
-      (message "Unregistering %s" (cheat--fname sheet))
-      (fmakunbound (intern (cheat--fname sheet)))))
+      (fmakunbound (intern (cheat--fname sheet))))
+    (setq cheat--all-registered-sheets nil))
+)
 
-  (setq cheat--all-registered-sheets
-    (dolist
-      (sheet (cheat--list-filtered-sheets))
-      (defalias (intern (cheat--fname sheet))
-        (lambda ()
-          (interactive)
-          (cheat--open-sheet sheet)))
-      sheet)
-    ))
+  
+;;;###autoload
+(defun cheat--declare-all-functions ()
+  (dolist
+    (sheet (cheat--list-filtered-sheets))
+    (defalias (intern (cheat--fname sheet))
+      (lambda ()
+        (interactive)
+        (cheat--open-sheet sheet)))
+    (push sheet cheat--all-registered-sheets)))
 
 
 (defun cheat--buffer-exists (bname)
@@ -192,10 +195,10 @@
               ))))))
 
 (defun cheat--list-filtered-sheets ()
-  "Returns all sheets filtered by category (use cheat/categories to define which category to keep)"
+  "Returns all sheets filtered by category (use cheat--categories to define which category to keep)"
   (let ((filtered))
     (dolist (sheet cheat--all-sheets filtered)
-      (if (member (cheat--category sheet) cheat/categories)
+      (if (member (cheat--category sheet) cheat--categories)
           (push sheet filtered)))
     filtered
   ))
@@ -217,8 +220,10 @@
 
 ;;;###autoload
 (defun cheat--update-sheets-list ()
+  "Reload sheets & redeclare functions"
+  (cheat--unbind-declared-functions)
   (setq cheat--all-sheets nil)
-  (dolist (dir cheat/sheets-folders)
+  (dolist (dir cheat--sheets-folders)
     (if (file-directory-p dir)
       (let ((folder-sheets (cheat--get-sheets-in dir)))
         (unless (eq folder-sheets nil)
@@ -227,14 +232,8 @@
               (push sheet cheat--all-sheets))
             ))
         ))
-    ))
-
-(defun in-sheet-buffer ()
-  (let ((bname (buffer-name)))
-    (or
-      (string-suffix-p "Cheatsheet*" bname)
-      (string-suffix-p "Cheatsheets*" bname)
-    )))
+    )
+  (cheat--declare-all-functions))
 
 (defun cheat--find-sheet-by-command (command)
   (seq-find
@@ -284,6 +283,8 @@
 
 (defun cheat--list-sheets-buffer-entries ()
   (mapcar 'cheat--sheet-as-list-entry (cheat--list-filtered-sheets)))
+
+(cheat--update-sheets-list)
 
 (provide 'cheat-lib)
 

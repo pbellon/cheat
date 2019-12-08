@@ -1,2 +1,0 @@
-#+STARTUP: entitiespretty
-#+STARTUP: content

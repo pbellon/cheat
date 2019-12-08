@@ -1,12 +1,13 @@
 (require 'cheat-lib)
 
-(setq root "~/Dev/cheat/tests/")
-(setq test-sheets-dir (concat root "test-sheets"))
-
-(setq cheat/sheets-folders `(,test-sheets-dir))
-;; (message "cheat/version: %s" cheat/version)
-;; (message "sheets dir %s" test-sheets-dir)
-;; (message "sheets folder %s" cheat/sheets-folders)
+(defun before-test ()
+  "Clean variables before test"
+  (setq root "./tests/")
+  (setq cheat--all-sheets nil)
+  (setq test-sheets-dir (concat root "test-sheets"))
+  (setq cheat--sheets-folders `(,test-sheets-dir))
+  (setq cheat--categories '("First" "Second"))
+)
 
 (defun fake-sheet ()
   '(("name"    . "Fake")
@@ -15,6 +16,7 @@
     ("command" . "fake")))
 
 (ert-deftest test-cheat--get-sheets-in ()
+  (before-test)
   (should (= (length (cheat--get-sheets-in test-sheets-dir)) 3)))
 
 (ert-deftest test-cheat--parse-sheet ()
@@ -27,12 +29,12 @@
       ))))
 
 (ert-deftest test-cheat--update-sheets-list ()
-  (setq cheat--all-sheets nil)
+  (before-test)
   (cheat--update-sheets-list)
   (should (= (length cheat--all-sheets) 3)))
 
 (ert-deftest test-cheat--update-sheets-list-multiple ()
-  (setq cheat--all-sheets nil)
+  (before-test)
   (cheat--update-sheets-list)
   (cheat--update-sheets-list)
   (cheat--update-sheets-list)
@@ -54,20 +56,21 @@
   (should (equal (cheat--fname (fake-sheet)) "cheat/fake")))
 
 (ert-deftest test-cheat--list-filtered-sheets ()
+  (before-test)
   (cheat--update-sheets-list)
-  (setq cheat/categories '("First"))
+  (setq cheat--categories '("First"))
   (should (= (length (cheat--list-filtered-sheets)) 2))
-  (setq cheat/categories '("Second"))
+  (setq cheat--categories '("Second"))
   (should (= (length (cheat--list-filtered-sheets)) 1)))
 
 (ert-deftest test-cheat--declare-all-functions ()
+  (before-test)
+  (setq cheat--categories '("First"))
   (cheat--update-sheets-list)
-  (setq cheat/categories '("First"))
-  (cheat--declare-all-functions)
   (should (fboundp 'cheat/first))
-  (setq cheat/categories '("Second"))
-  (cheat--declare-all-functions)
-  (fmakunbound 'cheat/first)
+  (should (= (length cheat--all-registered-sheets) 2))
+  (setq cheat--categories '("Second"))
+  (cheat--update-sheets-list)
   (should (not (fboundp 'cheat/first)))
   (should (fboundp 'cheat/third))
 )

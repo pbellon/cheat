@@ -1,14 +1,14 @@
-;;; cheat.el --- Regiter & Open cheatsheets inside emacs -*- lexical-binding: t; coding: utf-8 -*-
+;;; cheat.el --- Cheatsheets -*- lexical-binding: t; coding: utf-8 -*-
 ;; Author: Pierre BELLON <bellon.pierre@gmail.com>
 ;; URL: https://github.com/pbellon/cheat
 ;; Version: 0.1.1
-;; Keywords: cheat, cheatsheet, org
-;; Package-Requires:  ((emacs "24.2") (bui "1.2.1"))
+;; Keywords: cheatsheet
+;; Package-Requires: ((emacs "24.2") (bui "1.2.1"))
 
 ;;; Commentary:
-;; cheat is an utility to register some cheatsheets inside emacs and easily open
-;; them afterward thanks to =cheat/<cheatsheet id>= prefixed functions like 
-;; included cheat/emacs or cheat/org.
+;; cheat is an utility to register some cheatsheets and open them afterward
+;; with =cheat/<cheatsheet command>= prefixed functions like =cheat/emacs= 
+;; or =cheat/org= included functions.
 
 ;;; Code: 
 (require 'bui)
@@ -44,7 +44,6 @@
 ;;;###autoload
 (defun cheat--setup ()
   (cheat--update-sheets-list)
-  (cheat--declare-all-functions)
 )
 ;;;###autoload
 (defun cheat--list-sheets ()
@@ -55,9 +54,9 @@
 
 ;;;###autoload
 (defun cheat--reload-sheets ()
-  "Init cheat/sheats"
+  "Update loaded cheatsheets"
   (interactive)
-  (cheat--setup)
+  (cheat--update-sheets-list)
 )
 
 ;;;###autoload
